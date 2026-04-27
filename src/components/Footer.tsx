@@ -1,4 +1,5 @@
-import { Sparkles, Github, Twitter, Linkedin, Instagram } from "lucide-react";
+import { Github, Twitter, Linkedin, Instagram } from "lucide-react";
+import logo from "@/assets/vougesty-logo.png";
 
 export const Footer = () => {
   return (
@@ -7,8 +8,8 @@ export const Footer = () => {
         <div className="grid md:grid-cols-4 gap-8 mb-10">
           <div className="md:col-span-2">
             <a href="#" className="flex items-center gap-2 font-display font-bold text-lg mb-3">
-              <span className="grid place-items-center h-8 w-8 rounded-lg bg-gradient-primary shadow-glow">
-                <Sparkles className="h-4 w-4 text-primary-foreground" />
+              <span className="grid place-items-center h-9 w-9 rounded-full overflow-hidden shadow-glow ring-1 ring-primary/40 bg-background">
+                <img src={logo} alt="Vougesty logo" className="h-full w-full object-cover" />
               </span>
               <span>Vougesty<span className="text-gradient">.</span></span>
             </a>

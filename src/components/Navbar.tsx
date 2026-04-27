@@ -1,7 +1,8 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Sparkles, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/vougesty-logo.png";
 
 const links = [
   { label: "Services", href: "#services" },
@@ -32,8 +33,8 @@ export const Navbar = () => {
       <div className="container">
         <div className={`glass-strong rounded-full px-5 py-3 flex items-center justify-between transition-all ${scrolled ? "shadow-elegant" : ""}`}>
           <a href="#" className="flex items-center gap-2 font-display font-bold text-lg">
-            <span className="grid place-items-center h-8 w-8 rounded-lg bg-gradient-primary shadow-glow">
-              <Sparkles className="h-4 w-4 text-primary-foreground" />
+            <span className="grid place-items-center h-9 w-9 rounded-full overflow-hidden shadow-glow ring-1 ring-primary/40 bg-background">
+              <img src={logo} alt="Vougesty logo" className="h-full w-full object-cover" />
             </span>
             <span>Vougesty<span className="text-gradient">.</span></span>
           </a>
