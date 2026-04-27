@@ -1,4 +1,5 @@
-import { Sparkles, Github, Twitter, Linkedin, Instagram } from "lucide-react";
+import { Github, Twitter, Linkedin, Instagram } from "lucide-react";
+import logo from "@/assets/vougesty-logo.png";
 
 export const Footer = () => {
   return (
