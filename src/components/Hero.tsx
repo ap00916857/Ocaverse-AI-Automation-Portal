@@ -22,7 +22,7 @@ export const Hero = () => {
   return (
     <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
       <div className="container relative">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* LEFT */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
