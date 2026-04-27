@@ -118,7 +118,7 @@ const HeroSlides = () => {
       <motion.div
         animate={{ y: [0, -14, 0] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="relative aspect-[16/10] sm:aspect-[16/9] w-full mx-auto rounded-3xl overflow-hidden glass-strong border border-white/10 shadow-elegant"
+        className="relative aspect-[4/3] w-full mx-auto rounded-3xl overflow-hidden glass-strong border border-white/10 shadow-elegant"
       >
         <AnimatePresence mode="wait">
           <motion.img
