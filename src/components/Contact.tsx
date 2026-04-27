@@ -1,0 +1,89 @@
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Send, Mail, Phone, MapPin } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
+
+export const Contact = () => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setTimeout(() => {
+      setSubmitting(false);
+      (e.target as HTMLFormElement).reset();
+      toast.success("Message sent! We'll be in touch within 24 hours.");
+    }, 900);
+  };
+
+  return (
+    <section id="contact" className="py-24 md:py-32 relative">
+      <div className="container">
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+          >
+            <span className="inline-block glass rounded-full px-4 py-1 text-xs font-medium mb-5">Let's talk</span>
+            <h2 className="text-3xl md:text-5xl font-bold mb-5">
+              Ready to build something{" "}
+              <span className="text-gradient">remarkable</span>?
+            </h2>
+            <p className="text-muted-foreground text-base md:text-lg mb-8 max-w-md">
+              Tell us about your project. We'll respond within 24 hours with a tailored plan.
+            </p>
+
+            <div className="space-y-4">
+              {[
+                { icon: Mail, label: "hello@vougesty.com" },
+                { icon: Phone, label: "+1 (555) 081-9920" },
+                { icon: MapPin, label: "Remote · Worldwide" },
+              ].map((c) => (
+                <div key={c.label} className="flex items-center gap-3 text-sm">
+                  <span className="h-10 w-10 rounded-2xl bg-gradient-primary grid place-items-center shadow-glow">
+                    <c.icon className="h-4 w-4 text-primary-foreground" />
+                  </span>
+                  <span className="text-muted-foreground">{c.label}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.form
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            onSubmit={onSubmit}
+            className="glass-strong rounded-3xl p-6 md:p-8 space-y-4 shadow-elegant"
+          >
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs text-muted-foreground mb-1.5 block">Name</label>
+                <Input required placeholder="Your name" className="bg-background/40 border-white/10 h-11" />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1.5 block">Email</label>
+                <Input required type="email" placeholder="you@brand.com" className="bg-background/40 border-white/10 h-11" />
+              </div>
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1.5 block">Project type</label>
+              <Input placeholder="e.g. SaaS Dashboard, E-commerce..." className="bg-background/40 border-white/10 h-11" />
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1.5 block">Project details</label>
+              <Textarea required rows={5} placeholder="Tell us about your goals, timeline and budget..." className="bg-background/40 border-white/10 resize-none" />
+            </div>
+            <Button type="submit" variant="hero" size="lg" className="w-full" disabled={submitting}>
+              {submitting ? "Sending..." : <>Send Message <Send className="h-4 w-4" /></>}
+            </Button>
+          </motion.form>
+        </div>
+      </div>
+    </section>
+  );
+};
