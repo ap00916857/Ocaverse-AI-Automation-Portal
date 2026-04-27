@@ -23,6 +23,7 @@ const Index = () => {
         <Contact />
       </main>
       <Footer />
+      <FontSwitcher />
     </div>
   );
 };
