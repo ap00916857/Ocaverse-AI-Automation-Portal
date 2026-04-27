@@ -20,9 +20,9 @@ const heroSlides = [
 
 export const Hero = () => {
   return (
-    <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
+    <section className="relative pt-24 pb-10 md:pt-28 md:pb-14 overflow-hidden">
       <div className="container relative">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* LEFT */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -34,19 +34,19 @@ export const Hero = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-xs font-medium mb-6"
+              className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-xs font-medium mb-4"
             >
               <Sparkles className="h-3.5 w-3.5 text-primary-glow" />
               <span>Premium digital solutions for ambitious brands</span>
             </motion.div>
 
-            <h1 className="text-4xl lg:text-6xl xl:text-7xl leading-[1.05] mb-6 font-normal sm:text-sm font-sans text-primary-glow">
+            <h1 className="text-4xl lg:text-5xl xl:text-6xl leading-[1.05] mb-4 font-normal sm:text-sm font-sans text-primary-glow">
               Crafting websites that{" "}
               <span className="text-gradient">move people</span>{" "}
               & grow business.
             </h1>
 
-            <p className="text-base md:text-lg max-w-xl mx-auto lg:mx-0 mb-8 text-primary-glow">
+            <p className="text-sm md:text-base max-w-xl mx-auto lg:mx-0 mb-6 text-primary-glow">
               Vougesty Solution designs and engineers premium digital experiences —
               from sleek SaaS platforms to commerce, portfolios and bespoke agency sites.
             </p>
@@ -65,7 +65,7 @@ export const Hero = () => {
             </div>
 
             {/* Stats */}
-            <div className="mt-12 grid grid-cols-3 gap-4 max-w-md mx-auto lg:mx-0">
+            <div className="mt-8 grid grid-cols-3 gap-3 max-w-md mx-auto lg:mx-0">
               {[
                 { v: "120+", l: "Projects" },
                 { v: "98%", l: "Satisfaction" },
@@ -76,10 +76,10 @@ export const Hero = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 + i * 0.1 }}
-                  className="glass rounded-2xl p-4 text-center lg:text-left"
+                  className="glass rounded-2xl p-3 text-center lg:text-left"
                 >
-                  <div className="text-2xl font-bold font-display text-gradient">{s.v}</div>
-                  <div className="text-xs text-muted-foreground mt-1">{s.l}</div>
+                  <div className="text-xl font-bold font-display text-gradient">{s.v}</div>
+                  <div className="text-xs text-muted-foreground mt-0.5">{s.l}</div>
                 </motion.div>
               ))}
             </div>
@@ -118,7 +118,7 @@ const HeroSlides = () => {
       <motion.div
         animate={{ y: [0, -14, 0] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="relative aspect-[4/3] w-full mx-auto rounded-3xl overflow-hidden glass-strong border border-white/10 shadow-elegant"
+        className="relative aspect-[16/10] w-full mx-auto rounded-3xl overflow-hidden glass-strong border border-white/10 shadow-elegant"
       >
         <AnimatePresence mode="wait">
           <motion.img
