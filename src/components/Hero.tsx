@@ -1,7 +1,22 @@
-import { motion } from "framer-motion";
-import { ArrowRight, Sparkles, Play } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
+import { ArrowRight, Sparkles, Play, Stethoscope, Building2, Compass, ShoppingBag, Scale, UtensilsCrossed } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import heroImage from "@/assets/hero-illustration.png";
+import doctor from "@/assets/customer-doctor.jpg";
+import realestate from "@/assets/customer-realestate.jpg";
+import architect from "@/assets/customer-architect.jpg";
+import retail from "@/assets/customer-retail.jpg";
+import lawyer from "@/assets/customer-lawyer.jpg";
+import restaurant from "@/assets/customer-restaurant.jpg";
+
+const heroSlides = [
+  { title: "Healthcare & Doctors", tag: "Medical", image: doctor, Icon: Stethoscope },
+  { title: "Real Estate Brokers", tag: "Real Estate", image: realestate, Icon: Building2 },
+  { title: "Architects & Studios", tag: "Architecture", image: architect, Icon: Compass },
+  { title: "Retail Shops & Boutiques", tag: "Retail", image: retail, Icon: ShoppingBag },
+  { title: "Lawyers & Consultants", tag: "Legal", image: lawyer, Icon: Scale },
+  { title: "Restaurants & Hospitality", tag: "Hospitality", image: restaurant, Icon: UtensilsCrossed },
+];
 
 export const Hero = () => {
   return (
@@ -70,59 +85,92 @@ export const Hero = () => {
             </div>
           </motion.div>
 
-          {/* RIGHT — animated illustration */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, delay: 0.3 }}
-            className="relative"
-          >
-            <motion.div
-              animate={{ y: [0, -20, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              className="relative"
-            >
-              <div className="absolute inset-0 bg-gradient-primary opacity-30 blur-3xl rounded-full" />
-              <img
-                src={heroImage}
-                alt="Vougesty dashboard illustration"
-                width={1024}
-                height={1024}
-                className="relative w-full max-w-lg mx-auto drop-shadow-2xl"
-              />
-            </motion.div>
-
-            {/* Floating glass cards */}
-            <motion.div
-              animate={{ y: [0, 15, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-6 -left-2 md:left-6 glass-strong rounded-2xl px-4 py-3 shadow-elegant"
-            >
-              <div className="flex items-center gap-3">
-                <div className="h-9 w-9 rounded-xl bg-gradient-primary grid place-items-center">
-                  <Sparkles className="h-4 w-4 text-primary-foreground" />
-                </div>
-                <div>
-                  <div className="text-xs text-muted-foreground">Conversion</div>
-                  <div className="text-sm font-semibold">+184% growth</div>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              animate={{ y: [0, -12, 0] }}
-              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              className="absolute bottom-4 -right-2 md:right-2 glass-strong rounded-2xl px-4 py-3 shadow-elegant"
-            >
-              <div className="text-xs text-muted-foreground">Live now</div>
-              <div className="text-sm font-semibold flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-secondary animate-pulse" />
-                12 projects building
-              </div>
-            </motion.div>
-          </motion.div>
+          {/* RIGHT — auto-rotating industry slides */}
+          <HeroSlides />
         </div>
       </div>
     </section>
+  );
+};
+
+const HeroSlides = () => {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % heroSlides.length);
+    }, 3500);
+    return () => clearInterval(id);
+  }, []);
+
+  const current = heroSlides[index];
+  const Icon = current.Icon;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.8, delay: 0.3 }}
+      className="relative"
+    >
+      <div className="absolute inset-0 bg-gradient-primary opacity-20 blur-3xl rounded-full" />
+
+      <motion.div
+        animate={{ y: [0, -14, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        className="relative aspect-[4/5] sm:aspect-[5/6] md:aspect-[4/5] w-full max-w-md mx-auto rounded-3xl overflow-hidden glass-strong border border-white/10 shadow-elegant"
+      >
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={current.image}
+            src={current.image}
+            alt={current.title}
+            width={1280}
+            height={800}
+            initial={{ opacity: 0, scale: 1.08 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.9, ease: "easeOut" }}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </AnimatePresence>
+
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
+
+        {/* Caption */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={current.title}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.5 }}
+            className="absolute left-5 right-5 bottom-5"
+          >
+            <div className="inline-flex items-center gap-2 glass rounded-full px-3 py-1 text-xs font-medium mb-2">
+              <Icon className="h-3.5 w-3.5 text-primary" />
+              {current.tag}
+            </div>
+            <div className="text-lg sm:text-xl font-bold leading-tight">
+              {current.title}
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Progress dots */}
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 flex gap-1.5">
+          {heroSlides.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIndex(i)}
+              aria-label={`Slide ${i + 1}`}
+              className={`h-1.5 rounded-full transition-all ${
+                i === index ? "w-6 bg-primary" : "w-1.5 bg-white/40 hover:bg-white/60"
+              }`}
+            />
+          ))}
+        </div>
+      </motion.div>
+    </motion.div>
   );
 };
