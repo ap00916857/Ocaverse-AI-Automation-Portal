@@ -1,5 +1,6 @@
 import { AnimatedBackground } from "@/components/AnimatedBackground";
 import { Navbar } from "@/components/Navbar";
+import { FontSwitcher } from "@/components/FontSwitcher";
 import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
 import { DemoShowcase } from "@/components/DemoShowcase";
