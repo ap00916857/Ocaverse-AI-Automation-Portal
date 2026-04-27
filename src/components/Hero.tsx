@@ -22,7 +22,7 @@ export const Hero = () => {
   return (
     <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
       <div className="container relative">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* LEFT */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -118,7 +118,7 @@ const HeroSlides = () => {
       <motion.div
         animate={{ y: [0, -14, 0] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="relative aspect-[16/10] sm:aspect-[16/9] w-full mx-auto rounded-3xl overflow-hidden glass-strong border border-white/10 shadow-elegant"
+        className="relative aspect-[4/3] w-full mx-auto rounded-3xl overflow-hidden glass-strong border border-white/10 shadow-elegant"
       >
         <AnimatePresence mode="wait">
           <motion.img
@@ -135,7 +135,7 @@ const HeroSlides = () => {
           />
         </AnimatePresence>
 
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/30 to-transparent" />
 
         {/* Caption */}
         <AnimatePresence mode="wait">
