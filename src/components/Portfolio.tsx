@@ -14,26 +14,26 @@ const projects = [
 
 export const Portfolio = () => {
   return (
-    <section id="portfolio" className="py-24 md:py-32 relative">
+    <section id="portfolio" className="py-12 md:py-16 relative">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14"
+          className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8"
         >
           <div className="max-w-xl">
-            <span className="inline-block glass rounded-full px-4 py-1 text-xs font-medium mb-5">Selected work</span>
-            <h2 className="text-3xl md:text-5xl font-bold">
+            <span className="inline-block glass rounded-full px-4 py-1 text-xs font-medium mb-3">Selected work</span>
+            <h2 className="text-2xl md:text-4xl font-normal font-sans text-primary-glow">
               Recent <span className="text-gradient">case studies</span>
             </h2>
           </div>
-          <p className="text-muted-foreground md:text-right max-w-sm">
+          <p className="text-primary-glow font-sans font-normal text-sm md:text-base md:text-right max-w-sm">
             A glimpse at the brands we've helped re-imagine, redesign, and relaunch.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-4">
           {projects.map((p, i) => (
             <motion.a
               key={p.title}
@@ -57,14 +57,14 @@ export const Portfolio = () => {
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent opacity-70 group-hover:opacity-95 transition-opacity duration-500" />
 
-              <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end">
+              <div className="absolute inset-0 p-5 md:p-6 flex flex-col justify-end">
                 <motion.div
                   initial={false}
                   className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500"
                 >
-                  <div className="text-xs uppercase tracking-widest text-primary-glow mb-2">{p.category}</div>
+                  <div className="text-xs uppercase tracking-widest text-primary-glow mb-1 font-sans">{p.category}</div>
                   <div className="flex items-center justify-between gap-3">
-                    <h3 className="text-2xl md:text-3xl font-bold">{p.title}</h3>
+                    <h3 className="text-xl md:text-2xl font-normal font-sans text-primary-glow">{p.title}</h3>
                     <span className="h-10 w-10 rounded-full glass-strong grid place-items-center group-hover:bg-gradient-primary group-hover:scale-110 transition-all">
                       <ArrowUpRight className="h-4 w-4" />
                     </span>

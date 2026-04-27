@@ -10,39 +10,39 @@ const items = [
 
 export const Advantage = () => {
   return (
-    <section id="advantage" className="py-24 md:py-32 relative">
+    <section id="advantage" className="py-12 md:py-16 relative">
       <div className="container">
-        <div className="grid lg:grid-cols-2 gap-14 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-block glass rounded-full px-4 py-1 text-xs font-medium mb-5">The Vougesty Advantage</span>
-            <h2 className="text-3xl md:text-5xl font-bold mb-6 leading-tight">
+            <span className="inline-block glass rounded-full px-4 py-1 text-xs font-medium mb-3">The Vougesty Advantage</span>
+            <h2 className="text-2xl md:text-4xl mb-4 leading-tight font-normal font-sans text-primary-glow">
               We don't just build sites — we build{" "}
               <span className="text-gradient">competitive advantage</span>.
             </h2>
-            <p className="text-muted-foreground text-base md:text-lg mb-8">
+            <p className="text-sm md:text-base mb-5 text-primary-glow font-sans font-normal">
               Every pixel, interaction and line of code is engineered with one goal:
               to make your brand impossible to ignore.
             </p>
-            <div className="glass-strong rounded-3xl p-6 border-l-4 border-primary">
-              <p className="italic text-foreground/90">
+            <div className="glass-strong rounded-3xl p-5 border-l-4 border-primary">
+              <p className="italic text-primary-glow font-sans font-normal text-sm">
                 "Vougesty redefined what we thought was possible online. Conversions doubled in the first month."
               </p>
-              <div className="mt-4 flex items-center gap-3">
-                <div className="h-10 w-10 rounded-full bg-gradient-primary" />
+              <div className="mt-3 flex items-center gap-3">
+                <div className="h-9 w-9 rounded-full bg-gradient-primary" />
                 <div>
-                  <div className="text-sm font-semibold">Amelia Rhodes</div>
-                  <div className="text-xs text-muted-foreground">CMO, Northwind Labs</div>
+                  <div className="text-sm font-normal font-sans text-primary-glow">Amelia Rhodes</div>
+                  <div className="text-xs text-primary-glow font-sans">CMO, Northwind Labs</div>
                 </div>
               </div>
             </div>
           </motion.div>
 
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid sm:grid-cols-2 gap-3">
             {items.map((it, i) => (
               <motion.div
                 key={it.title}
@@ -51,13 +51,13 @@ export const Advantage = () => {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.5 }}
                 whileHover={{ y: -6, scale: 1.03 }}
-                className={`glass-strong rounded-3xl p-6 ${i % 2 === 1 ? "sm:translate-y-8" : ""}`}
+                className={`glass-strong rounded-3xl p-4 ${i % 2 === 1 ? "sm:translate-y-6" : ""}`}
               >
-                <div className="h-11 w-11 rounded-2xl bg-gradient-primary grid place-items-center shadow-glow mb-4">
+                <div className="h-10 w-10 rounded-2xl bg-gradient-primary grid place-items-center shadow-glow mb-3">
                   <it.icon className="h-5 w-5 text-primary-foreground" />
                 </div>
-                <h3 className="font-semibold mb-1.5">{it.title}</h3>
-                <p className="text-sm text-muted-foreground">{it.desc}</p>
+                <h3 className="font-normal font-sans text-primary-glow mb-1">{it.title}</h3>
+                <p className="text-sm text-primary-glow font-sans font-normal">{it.desc}</p>
               </motion.div>
             ))}
           </div>

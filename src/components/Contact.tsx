@@ -20,34 +20,34 @@ export const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-24 md:py-32 relative">
+    <section id="contact" className="py-12 md:py-16 relative">
       <div className="container">
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+        <div className="grid lg:grid-cols-2 gap-8 items-start">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <span className="inline-block glass rounded-full px-4 py-1 text-xs font-medium mb-5">Let's talk</span>
-            <h2 className="text-3xl md:text-5xl font-bold mb-5">
+            <span className="inline-block glass rounded-full px-4 py-1 text-xs font-medium mb-3">Let's talk</span>
+            <h2 className="text-2xl md:text-4xl mb-3 font-normal font-sans text-primary-glow">
               Ready to build something{" "}
               <span className="text-gradient">remarkable</span>?
             </h2>
-            <p className="text-muted-foreground text-base md:text-lg mb-8 max-w-md">
+            <p className="text-sm md:text-base mb-5 max-w-md text-primary-glow font-sans font-normal">
               Tell us about your project. We'll respond within 24 hours with a tailored plan.
             </p>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               {[
                 { icon: Mail, label: "hello@vougesty.com" },
                 { icon: Phone, label: "+1 (555) 081-9920" },
                 { icon: MapPin, label: "Remote · Worldwide" },
               ].map((c) => (
                 <div key={c.label} className="flex items-center gap-3 text-sm">
-                  <span className="h-10 w-10 rounded-2xl bg-gradient-primary grid place-items-center shadow-glow">
+                  <span className="h-9 w-9 rounded-2xl bg-gradient-primary grid place-items-center shadow-glow">
                     <c.icon className="h-4 w-4 text-primary-foreground" />
                   </span>
-                  <span className="text-muted-foreground">{c.label}</span>
+                  <span className="text-primary-glow font-sans font-normal">{c.label}</span>
                 </div>
               ))}
             </div>
@@ -58,25 +58,25 @@ export const Contact = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             onSubmit={onSubmit}
-            className="glass-strong rounded-3xl p-6 md:p-8 space-y-4 shadow-elegant"
+            className="glass-strong rounded-3xl p-5 md:p-6 space-y-3 shadow-elegant"
           >
-            <div className="grid sm:grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-2 gap-3">
               <div>
-                <label className="text-xs text-muted-foreground mb-1.5 block">Name</label>
-                <Input required placeholder="Your name" className="bg-background/40 border-white/10 h-11" />
+                <label className="text-xs text-primary-glow font-sans mb-1 block">Name</label>
+                <Input required placeholder="Your name" className="bg-background/40 border-white/10 h-10" />
               </div>
               <div>
-                <label className="text-xs text-muted-foreground mb-1.5 block">Email</label>
-                <Input required type="email" placeholder="you@brand.com" className="bg-background/40 border-white/10 h-11" />
+                <label className="text-xs text-primary-glow font-sans mb-1 block">Email</label>
+                <Input required type="email" placeholder="you@brand.com" className="bg-background/40 border-white/10 h-10" />
               </div>
             </div>
             <div>
-              <label className="text-xs text-muted-foreground mb-1.5 block">Project type</label>
-              <Input placeholder="e.g. SaaS Dashboard, E-commerce..." className="bg-background/40 border-white/10 h-11" />
+              <label className="text-xs text-primary-glow font-sans mb-1 block">Project type</label>
+              <Input placeholder="e.g. SaaS Dashboard, E-commerce..." className="bg-background/40 border-white/10 h-10" />
             </div>
             <div>
-              <label className="text-xs text-muted-foreground mb-1.5 block">Project details</label>
-              <Textarea required rows={5} placeholder="Tell us about your goals, timeline and budget..." className="bg-background/40 border-white/10 resize-none" />
+              <label className="text-xs text-primary-glow font-sans mb-1 block">Project details</label>
+              <Textarea required rows={4} placeholder="Tell us about your goals, timeline and budget..." className="bg-background/40 border-white/10 resize-none" />
             </div>
             <Button type="submit" variant="hero" size="lg" className="w-full" disabled={submitting}>
               {submitting ? "Sending..." : <>Send Message <Send className="h-4 w-4" /></>}
