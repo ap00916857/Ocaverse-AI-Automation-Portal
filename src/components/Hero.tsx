@@ -135,7 +135,7 @@ const HeroSlides = () => {
           />
         </AnimatePresence>
 
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/30 to-transparent" />
 
         {/* Caption */}
         <AnimatePresence mode="wait">
