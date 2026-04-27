@@ -40,13 +40,13 @@ export const Hero = () => {
               <span>Premium digital solutions for ambitious brands</span>
             </motion.div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.05] mb-6">
+            <h1 className="text-4xl lg:text-6xl xl:text-7xl leading-[1.05] mb-6 font-normal sm:text-sm font-sans text-primary-glow">
               Crafting websites that{" "}
               <span className="text-gradient">move people</span>{" "}
               & grow business.
             </h1>
 
-            <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-8">
+            <p className="text-base md:text-lg max-w-xl mx-auto lg:mx-0 mb-8 text-primary-glow">
               Vougesty Solution designs and engineers premium digital experiences —
               from sleek SaaS platforms to commerce, portfolios and bespoke agency sites.
             </p>
