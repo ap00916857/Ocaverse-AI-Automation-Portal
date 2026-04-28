@@ -101,7 +101,7 @@ export const Hero = () => {
           className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center"
         >
           {/* LEFT */}
-          <div className="text-center lg:text-left lg:-mt-8 xl:-mt-12 lg:-ml-4 xl:-ml-8">
+          <div className="text-center lg:text-left lg:mt-8 xl:mt-12 lg:ml-4 xl:ml-8">
             <motion.div
               variants={fadeUp}
               custom={0}
