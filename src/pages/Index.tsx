@@ -4,6 +4,7 @@ import { FontSwitcher } from "@/components/FontSwitcher";
 import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
 import { DemoShowcase } from "@/components/DemoShowcase";
+import { BuildYourWebsite } from "@/components/BuildYourWebsite";
 import { Advantage } from "@/components/Advantage";
 import { Portfolio } from "@/components/Portfolio";
 import { Contact } from "@/components/Contact";
@@ -18,6 +19,7 @@ const Index = () => {
         <Hero />
         <Services />
         <DemoShowcase />
+        <BuildYourWebsite />
         <Advantage />
         <Portfolio />
         <Contact />
