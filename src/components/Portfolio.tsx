@@ -43,7 +43,7 @@ export const Portfolio = () => {
               viewport={{ once: true, margin: "-80px" }}
               transition={{ delay: i * 0.1, duration: 0.5 }}
               whileHover={{ y: -8 }}
-              className="group relative rounded-3xl overflow-hidden glass-strong block"
+              className="group relative rounded-3xl overflow-hidden glass-strong block transition-all duration-300 hover:shadow-elegant hover:border-white/25"
             >
               <div className="aspect-[4/3] overflow-hidden">
                 <img
@@ -52,24 +52,21 @@ export const Portfolio = () => {
                   width={1024}
                   height={768}
                   loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 />
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent opacity-70 group-hover:opacity-95 transition-opacity duration-500" />
 
               <div className="absolute inset-0 p-5 md:p-6 flex flex-col justify-end">
-                <motion.div
-                  initial={false}
-                  className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500"
-                >
+                <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
                   <div className="text-xs uppercase tracking-widest text-primary-glow mb-1 font-sans">{p.category}</div>
                   <div className="flex items-center justify-between gap-3">
-                    <h3 className="text-xl md:text-2xl font-normal font-sans text-primary-glow">{p.title}</h3>
-                    <span className="h-10 w-10 rounded-full glass-strong grid place-items-center group-hover:bg-gradient-primary group-hover:scale-110 transition-all">
-                      <ArrowUpRight className="h-4 w-4" />
+                    <h3 className="text-xl md:text-2xl font-normal font-sans text-primary-glow transition-colors duration-300 group-hover:text-primary">{p.title}</h3>
+                    <span className="h-10 w-10 rounded-full glass-strong grid place-items-center transition-all duration-300 group-hover:bg-gradient-primary group-hover:scale-110 group-hover:rotate-45 group-hover:shadow-[0_0_24px_-4px_hsl(var(--primary)/0.7)]">
+                      <ArrowUpRight className="h-4 w-4 transition-transform duration-300" />
                     </span>
                   </div>
-                </motion.div>
+                </div>
               </div>
             </motion.a>
           ))}

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Code2, Palette, Smartphone, ShoppingBag, Search, Rocket } from "lucide-react";
+import { TiltCard } from "@/components/TiltCard";
 
 const services = [
   { icon: Code2, title: "Web Development", desc: "Hand-crafted, performant sites built with modern frameworks." },
@@ -37,7 +38,7 @@ export const Services = () => {
           </p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 perspective-1000">
           {services.map((s, i) => (
             <motion.div
               key={s.title}
@@ -46,17 +47,21 @@ export const Services = () => {
               whileInView="visible"
               viewport={{ once: true, margin: "-50px" }}
               variants={cardVariants}
-              whileHover={{ y: -6, scale: 1.02 }}
-              className="glass-strong rounded-3xl p-5 group cursor-pointer relative overflow-hidden"
             >
-              <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
-              <div className="relative">
-                <div className="h-10 w-10 rounded-2xl bg-gradient-primary grid place-items-center shadow-glow mb-3 group-hover:scale-110 transition-transform">
-                  <s.icon className="h-5 w-5 text-primary-foreground" />
+              <TiltCard
+                intensity={5}
+                lift={6}
+                className="glass-strong rounded-3xl p-5 group cursor-pointer relative overflow-hidden h-full transition-shadow duration-300 hover:shadow-elegant"
+              >
+                <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none" />
+                <div className="relative">
+                  <div className="h-10 w-10 rounded-2xl bg-gradient-primary grid place-items-center shadow-glow mb-3 transition-all duration-300 group-hover:scale-110 group-hover:rotate-[6deg] group-hover:shadow-[0_0_24px_-4px_hsl(var(--primary)/0.7)]">
+                    <s.icon className="h-5 w-5 text-primary-foreground" />
+                  </div>
+                  <h3 className="text-lg font-normal font-sans text-primary-glow mb-1 transition-colors duration-300 group-hover:text-primary">{s.title}</h3>
+                  <p className="text-sm text-primary-glow font-sans font-normal leading-relaxed">{s.desc}</p>
                 </div>
-                <h3 className="text-lg font-normal font-sans text-primary-glow mb-1">{s.title}</h3>
-                <p className="text-sm text-primary-glow font-sans font-normal leading-relaxed">{s.desc}</p>
-              </div>
+              </TiltCard>
             </motion.div>
           ))}
         </div>

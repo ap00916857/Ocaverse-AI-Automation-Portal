@@ -5,18 +5,18 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.97] [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:transition-transform [&_svg]:duration-300 hover:[&_svg]:translate-x-0.5",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-[1.02] hover:shadow-[0_0_24px_-4px_hsl(var(--primary)/0.6)]",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 hover:scale-[1.02]",
+        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground hover:scale-[1.02] hover:border-primary/50",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 hover:scale-[1.02]",
+        ghost: "hover:bg-accent hover:text-accent-foreground hover:scale-[1.02]",
         link: "text-primary underline-offset-4 hover:underline",
-        hero: "bg-gradient-primary text-primary-foreground shadow-glow hover:shadow-elegant hover:scale-[1.03] transition-all duration-300 font-semibold",
-        glass: "glass-strong text-foreground hover:bg-white/10 hover:scale-[1.02] transition-all duration-300",
+        hero: "bg-gradient-primary text-primary-foreground shadow-glow hover:shadow-[0_0_40px_-4px_hsl(var(--primary)/0.8)] hover:scale-[1.04] font-semibold",
+        glass: "glass-strong text-foreground hover:bg-white/10 hover:scale-[1.02] hover:border-white/25 hover:shadow-[0_0_24px_-6px_hsl(var(--primary)/0.5)]",
       },
       size: {
         default: "h-10 px-5 py-2",
