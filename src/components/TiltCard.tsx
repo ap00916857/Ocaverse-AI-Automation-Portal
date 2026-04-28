@@ -1,11 +1,12 @@
 import { motion, useMotionValue, useSpring, useTransform, type HTMLMotionProps } from "framer-motion";
-import { useRef } from "react";
+import { useRef, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-interface TiltCardProps extends HTMLMotionProps<"div"> {
+interface TiltCardProps extends Omit<HTMLMotionProps<"div">, "children"> {
   intensity?: number;
   lift?: number;
   glare?: boolean;
+  children?: ReactNode;
 }
 
 /**
