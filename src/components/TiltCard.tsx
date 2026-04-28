@@ -29,8 +29,11 @@ export const TiltCard = ({
 
   const rotateX = useTransform(sy, [-0.5, 0.5], [intensity, -intensity]);
   const rotateY = useTransform(sx, [-0.5, 0.5], [-intensity, intensity]);
-  const glareX = useTransform(sx, [-0.5, 0.5], ["20%", "80%"]);
-  const glareY = useTransform(sy, [-0.5, 0.5], ["20%", "80%"]);
+  const glareBg = useTransform([sx, sy], ([vx, vy]: number[]) => {
+    const gx = 50 + vx * 60;
+    const gy = 50 + vy * 60;
+    return `radial-gradient(circle at ${gx}% ${gy}%, hsl(var(--primary-glow) / 0.18), transparent 55%)`;
+  });
 
   const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = ref.current;
@@ -53,7 +56,7 @@ export const TiltCard = ({
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
       whileHover={{ y: -lift }}
       transition={{ type: "spring", stiffness: 200, damping: 20 }}
-      className={cn("relative will-change-transform", className)}
+      className={cn("group relative will-change-transform", className)}
       {...rest}
     >
       <div style={{ transform: "translateZ(0)" }} className="relative">
@@ -62,14 +65,8 @@ export const TiltCard = ({
       {glare && (
         <motion.div
           aria-hidden
+          style={{ background: glareBg }}
           className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-          style={{
-            background: useTransform(
-              [glareX, glareY] as never,
-              ([gx, gy]: string[]) =>
-                `radial-gradient(circle at ${gx} ${gy}, hsl(var(--primary-glow) / 0.18), transparent 55%)`,
-            ),
-          }}
         />
       )}
     </motion.div>
