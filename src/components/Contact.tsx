@@ -43,11 +43,11 @@ export const Contact = () => {
                 { icon: Phone, label: "+1 (555) 081-9920" },
                 { icon: MapPin, label: "Remote · Worldwide" },
               ].map((c) => (
-                <div key={c.label} className="flex items-center gap-3 text-sm">
-                  <span className="h-9 w-9 rounded-2xl bg-gradient-primary grid place-items-center shadow-glow">
+                <div key={c.label} className="group flex items-center gap-3 text-sm cursor-pointer transition-transform duration-300 hover:translate-x-1">
+                  <span className="h-9 w-9 rounded-2xl bg-gradient-primary grid place-items-center shadow-glow transition-all duration-300 group-hover:scale-110 group-hover:rotate-[6deg] group-hover:shadow-[0_0_24px_-4px_hsl(var(--primary)/0.7)]">
                     <c.icon className="h-4 w-4 text-primary-foreground" />
                   </span>
-                  <span className="text-primary-glow font-sans font-normal">{c.label}</span>
+                  <span className="text-primary-glow font-sans font-normal transition-colors duration-300 group-hover:text-primary">{c.label}</span>
                 </div>
               ))}
             </div>
@@ -63,20 +63,20 @@ export const Contact = () => {
             <div className="grid sm:grid-cols-2 gap-3">
               <div>
                 <label className="text-xs text-primary-glow font-sans mb-1 block">Name</label>
-                <Input required placeholder="Your name" className="bg-background/40 border-white/10 h-10" />
+                <Input required placeholder="Your name" className="bg-background/40 border-white/10 h-10 transition-all duration-300 focus:border-primary/60 focus:shadow-[0_0_18px_-6px_hsl(var(--primary)/0.6)]" />
               </div>
               <div>
                 <label className="text-xs text-primary-glow font-sans mb-1 block">Email</label>
-                <Input required type="email" placeholder="you@brand.com" className="bg-background/40 border-white/10 h-10" />
+                <Input required type="email" placeholder="you@brand.com" className="bg-background/40 border-white/10 h-10 transition-all duration-300 focus:border-primary/60 focus:shadow-[0_0_18px_-6px_hsl(var(--primary)/0.6)]" />
               </div>
             </div>
             <div>
               <label className="text-xs text-primary-glow font-sans mb-1 block">Project type</label>
-              <Input placeholder="e.g. SaaS Dashboard, E-commerce..." className="bg-background/40 border-white/10 h-10" />
+              <Input placeholder="e.g. SaaS Dashboard, E-commerce..." className="bg-background/40 border-white/10 h-10 transition-all duration-300 focus:border-primary/60 focus:shadow-[0_0_18px_-6px_hsl(var(--primary)/0.6)]" />
             </div>
             <div>
               <label className="text-xs text-primary-glow font-sans mb-1 block">Project details</label>
-              <Textarea required rows={4} placeholder="Tell us about your goals, timeline and budget..." className="bg-background/40 border-white/10 resize-none" />
+              <Textarea required rows={4} placeholder="Tell us about your goals, timeline and budget..." className="bg-background/40 border-white/10 resize-none transition-all duration-300 focus:border-primary/60 focus:shadow-[0_0_18px_-6px_hsl(var(--primary)/0.6)]" />
             </div>
             <Button type="submit" variant="hero" size="lg" className="w-full" disabled={submitting}>
               {submitting ? "Sending..." : <>Send Message <Send className="h-4 w-4" /></>}
