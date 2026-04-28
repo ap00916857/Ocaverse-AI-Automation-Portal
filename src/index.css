@@ -135,6 +135,23 @@
   .animate-blob-slow {
     animation: blob 28s infinite ease-in-out;
   }
+
+  /* Premium interactive utilities */
+  .icon-hover {
+    @apply transition-transform duration-300 ease-out group-hover:scale-110 group-hover:rotate-[6deg];
+  }
+  .icon-hover-pop {
+    @apply transition-transform duration-300 ease-out group-hover:scale-125;
+  }
+  .lift-hover {
+    @apply transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-elegant;
+  }
+  .glow-hover {
+    @apply transition-shadow duration-300 hover:shadow-[0_0_30px_-6px_hsl(var(--primary)/0.5)];
+  }
+  .perspective-1000 {
+    perspective: 1000px;
+  }
 }
 
 @keyframes blob {
