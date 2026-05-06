@@ -5,18 +5,44 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Contact = () => {
   const [submitting, setSubmitting] = useState(false);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (submitting) return;
+
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+    const name = String(fd.get("name") || "").trim();
+    const email = String(fd.get("email") || "").trim();
+    const projectType = String(fd.get("projectType") || "").trim();
+    const details = String(fd.get("details") || "").trim();
+
+    if (!name || !email || !details) {
+      toast.error("Please fill in name, email and project details.");
+      return;
+    }
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
+    const message = projectType ? `[${projectType}] ${details}` : details;
+
     setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
-      (e.target as HTMLFormElement).reset();
-      toast.success("Message sent! We'll be in touch within 24 hours.");
-    }, 900);
+    const { error } = await supabase.from("contacts").insert({ name, email, message });
+    setSubmitting(false);
+
+    if (error) {
+      toast.error("Something went wrong. Please try again.");
+      return;
+    }
+
+    form.reset();
+    toast.success("Your inquiry has been submitted successfully.");
   };
 
   return (
@@ -63,20 +89,20 @@ export const Contact = () => {
             <div className="grid sm:grid-cols-2 gap-3">
               <div>
                 <label className="text-xs text-primary-glow font-sans mb-1 block">Name</label>
-                <Input required placeholder="Your name" className="bg-background/40 border-white/10 h-10 transition-all duration-300 focus:border-primary/60 focus:shadow-[0_0_18px_-6px_hsl(var(--primary)/0.6)]" />
+                <Input name="name" required maxLength={100} placeholder="Your name" className="bg-background/40 border-white/10 h-10 transition-all duration-300 focus:border-primary/60 focus:shadow-[0_0_18px_-6px_hsl(var(--primary)/0.6)]" />
               </div>
               <div>
                 <label className="text-xs text-primary-glow font-sans mb-1 block">Email</label>
-                <Input required type="email" placeholder="you@brand.com" className="bg-background/40 border-white/10 h-10 transition-all duration-300 focus:border-primary/60 focus:shadow-[0_0_18px_-6px_hsl(var(--primary)/0.6)]" />
+                <Input name="email" required type="email" maxLength={255} placeholder="you@brand.com" className="bg-background/40 border-white/10 h-10 transition-all duration-300 focus:border-primary/60 focus:shadow-[0_0_18px_-6px_hsl(var(--primary)/0.6)]" />
               </div>
             </div>
             <div>
               <label className="text-xs text-primary-glow font-sans mb-1 block">Project type</label>
-              <Input placeholder="e.g. SaaS Dashboard, E-commerce..." className="bg-background/40 border-white/10 h-10 transition-all duration-300 focus:border-primary/60 focus:shadow-[0_0_18px_-6px_hsl(var(--primary)/0.6)]" />
+              <Input name="projectType" maxLength={100} placeholder="e.g. SaaS Dashboard, E-commerce..." className="bg-background/40 border-white/10 h-10 transition-all duration-300 focus:border-primary/60 focus:shadow-[0_0_18px_-6px_hsl(var(--primary)/0.6)]" />
             </div>
             <div>
               <label className="text-xs text-primary-glow font-sans mb-1 block">Project details</label>
-              <Textarea required rows={4} placeholder="Tell us about your goals, timeline and budget..." className="bg-background/40 border-white/10 resize-none transition-all duration-300 focus:border-primary/60 focus:shadow-[0_0_18px_-6px_hsl(var(--primary)/0.6)]" />
+              <Textarea name="details" required rows={4} maxLength={1800} placeholder="Tell us about your goals, timeline and budget..." className="bg-background/40 border-white/10 resize-none transition-all duration-300 focus:border-primary/60 focus:shadow-[0_0_18px_-6px_hsl(var(--primary)/0.6)]" />
             </div>
             <Button type="submit" variant="hero" size="lg" className="w-full" disabled={submitting}>
               {submitting ? "Sending..." : <>Send Message <Send className="h-4 w-4" /></>}
