@@ -7,12 +7,23 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
+const COOLDOWN_MS = 30_000;
+const COOLDOWN_KEY = "contact:lastSubmit";
+
 export const Contact = () => {
   const [submitting, setSubmitting] = useState(false);
+  const [errors, setErrors] = useState<{ name?: string; email?: string; details?: string }>({});
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (submitting) return;
+
+    const last = Number(localStorage.getItem(COOLDOWN_KEY) || 0);
+    const remaining = COOLDOWN_MS - (Date.now() - last);
+    if (remaining > 0) {
+      toast.error(`Please wait ${Math.ceil(remaining / 1000)}s before submitting again.`);
+      return;
+    }
 
     const form = e.currentTarget;
     const fd = new FormData(form);
@@ -21,14 +32,13 @@ export const Contact = () => {
     const projectType = String(fd.get("projectType") || "").trim();
     const details = String(fd.get("details") || "").trim();
 
-    if (!name || !email || !details) {
-      toast.error("Please fill in name, email and project details.");
-      return;
-    }
-    if (!/^\S+@\S+\.\S+$/.test(email)) {
-      toast.error("Please enter a valid email address.");
-      return;
-    }
+    const next: typeof errors = {};
+    if (!name) next.name = "Name is required.";
+    if (!email) next.email = "Email is required.";
+    else if (!/^\S+@\S+\.\S+$/.test(email)) next.email = "Please enter a valid email.";
+    if (!details) next.details = "Message is required.";
+    setErrors(next);
+    if (Object.keys(next).length) return;
 
     const message = projectType ? `[${projectType}] ${details}` : details;
 
@@ -41,7 +51,9 @@ export const Contact = () => {
       return;
     }
 
+    localStorage.setItem(COOLDOWN_KEY, String(Date.now()));
     form.reset();
+    setErrors({});
     toast.success("Your inquiry has been submitted successfully.");
   };
 
@@ -89,11 +101,13 @@ export const Contact = () => {
             <div className="grid sm:grid-cols-2 gap-3">
               <div>
                 <label className="text-xs text-primary-glow font-sans mb-1 block">Name</label>
-                <Input name="name" required maxLength={100} placeholder="Your name" className="bg-background/40 border-white/10 h-10 transition-all duration-300 focus:border-primary/60 focus:shadow-[0_0_18px_-6px_hsl(var(--primary)/0.6)]" />
+                <Input name="name" maxLength={100} placeholder="Your name" aria-invalid={!!errors.name} className="bg-background/40 border-white/10 h-10 transition-all duration-300 focus:border-primary/60 focus:shadow-[0_0_18px_-6px_hsl(var(--primary)/0.6)]" />
+                {errors.name && <p className="text-xs text-destructive mt-1">{errors.name}</p>}
               </div>
               <div>
                 <label className="text-xs text-primary-glow font-sans mb-1 block">Email</label>
-                <Input name="email" required type="email" maxLength={255} placeholder="you@brand.com" className="bg-background/40 border-white/10 h-10 transition-all duration-300 focus:border-primary/60 focus:shadow-[0_0_18px_-6px_hsl(var(--primary)/0.6)]" />
+                <Input name="email" type="email" maxLength={255} placeholder="you@brand.com" aria-invalid={!!errors.email} className="bg-background/40 border-white/10 h-10 transition-all duration-300 focus:border-primary/60 focus:shadow-[0_0_18px_-6px_hsl(var(--primary)/0.6)]" />
+                {errors.email && <p className="text-xs text-destructive mt-1">{errors.email}</p>}
               </div>
             </div>
             <div>
@@ -102,7 +116,8 @@ export const Contact = () => {
             </div>
             <div>
               <label className="text-xs text-primary-glow font-sans mb-1 block">Project details</label>
-              <Textarea name="details" required rows={4} maxLength={1800} placeholder="Tell us about your goals, timeline and budget..." className="bg-background/40 border-white/10 resize-none transition-all duration-300 focus:border-primary/60 focus:shadow-[0_0_18px_-6px_hsl(var(--primary)/0.6)]" />
+              <Textarea name="details" rows={4} maxLength={1800} placeholder="Tell us about your goals, timeline and budget..." aria-invalid={!!errors.details} className="bg-background/40 border-white/10 resize-none transition-all duration-300 focus:border-primary/60 focus:shadow-[0_0_18px_-6px_hsl(var(--primary)/0.6)]" />
+              {errors.details && <p className="text-xs text-destructive mt-1">{errors.details}</p>}
             </div>
             <Button type="submit" variant="hero" size="lg" className="w-full" disabled={submitting}>
               {submitting ? "Sending..." : <>Send Message <Send className="h-4 w-4" /></>}
