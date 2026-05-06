@@ -7,12 +7,23 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
+const COOLDOWN_MS = 30_000;
+const COOLDOWN_KEY = "contact:lastSubmit";
+
 export const Contact = () => {
   const [submitting, setSubmitting] = useState(false);
+  const [errors, setErrors] = useState<{ name?: string; email?: string; details?: string }>({});
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (submitting) return;
+
+    const last = Number(localStorage.getItem(COOLDOWN_KEY) || 0);
+    const remaining = COOLDOWN_MS - (Date.now() - last);
+    if (remaining > 0) {
+      toast.error(`Please wait ${Math.ceil(remaining / 1000)}s before submitting again.`);
+      return;
+    }
 
     const form = e.currentTarget;
     const fd = new FormData(form);
@@ -21,14 +32,13 @@ export const Contact = () => {
     const projectType = String(fd.get("projectType") || "").trim();
     const details = String(fd.get("details") || "").trim();
 
-    if (!name || !email || !details) {
-      toast.error("Please fill in name, email and project details.");
-      return;
-    }
-    if (!/^\S+@\S+\.\S+$/.test(email)) {
-      toast.error("Please enter a valid email address.");
-      return;
-    }
+    const next: typeof errors = {};
+    if (!name) next.name = "Name is required.";
+    if (!email) next.email = "Email is required.";
+    else if (!/^\S+@\S+\.\S+$/.test(email)) next.email = "Please enter a valid email.";
+    if (!details) next.details = "Message is required.";
+    setErrors(next);
+    if (Object.keys(next).length) return;
 
     const message = projectType ? `[${projectType}] ${details}` : details;
 
@@ -41,7 +51,9 @@ export const Contact = () => {
       return;
     }
 
+    localStorage.setItem(COOLDOWN_KEY, String(Date.now()));
     form.reset();
+    setErrors({});
     toast.success("Your inquiry has been submitted successfully.");
   };
 
