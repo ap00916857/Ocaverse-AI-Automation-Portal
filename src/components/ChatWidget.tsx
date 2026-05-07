@@ -63,16 +63,34 @@ export const ChatWidget = () => {
     const next: Msg[] = [...messages, { from: "user", text }];
     setMessages(next);
     setTyping(true);
+    const sessionId = sessionIdRef.current;
     try {
       const apiMessages = next
         .filter((m, i) => !(i === 0 && m.from === "bot"))
         .map((m) => ({ role: m.from === "user" ? "user" : "assistant", content: m.text }));
       const { data, error } = await supabase.functions.invoke("chat-ai", {
-        body: { messages: apiMessages, sessionId: sessionIdRef.current },
+        body: { messages: apiMessages, sessionId, skipPersist: true },
       });
       if (error) throw error;
       const reply = (data as any)?.reply || "Sorry, I couldn't respond just now.";
       setMessages((m) => [...m, { from: "bot", text: reply }]);
+
+      // Persist conversation to public.chatbot_messages
+      try {
+        const { error: insertError } = await supabase
+          .from("chatbot_messages")
+          .insert([
+            { session_id: sessionId, role: "user", content: text.slice(0, 4000) },
+            { session_id: sessionId, role: "assistant", content: String(reply).slice(0, 4000) },
+          ]);
+        if (insertError) {
+          console.error("Chat save failed", insertError);
+        } else {
+          console.log("Chat saved successfully");
+        }
+      } catch (saveErr) {
+        console.error("Chat save failed", saveErr);
+      }
     } catch (e: any) {
       toast.error(e?.message || "Chat failed. Please try again.");
     } finally {
