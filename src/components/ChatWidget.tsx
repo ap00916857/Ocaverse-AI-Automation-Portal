@@ -40,14 +40,28 @@ export const ChatWidget = () => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, showLead, open]);
 
-  const send = () => {
+  const send = async () => {
     const text = input.trim();
-    if (!text) return;
+    if (!text || typing) return;
     setInput("");
-    setMessages((m) => [...m, { from: "user", text }]);
-    setTimeout(() => {
-      setMessages((m) => [...m, { from: "bot", text: getReply(text) }]);
-    }, 400);
+    const next: Msg[] = [...messages, { from: "user", text }];
+    setMessages(next);
+    setTyping(true);
+    try {
+      const apiMessages = next
+        .filter((m, i) => !(i === 0 && m.from === "bot"))
+        .map((m) => ({ role: m.from === "user" ? "user" : "assistant", content: m.text }));
+      const { data, error } = await supabase.functions.invoke("chat-ai", {
+        body: { messages: apiMessages, sessionId: sessionIdRef.current },
+      });
+      if (error) throw error;
+      const reply = (data as any)?.reply || "Sorry, I couldn't respond just now.";
+      setMessages((m) => [...m, { from: "bot", text: reply }]);
+    } catch (e: any) {
+      toast.error(e?.message || "Chat failed. Please try again.");
+    } finally {
+      setTyping(false);
+    }
   };
 
   const submitLead = async (e: React.FormEvent) => {
