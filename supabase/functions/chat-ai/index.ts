@@ -13,7 +13,7 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const { messages, sessionId } = await req.json();
+    const { messages, sessionId, skipPersist } = await req.json();
     if (!Array.isArray(messages) || !sessionId) {
       return new Response(JSON.stringify({ error: "Invalid payload" }), {
         status: 400,
