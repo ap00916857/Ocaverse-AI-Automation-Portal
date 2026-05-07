@@ -75,7 +75,7 @@ Deno.serve(async (req) => {
     const data = await aiResp.json();
     const reply: string = data.choices?.[0]?.message?.content?.trim() ?? "";
 
-    if (reply) {
+    if (!skipPersist && reply) {
       await supabase.from("chatbot_messages").insert({
         session_id: sessionId,
         role: "assistant",
