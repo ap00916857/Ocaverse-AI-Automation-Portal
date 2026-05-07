@@ -37,6 +37,22 @@ export const ChatWidget = () => {
   }, [open]);
 
   useEffect(() => {
+    (async () => {
+      const { data } = await supabase
+        .from("chatbot_messages")
+        .select("role, content, created_at")
+        .eq("session_id", sessionIdRef.current)
+        .order("created_at", { ascending: true });
+      if (data && data.length) {
+        setMessages((prev) => [
+          prev[0],
+          ...data.map((r) => ({ from: r.role === "user" ? "user" : "bot", text: r.content } as Msg)),
+        ]);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, showLead, open]);
 
