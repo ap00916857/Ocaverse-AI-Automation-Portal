@@ -9,18 +9,13 @@ import { toast } from "sonner";
 
 type Msg = { from: "bot" | "user"; text: string };
 
-const FAQ: { keys: string[]; reply: string }[] = [
-  { keys: ["price", "pricing", "cost", "rate", "quote"], reply: "Our pricing depends on scope. Share your requirements and we'll send a tailored quote." },
-  { keys: ["service", "services", "offer", "what do you do"], reply: "We build Web Apps, Mobile Apps, and Automation Tools — design to deployment." },
-  { keys: ["contact", "email", "phone", "reach"], reply: "You can reach us anytime — drop your details below and we'll connect within hours." },
-  { keys: ["support", "help", "issue", "problem"], reply: "Sure — describe the issue briefly and our team will assist you." },
-  { keys: ["time", "timing", "hours", "available"], reply: "We're available Mon–Sat, 10 AM – 7 PM IST. Messages outside hours get a reply next morning." },
-];
-
-const getReply = (text: string): string => {
-  const t = text.toLowerCase();
-  const hit = FAQ.find((f) => f.keys.some((k) => t.includes(k)));
-  return hit?.reply ?? "Got it! Want to leave your details so our team can reach out?";
+const getSessionId = () => {
+  let id = localStorage.getItem("chat_session_id");
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem("chat_session_id", id);
+  }
+  return id;
 };
 
 export const ChatWidget = () => {
@@ -33,6 +28,8 @@ export const ChatWidget = () => {
   const [showLead, setShowLead] = useState(false);
   const [lead, setLead] = useState({ name: "", phone: "", message: "" });
   const [submitting, setSubmitting] = useState(false);
+  const [typing, setTyping] = useState(false);
+  const sessionIdRef = useRef<string>(getSessionId());
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
