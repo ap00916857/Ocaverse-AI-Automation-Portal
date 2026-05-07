@@ -13,7 +13,7 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const { messages, sessionId } = await req.json();
+    const { messages, sessionId, skipPersist } = await req.json();
     if (!Array.isArray(messages) || !sessionId) {
       return new Response(JSON.stringify({ error: "Invalid payload" }), {
         status: 400,
@@ -31,7 +31,7 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     );
 
-    if (lastUser?.content) {
+    if (!skipPersist && lastUser?.content) {
       await supabase.from("chatbot_messages").insert({
         session_id: sessionId,
         role: "user",
@@ -75,7 +75,7 @@ Deno.serve(async (req) => {
     const data = await aiResp.json();
     const reply: string = data.choices?.[0]?.message?.content?.trim() ?? "";
 
-    if (reply) {
+    if (!skipPersist && reply) {
       await supabase.from("chatbot_messages").insert({
         session_id: sessionId,
         role: "assistant",
