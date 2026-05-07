@@ -31,7 +31,7 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     );
 
-    if (lastUser?.content) {
+    if (!skipPersist && lastUser?.content) {
       await supabase.from("chatbot_messages").insert({
         session_id: sessionId,
         role: "user",
