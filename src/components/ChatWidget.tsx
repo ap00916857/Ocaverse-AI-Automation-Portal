@@ -9,18 +9,13 @@ import { toast } from "sonner";
 
 type Msg = { from: "bot" | "user"; text: string };
 
-const FAQ: { keys: string[]; reply: string }[] = [
-  { keys: ["price", "pricing", "cost", "rate", "quote"], reply: "Our pricing depends on scope. Share your requirements and we'll send a tailored quote." },
-  { keys: ["service", "services", "offer", "what do you do"], reply: "We build Web Apps, Mobile Apps, and Automation Tools — design to deployment." },
-  { keys: ["contact", "email", "phone", "reach"], reply: "You can reach us anytime — drop your details below and we'll connect within hours." },
-  { keys: ["support", "help", "issue", "problem"], reply: "Sure — describe the issue briefly and our team will assist you." },
-  { keys: ["time", "timing", "hours", "available"], reply: "We're available Mon–Sat, 10 AM – 7 PM IST. Messages outside hours get a reply next morning." },
-];
-
-const getReply = (text: string): string => {
-  const t = text.toLowerCase();
-  const hit = FAQ.find((f) => f.keys.some((k) => t.includes(k)));
-  return hit?.reply ?? "Got it! Want to leave your details so our team can reach out?";
+const getSessionId = () => {
+  let id = localStorage.getItem("chat_session_id");
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem("chat_session_id", id);
+  }
+  return id;
 };
 
 export const ChatWidget = () => {
@@ -33,6 +28,8 @@ export const ChatWidget = () => {
   const [showLead, setShowLead] = useState(false);
   const [lead, setLead] = useState({ name: "", phone: "", message: "" });
   const [submitting, setSubmitting] = useState(false);
+  const [typing, setTyping] = useState(false);
+  const sessionIdRef = useRef<string>(getSessionId());
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -43,14 +40,28 @@ export const ChatWidget = () => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, showLead, open]);
 
-  const send = () => {
+  const send = async () => {
     const text = input.trim();
-    if (!text) return;
+    if (!text || typing) return;
     setInput("");
-    setMessages((m) => [...m, { from: "user", text }]);
-    setTimeout(() => {
-      setMessages((m) => [...m, { from: "bot", text: getReply(text) }]);
-    }, 400);
+    const next: Msg[] = [...messages, { from: "user", text }];
+    setMessages(next);
+    setTyping(true);
+    try {
+      const apiMessages = next
+        .filter((m, i) => !(i === 0 && m.from === "bot"))
+        .map((m) => ({ role: m.from === "user" ? "user" : "assistant", content: m.text }));
+      const { data, error } = await supabase.functions.invoke("chat-ai", {
+        body: { messages: apiMessages, sessionId: sessionIdRef.current },
+      });
+      if (error) throw error;
+      const reply = (data as any)?.reply || "Sorry, I couldn't respond just now.";
+      setMessages((m) => [...m, { from: "bot", text: reply }]);
+    } catch (e: any) {
+      toast.error(e?.message || "Chat failed. Please try again.");
+    } finally {
+      setTyping(false);
+    }
   };
 
   const submitLead = async (e: React.FormEvent) => {
@@ -154,6 +165,16 @@ export const ChatWidget = () => {
                 </motion.div>
               ))}
 
+              {typing && (
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-start">
+                  <div className="bg-muted text-foreground rounded-2xl rounded-bl-sm px-3.5 py-2.5 text-sm flex gap-1">
+                    <span className="h-1.5 w-1.5 rounded-full bg-foreground/50 animate-bounce" style={{ animationDelay: "0ms" }} />
+                    <span className="h-1.5 w-1.5 rounded-full bg-foreground/50 animate-bounce" style={{ animationDelay: "120ms" }} />
+                    <span className="h-1.5 w-1.5 rounded-full bg-foreground/50 animate-bounce" style={{ animationDelay: "240ms" }} />
+                  </div>
+                </motion.div>
+              )}
+
               {showLead && (
                 <motion.form
                   onSubmit={submitLead}
@@ -214,7 +235,7 @@ export const ChatWidget = () => {
                   placeholder="Type a message..."
                   className="flex-1"
                 />
-                <Button size="icon" onClick={send} aria-label="Send" disabled={!input.trim()}>
+                <Button size="icon" onClick={send} aria-label="Send" disabled={!input.trim() || typing}>
                   <Send className="h-4 w-4" />
                 </Button>
               </div>
