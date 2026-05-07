@@ -235,7 +235,7 @@ export const ChatWidget = () => {
                   placeholder="Type a message..."
                   className="flex-1"
                 />
-                <Button size="icon" onClick={send} aria-label="Send" disabled={!input.trim()}>
+                <Button size="icon" onClick={send} aria-label="Send" disabled={!input.trim() || typing}>
                   <Send className="h-4 w-4" />
                 </Button>
               </div>
