@@ -165,6 +165,16 @@ export const ChatWidget = () => {
                 </motion.div>
               ))}
 
+              {typing && (
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-start">
+                  <div className="bg-muted text-foreground rounded-2xl rounded-bl-sm px-3.5 py-2.5 text-sm flex gap-1">
+                    <span className="h-1.5 w-1.5 rounded-full bg-foreground/50 animate-bounce" style={{ animationDelay: "0ms" }} />
+                    <span className="h-1.5 w-1.5 rounded-full bg-foreground/50 animate-bounce" style={{ animationDelay: "120ms" }} />
+                    <span className="h-1.5 w-1.5 rounded-full bg-foreground/50 animate-bounce" style={{ animationDelay: "240ms" }} />
+                  </div>
+                </motion.div>
+              )}
+
               {showLead && (
                 <motion.form
                   onSubmit={submitLead}
