@@ -69,15 +69,15 @@ export const ChatWidget = () => {
         .filter((m, i) => !(i === 0 && m.from === "bot"))
         .map((m) => ({ role: m.from === "user" ? "user" : "assistant", content: m.text }));
       const { data, error } = await supabase.functions.invoke("chat-ai", {
-        body: { messages: apiMessages, sessionId, skipPersist: true },
+        body: { messages: apiMessages, sessionId },
       });
       if (error) throw error;
       const reply = (data as any)?.reply || "Sorry, I couldn't respond just now.";
       setMessages((m) => [...m, { from: "bot", text: reply }]);
 
-      // Persist conversation to public.chatbot_messages
+      // Persist conversation client-side to the user's own Supabase project
       try {
-        const { error: insertError } = await supabase
+        const { error: insertError } = await (supabase as any)
           .from("chatbot_messages")
           .insert([
             { session_id: sessionId, role: "user", content: text.slice(0, 4000) },
