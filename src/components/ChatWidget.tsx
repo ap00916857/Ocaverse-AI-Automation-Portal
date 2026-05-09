@@ -76,14 +76,31 @@ export const ChatWidget = () => {
       const apiMessages = next
         .filter((m, i) => !(i === 0 && m.from === "bot"))
         .map((m) => ({ role: m.from === "user" ? "user" : "assistant", content: m.text }));
-      const { data, error } = await supabase.functions.invoke("chat-ai", {
-        body: { messages: apiMessages, sessionId },
+
+      // The chat-ai edge function lives on the Lovable Cloud project, not the user's
+      // own Supabase project that the `supabase` client now points to. Call it
+      // directly via fetch so we hit the right deployment.
+      const fnUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat-ai`;
+      const fnKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+      const resp = await fetch(fnUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: fnKey,
+          Authorization: `Bearer ${fnKey}`,
+        },
+        body: JSON.stringify({ messages: apiMessages, sessionId }),
       });
-      if (error) throw error;
+      if (!resp.ok) {
+        const errTxt = await resp.text().catch(() => "");
+        throw new Error(`Chat service error (${resp.status}): ${errTxt || resp.statusText}`);
+      }
+      const data = await resp.json();
       const reply = (data as any)?.reply || "Sorry, I couldn't respond just now.";
       setMessages((m) => [...m, { from: "bot", text: reply }]);
 
-      // Persist conversation client-side to the user's own Supabase project
+      // Persist conversation client-side to the user's own Supabase project.
+      // Wrapped so schema mismatches never break the chat UX.
       try {
         const { error: insertError } = await (supabase as any)
           .from("chatbot_messages")
@@ -100,6 +117,7 @@ export const ChatWidget = () => {
         console.error("Chat save failed", saveErr);
       }
     } catch (e: any) {
+      console.error("Chat send failed", e);
       toast.error(e?.message || "Chat failed. Please try again.");
     } finally {
       setTyping(false);
