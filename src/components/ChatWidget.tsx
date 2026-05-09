@@ -38,16 +38,24 @@ export const ChatWidget = () => {
 
   useEffect(() => {
     (async () => {
-      const { data } = await (supabase as any)
-        .from("chatbot_messages")
-        .select("role, content, created_at")
-        .eq("session_id", sessionIdRef.current)
-        .order("created_at", { ascending: true });
-      if (data && data.length) {
-        setMessages((prev) => [
-          prev[0],
-          ...data.map((r: any) => ({ from: r.role === "user" ? "user" : "bot", text: r.content } as Msg)),
-        ]);
+      try {
+        const { data, error } = await (supabase as any)
+          .from("chatbot_messages")
+          .select("role, content, created_at")
+          .eq("session_id", sessionIdRef.current)
+          .order("created_at", { ascending: true });
+        if (error) {
+          console.warn("Chat history load skipped:", error.message);
+          return;
+        }
+        if (data && data.length) {
+          setMessages((prev) => [
+            prev[0],
+            ...data.map((r: any) => ({ from: r.role === "user" ? "user" : "bot", text: r.content } as Msg)),
+          ]);
+        }
+      } catch (e) {
+        console.warn("Chat history load failed", e);
       }
     })();
   }, []);
