@@ -61,13 +61,6 @@ Deno.serve(async (req) => {
     const data = await aiResp.json();
     const reply: string = data.choices?.[0]?.message?.content?.trim() ?? "";
 
-    if (!skipPersist && reply) {
-      await supabase.from("chatbot_messages").insert({
-        session_id: sessionId,
-        role: "assistant",
-        content: reply.slice(0, 4000),
-      });
-    }
 
     return new Response(JSON.stringify({ reply }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
