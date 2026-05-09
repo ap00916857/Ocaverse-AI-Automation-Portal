@@ -82,7 +82,7 @@ export default function Admin() {
   const updateStatus = async (id: string, status: string) => {
     const prev = rows;
     setRows((r) => r.map((x) => (x.id === id ? { ...x, status } : x)));
-    const { error } = await supabase.from("contacts").update({ status }).eq("id", id);
+    const { error } = await (supabase as any).from("contacts").update({ status }).eq("id", id);
     if (error) {
       setRows(prev);
       toast.error("Failed to update status.");
