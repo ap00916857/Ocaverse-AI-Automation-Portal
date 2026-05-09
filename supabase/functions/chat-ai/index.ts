@@ -11,7 +11,7 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const { messages, sessionId, skipPersist } = await req.json();
+    const { messages, sessionId } = await req.json();
     if (!Array.isArray(messages) || !sessionId) {
       return new Response(JSON.stringify({ error: "Invalid payload" }), {
         status: 400,
@@ -22,20 +22,8 @@ Deno.serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY missing");
 
-    const lastUser = [...messages].reverse().find((m: any) => m.role === "user");
-
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
-    );
-
-    if (!skipPersist && lastUser?.content) {
-      await supabase.from("chatbot_messages").insert({
-        session_id: sessionId,
-        role: "user",
-        content: String(lastUser.content).slice(0, 4000),
-      });
-    }
+    // Note: persistence is handled fully client-side against the user's own
+    // Supabase project. This edge function only relays AI responses.
 
     const aiResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
