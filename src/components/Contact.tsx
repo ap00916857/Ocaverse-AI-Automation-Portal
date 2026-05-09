@@ -43,7 +43,7 @@ export const Contact = () => {
     const message = projectType ? `[${projectType}] ${details}` : details;
 
     setSubmitting(true);
-    const { error } = await supabase.from("contacts").insert({ name, email, message });
+    const { error } = await (supabase as any).from("contacts").insert({ name, email, message });
     setSubmitting(false);
 
     if (error) {
