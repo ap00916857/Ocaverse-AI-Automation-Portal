@@ -38,7 +38,7 @@ export const ChatWidget = () => {
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase
+      const { data } = await (supabase as any)
         .from("chatbot_messages")
         .select("role, content, created_at")
         .eq("session_id", sessionIdRef.current)
@@ -46,7 +46,7 @@ export const ChatWidget = () => {
       if (data && data.length) {
         setMessages((prev) => [
           prev[0],
-          ...data.map((r) => ({ from: r.role === "user" ? "user" : "bot", text: r.content } as Msg)),
+          ...data.map((r: any) => ({ from: r.role === "user" ? "user" : "bot", text: r.content } as Msg)),
         ]);
       }
     })();
