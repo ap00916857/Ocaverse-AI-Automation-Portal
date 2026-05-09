@@ -108,7 +108,7 @@ export const ChatWidget = () => {
       return;
     }
     setSubmitting(true);
-    const { error } = await supabase.from("chat_leads").insert({ name, phone, message });
+    const { error } = await (supabase as any).from("chat_leads").insert({ name, phone, message });
     setSubmitting(false);
     if (error) {
       toast.error("Couldn't send. Please try again.");
