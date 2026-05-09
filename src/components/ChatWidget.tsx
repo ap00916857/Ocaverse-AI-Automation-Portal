@@ -38,7 +38,7 @@ export const ChatWidget = () => {
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase
+      const { data } = await (supabase as any)
         .from("chatbot_messages")
         .select("role, content, created_at")
         .eq("session_id", sessionIdRef.current)
@@ -46,7 +46,7 @@ export const ChatWidget = () => {
       if (data && data.length) {
         setMessages((prev) => [
           prev[0],
-          ...data.map((r) => ({ from: r.role === "user" ? "user" : "bot", text: r.content } as Msg)),
+          ...data.map((r: any) => ({ from: r.role === "user" ? "user" : "bot", text: r.content } as Msg)),
         ]);
       }
     })();
@@ -69,15 +69,15 @@ export const ChatWidget = () => {
         .filter((m, i) => !(i === 0 && m.from === "bot"))
         .map((m) => ({ role: m.from === "user" ? "user" : "assistant", content: m.text }));
       const { data, error } = await supabase.functions.invoke("chat-ai", {
-        body: { messages: apiMessages, sessionId, skipPersist: true },
+        body: { messages: apiMessages, sessionId },
       });
       if (error) throw error;
       const reply = (data as any)?.reply || "Sorry, I couldn't respond just now.";
       setMessages((m) => [...m, { from: "bot", text: reply }]);
 
-      // Persist conversation to public.chatbot_messages
+      // Persist conversation client-side to the user's own Supabase project
       try {
-        const { error: insertError } = await supabase
+        const { error: insertError } = await (supabase as any)
           .from("chatbot_messages")
           .insert([
             { session_id: sessionId, role: "user", content: text.slice(0, 4000) },
@@ -108,7 +108,7 @@ export const ChatWidget = () => {
       return;
     }
     setSubmitting(true);
-    const { error } = await supabase.from("chat_leads").insert({ name, phone, message });
+    const { error } = await (supabase as any).from("chat_leads").insert({ name, phone, message });
     setSubmitting(false);
     if (error) {
       toast.error("Couldn't send. Please try again.");
