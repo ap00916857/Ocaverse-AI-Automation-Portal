@@ -53,7 +53,7 @@ export default function Admin() {
 
   const load = async () => {
     setLoading(true);
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from("contacts")
       .select("*")
       .order("created_at", { ascending: false });
