@@ -29,6 +29,7 @@ export const Contact = () => {
     const fd = new FormData(form);
     const name = String(fd.get("name") || "").trim();
     const email = String(fd.get("email") || "").trim();
+    const phone = String(fd.get("phone") || "").trim();
     const projectType = String(fd.get("projectType") || "").trim();
     const details = String(fd.get("details") || "").trim();
 
@@ -40,7 +41,11 @@ export const Contact = () => {
     setErrors(next);
     if (Object.keys(next).length) return;
 
-    const message = projectType ? `[${projectType}] ${details}` : details;
+    const parts = [] as string[];
+    if (projectType) parts.push(`[${projectType}]`);
+    if (phone) parts.push(`(Phone: ${phone})`);
+    parts.push(details);
+    const message = parts.join(" ");
 
     setSubmitting(true);
     const { error } = await (supabase as any).from("contacts").insert({ name, email, message });
@@ -109,6 +114,10 @@ export const Contact = () => {
                 <Input name="email" type="email" maxLength={255} placeholder="you@brand.com" aria-invalid={!!errors.email} className="bg-background/40 border-white/10 h-10 transition-all duration-300 focus:border-primary/60 focus:shadow-[0_0_18px_-6px_hsl(var(--primary)/0.6)]" />
                 {errors.email && <p className="text-xs text-destructive mt-1">{errors.email}</p>}
               </div>
+            </div>
+            <div>
+              <label className="text-xs text-primary-glow font-sans mb-1 block">Mobile number</label>
+              <Input name="phone" type="tel" inputMode="tel" maxLength={20} pattern="[0-9+\-()\s]{7,20}" placeholder="+1 555 123 4567" className="bg-background/40 border-white/10 h-10 transition-all duration-300 focus:border-primary/60 focus:shadow-[0_0_18px_-6px_hsl(var(--primary)/0.6)]" />
             </div>
             <div>
               <label className="text-xs text-primary-glow font-sans mb-1 block">Project type</label>
