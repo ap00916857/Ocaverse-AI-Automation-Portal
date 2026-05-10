@@ -41,14 +41,10 @@ export const Contact = () => {
     setErrors(next);
     if (Object.keys(next).length) return;
 
-    const parts = [] as string[];
-    if (projectType) parts.push(`[${projectType}]`);
-    if (phone) parts.push(`(Phone: ${phone})`);
-    parts.push(details);
-    const message = parts.join(" ");
+    const message = projectType ? `[${projectType}] ${details}` : details;
 
     setSubmitting(true);
-    const { error } = await (supabase as any).from("contacts").insert({ name, email, message });
+    const { error } = await (supabase as any).from("contacts").insert({ name, email, phone: phone || null, message });
     setSubmitting(false);
 
     if (error) {
