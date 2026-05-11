@@ -32,11 +32,14 @@ export const Navbar = () => {
     >
       <div className="container">
         <div className={`glass-strong rounded-full px-5 py-3 flex items-center justify-between transition-all ${scrolled ? "shadow-elegant" : ""}`}>
-          <a href="#" className="flex items-center gap-2 font-display font-bold text-lg">
-            <span className="grid place-items-center h-9 w-9 rounded-full overflow-hidden shadow-glow ring-1 ring-primary/40 bg-background">
-              <img src={logo} alt="OcaVerse logo" className="h-full w-full object-cover" />
+          <a href="#" className="flex items-center gap-2.5 font-display font-bold text-lg">
+            <span className="grid place-items-center h-10 w-10 rounded-full overflow-hidden shadow-glow ring-1 ring-primary/40 bg-background">
+              <img src={logo} alt="OcaVerse — Own Complete Automation logo" className="h-full w-full object-cover" />
             </span>
-            <span>OcaVerse<span className="text-gradient">.</span></span>
+            <span className="flex flex-col leading-none">
+              <span>OcaVerse<span className="text-gradient">.</span></span>
+              <span className="text-[9px] font-normal tracking-[0.18em] uppercase text-muted-foreground mt-0.5">Own Complete Automation</span>
+            </span>
           </a>
 
           <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">

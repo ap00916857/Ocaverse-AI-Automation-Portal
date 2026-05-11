@@ -7,11 +7,14 @@ export const Footer = () => {
       <div className="container">
         <div className="grid md:grid-cols-4 gap-8 mb-10">
           <div className="md:col-span-2">
-            <a href="#" className="flex items-center gap-2 font-display font-bold text-lg mb-3">
-              <span className="grid place-items-center h-9 w-9 rounded-full overflow-hidden shadow-glow ring-1 ring-primary/40 bg-background">
-                <img src={logo} alt="OcaVerse logo" className="h-full w-full object-cover" />
+            <a href="#" className="flex items-center gap-2.5 font-display font-bold text-lg mb-3">
+              <span className="grid place-items-center h-10 w-10 rounded-full overflow-hidden shadow-glow ring-1 ring-primary/40 bg-background">
+                <img src={logo} alt="OcaVerse — Own Complete Automation logo" className="h-full w-full object-cover" />
               </span>
-              <span>OcaVerse<span className="text-gradient">.</span></span>
+              <span className="flex flex-col leading-none">
+                <span>OcaVerse<span className="text-gradient">.</span></span>
+                <span className="text-[9px] font-normal tracking-[0.18em] uppercase text-muted-foreground mt-0.5">Own Complete Automation</span>
+              </span>
             </a>
             <p className="text-sm text-muted-foreground max-w-sm">
               Premium digital solutions for ambitious brands. Designed in-house, built to last.
