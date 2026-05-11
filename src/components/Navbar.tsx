@@ -2,7 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import logo from "@/assets/ocaverse-logo.png";
+import logo from "@/assets/ocaverse-icon.png";
 
 const links = [
   { label: "Services", href: "#services" },
@@ -35,8 +35,8 @@ export const Navbar = () => {
           <a href="#" aria-label="OcaVerse — Own Complete Automation" className="flex items-center pl-2">
             <img
               src={logo}
-              alt="OcaVerse — Own Complete Automation"
-              className="h-[128px] md:h-[160px] w-auto object-contain select-none"
+              alt="OcaVerse logo"
+              className="h-[32px] md:h-[40px] w-auto object-contain select-none"
               draggable={false}
             />
           </a>

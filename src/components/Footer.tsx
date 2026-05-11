@@ -1,5 +1,5 @@
 import { Github, Twitter, Linkedin, Instagram } from "lucide-react";
-import logo from "@/assets/ocaverse-logo.png";
+import logo from "@/assets/ocaverse-icon.png";
 
 export const Footer = () => {
   return (
@@ -10,8 +10,8 @@ export const Footer = () => {
             <a href="#" aria-label="OcaVerse — Own Complete Automation" className="inline-flex items-center mb-3">
               <img
                 src={logo}
-                alt="OcaVerse — Own Complete Automation"
-                className="h-40 md:h-48 w-auto object-contain select-none"
+                alt="OcaVerse logo"
+                className="h-10 md:h-12 w-auto object-contain select-none"
                 draggable={false}
               />
             </a>
