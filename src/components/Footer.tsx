@@ -1,5 +1,5 @@
 import { Github, Twitter, Linkedin, Instagram } from "lucide-react";
-import logo from "@/assets/ocaverse-logo.png";
+import logo from "@/assets/ocaverse-icon.png";
 
 export const Footer = () => {
   return (
@@ -8,9 +8,12 @@ export const Footer = () => {
         <div className="grid md:grid-cols-4 gap-8 mb-10">
           <div className="md:col-span-2">
             <a href="#" aria-label="OcaVerse — Own Complete Automation" className="inline-flex items-center mb-3">
-              <span className="grid place-items-center h-10 w-10 rounded-full overflow-hidden ring-1 ring-primary/30 bg-background">
-                <img src={logo} alt="OcaVerse logo" className="h-full w-full object-cover" />
-              </span>
+              <img
+                src={logo}
+                alt="OcaVerse logo"
+                className="h-10 md:h-12 w-auto object-contain select-none"
+                draggable={false}
+              />
             </a>
             <p className="text-sm text-muted-foreground max-w-sm">
               Premium digital solutions for ambitious brands. Designed in-house, built to last.
