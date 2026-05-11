@@ -135,7 +135,7 @@ export const Hero = () => {
               custom={2}
               className="text-sm md:text-base max-w-xl mx-auto lg:mx-0 mb-6 text-primary-glow/90"
             >
-              Vougesty Solution designs and engineers premium digital experiences —
+              OcaVerse designs and engineers premium digital experiences —
               from sleek SaaS platforms to commerce, portfolios and bespoke agency sites.
             </motion.p>
 

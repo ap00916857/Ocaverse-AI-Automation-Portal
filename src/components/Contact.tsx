@@ -78,8 +78,8 @@ export const Contact = () => {
 
             <div className="space-y-3">
               {[
-                { icon: Mail, label: "hello@vougesty.com" },
-                { icon: Phone, label: "+1 (555) 081-9920" },
+                { icon: Mail, label: "hello@ocaverse.com" },
+                { icon: Phone, label: "+91 87963 63097" },
                 { icon: MapPin, label: "Remote · Worldwide" },
               ].map((c) => (
                 <div key={c.label} className="group flex items-center gap-3 text-sm cursor-pointer transition-transform duration-300 hover:translate-x-1">

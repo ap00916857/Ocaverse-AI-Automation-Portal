@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Code2, Palette, Smartphone, ShoppingBag, Search, Rocket } from "lucide-react";
+import { Code2, Palette, Smartphone, ShoppingBag, Search, Rocket, Bot, Share2 } from "lucide-react";
 import { TiltCard } from "@/components/TiltCard";
 
 const services = [
@@ -9,6 +9,8 @@ const services = [
   { icon: Smartphone, title: "Mobile-First", desc: "Responsive across every device, pixel perfect." },
   { icon: Search, title: "SEO & Performance", desc: "Lighthouse-loved sites that rank and load fast." },
   { icon: Rocket, title: "Launch & Support", desc: "Deploy, monitor and grow — we're with you long after launch." },
+  { icon: Bot, title: "AI Chatbots", desc: "Smart, on-brand assistants that capture leads and serve customers 24/7." },
+  { icon: Share2, title: "Social Automation", desc: "Automate posting, engagement and reporting across every social channel." },
 ];
 
 const cardVariants = {

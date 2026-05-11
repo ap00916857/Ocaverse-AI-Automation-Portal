@@ -20,7 +20,7 @@ export const Advantage = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-block glass rounded-full px-4 py-1 text-xs font-medium mb-3">The Vougesty Advantage</span>
+            <span className="inline-block glass rounded-full px-4 py-1 text-xs font-medium mb-3">The OcaVerse Advantage</span>
             <h2 className="text-2xl md:text-4xl mb-4 leading-tight font-normal font-sans text-primary-glow">
               We don't just build sites — we build{" "}
               <span className="text-gradient">competitive advantage</span>.
@@ -31,7 +31,7 @@ export const Advantage = () => {
             </p>
             <div className="glass-strong rounded-3xl p-5 border-l-4 border-primary">
               <p className="italic text-primary-glow font-sans font-normal text-sm">
-                "Vougesty redefined what we thought was possible online. Conversions doubled in the first month."
+                "OcaVerse redefined what we thought was possible online. Conversions doubled in the first month."
               </p>
               <div className="mt-3 flex items-center gap-3">
                 <div className="h-9 w-9 rounded-full bg-gradient-primary" />
