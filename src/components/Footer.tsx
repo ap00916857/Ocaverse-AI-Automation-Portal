@@ -1,5 +1,5 @@
 import { Github, Twitter, Linkedin, Instagram } from "lucide-react";
-import logo from "@/assets/ocaverse-icon.png";
+import logo from "@/assets/ocaverse-logo.png";
 
 export const Footer = () => {
   return (
