@@ -2,7 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import logo from "@/assets/ocaverse-icon.png";
+import logo from "@/assets/ocaverse-logo.png";
 
 const links = [
   { label: "Services", href: "#services" },
@@ -32,14 +32,14 @@ export const Navbar = () => {
     >
       <div className="container">
         <div className={`glass-strong rounded-full px-5 py-3 flex items-center justify-between transition-all ${scrolled ? "shadow-elegant" : ""}`}>
-         <a href="#" aria-label="OcaVerse — Own Complete Automation" className="flex items-center pl-2">
-  <img
-    src={logo}
-    alt="OcaVerse logo"
-    className="h-[56px] md:h-[72px] w-auto object-contain select-none"
-    draggable={false}
-  />
-</a>
+          <a href="#" aria-label="OcaVerse — Own Complete Automation" className="flex items-center pl-2">
+            <img
+              src={logo}
+              alt="OcaVerse logo"
+              className="h-[56px] md:h-[72px] w-auto object-contain select-none"
+              draggable={false}
+            />
+          </a>
 
           <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
             {links.map((l) => (
