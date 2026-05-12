@@ -33,16 +33,13 @@ export const Navbar = () => {
       <div className="container">
         <div className={`glass-strong rounded-full px-5 py-3 flex items-center justify-between transition-all ${scrolled ? "shadow-elegant" : ""}`}>
           <a href="#" aria-label="OcaVerse — Own Complete Automation" className="flex items-center pl-2">
-         
   <img
     src={logo}
     alt="OcaVerse logo"
-    className="h-[52px] md:h-[60px] w-auto object-contain select-none mix-blend-multiply"
+    className="h-[52px] md:h-[60px] w-auto object-contain select-none"
     draggable={false}
   />
-  
-</div>
-          </a>
+</a>
 
           <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
             {links.map((l) => (
