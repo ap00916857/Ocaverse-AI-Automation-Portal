@@ -11,7 +11,7 @@ export const Footer = () => {
               <img
                 src={logo}
                 alt="OcaVerse logo"
-                className="h-25 md:h-40 w-auto object-contain select-none"
+                className="h-15 md:h-20 w-auto object-contain select-none"
                 draggable={false}
               />
             </a>
