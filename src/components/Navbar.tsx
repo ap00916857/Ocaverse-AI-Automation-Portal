@@ -32,7 +32,7 @@ export const Navbar = () => {
     >
       <div className="container">
         <div className={`glass-strong rounded-full px-5 py-3 flex items-center justify-between transition-all ${scrolled ? "shadow-elegant" : ""}`}>
-          <a href="#" aria-label="OcaVerse — Own Complete Automation" className="flex items-center pl-2">
+         <a href="#" aria-label="OcaVerse — Own Complete Automation" className="flex items-center pl-2">
   <img
     src={logo}
     alt="OcaVerse logo"
