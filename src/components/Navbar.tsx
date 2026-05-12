@@ -30,14 +30,14 @@ export const Navbar = () => {
         scrolled ? "py-2" : "py-3"
       }`}
     >
-      <div className="container">
-        <div className={`glass-strong rounded-full px-5 py-2 flex items-center justify-between transition-all ${scrolled ? "shadow-elegant" : ""}`}>
+      <div className="w-full px-6 md:px-12">
+        <div className={`glass-strong rounded-full px-6 py-2 flex items-center justify-between transition-all ${scrolled ? "shadow-elegant" : ""}`}>
           
           <a href="#" aria-label="OcaVerse — Own Complete Automation" className="flex items-center">
             <img
               src={logo}
               alt="OcaVerse logo"
-              className="h-[70px] md:h-[170px] w-auto object-contain select-none"
+              className="h-[70px] md:h-[85px] w-auto object-contain select-none"
               draggable={false}
             />
           </a>
