@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -27,16 +27,17 @@ export const Navbar = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? "py-3" : "py-5"
+        scrolled ? "py-2" : "py-3"
       }`}
     >
       <div className="container">
-        <div className={`glass-strong rounded-full px-5 py-3 flex items-center justify-between transition-all ${scrolled ? "shadow-elegant" : ""}`}>
-          <a href="#" aria-label="OcaVerse — Own Complete Automation" className="flex items-center pl-2">
+        <div className={`glass-strong rounded-full px-5 py-2 flex items-center justify-between transition-all ${scrolled ? "shadow-elegant" : ""}`}>
+          
+          <a href="#" aria-label="OcaVerse — Own Complete Automation" className="flex items-center">
             <img
               src={logo}
               alt="OcaVerse logo"
-              className="h-[56px] md:h-[72px] w-auto object-contain select-none"
+              className="h-[70px] md:h-[85px] w-auto object-contain select-none"
               draggable={false}
             />
           </a>
