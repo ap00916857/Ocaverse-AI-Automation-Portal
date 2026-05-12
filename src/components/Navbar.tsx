@@ -36,7 +36,7 @@ export const Navbar = () => {
   <img
     src={logo}
     alt="OcaVerse logo"
-    className="h-[56px] md:h-[70px] w-auto object-contain select-none"
+    className="h-[56px] md:h-[72px] w-auto object-contain select-none"
     draggable={false}
   />
 </a>
