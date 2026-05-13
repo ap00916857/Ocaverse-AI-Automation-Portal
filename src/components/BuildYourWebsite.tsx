@@ -271,8 +271,8 @@ export const BuildYourWebsite = () => {
                   Next <ArrowRight className="h-4 w-4" />
                 </Button>
               ) : (
-                <Button variant="hero" size="sm" onClick={submit} disabled={!canNext}>
-                  <Send className="h-4 w-4" /> Submit
+                <Button variant="hero" size="sm" onClick={submit} disabled={!canNext || submitting}>
+                  <Send className="h-4 w-4" /> {submitting ? "Sending..." : "Submit"}
                 </Button>
               )}
             </div>
