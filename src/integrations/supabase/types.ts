@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      build_requests: {
+        Row: {
+          business: string
+          created_at: string
+          estimated_scope: string | null
+          features: string[]
+          id: string
+          style: string
+        }
+        Insert: {
+          business: string
+          created_at?: string
+          estimated_scope?: string | null
+          features?: string[]
+          id?: string
+          style: string
+        }
+        Update: {
+          business?: string
+          created_at?: string
+          estimated_scope?: string | null
+          features?: string[]
+          id?: string
+          style?: string
+        }
+        Relationships: []
+      }
       chat_leads: {
         Row: {
           created_at: string
