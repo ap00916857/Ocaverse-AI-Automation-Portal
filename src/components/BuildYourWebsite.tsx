@@ -83,8 +83,24 @@ export const BuildYourWebsite = () => {
     setStyle(null);
   };
 
-  const submit = () => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const submit = async () => {
+    if (!business || !style) return;
+    setSubmitting(true);
+    const { error } = await supabase.from("build_requests").insert({
+      business,
+      features: selectedFeatures,
+      style,
+      estimated_scope: estimateScope(selectedFeatures.length),
+    });
+    setSubmitting(false);
+    if (error) {
+      toast.error("Couldn't send your build request. Please try again.");
+      return;
+    }
     toast.success("Build request sent! We'll send a tailored proposal within 24 hours.");
+    reset();
   };
 
   const businessLabel = businessTypes.find((b) => b.id === business)?.label;
