@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 type Option = { id: string; label: string; Icon: typeof Stethoscope; desc?: string };
 
@@ -82,8 +83,24 @@ export const BuildYourWebsite = () => {
     setStyle(null);
   };
 
-  const submit = () => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const submit = async () => {
+    if (!business || !style) return;
+    setSubmitting(true);
+    const { error } = await supabase.from("build_requests").insert({
+      business,
+      features: selectedFeatures,
+      style,
+      estimated_scope: estimateScope(selectedFeatures.length),
+    });
+    setSubmitting(false);
+    if (error) {
+      toast.error("Couldn't send your build request. Please try again.");
+      return;
+    }
     toast.success("Build request sent! We'll send a tailored proposal within 24 hours.");
+    reset();
   };
 
   const businessLabel = businessTypes.find((b) => b.id === business)?.label;
@@ -254,8 +271,8 @@ export const BuildYourWebsite = () => {
                   Next <ArrowRight className="h-4 w-4" />
                 </Button>
               ) : (
-                <Button variant="hero" size="sm" onClick={submit} disabled={!canNext}>
-                  <Send className="h-4 w-4" /> Submit
+                <Button variant="hero" size="sm" onClick={submit} disabled={!canNext || submitting}>
+                  <Send className="h-4 w-4" /> {submitting ? "Sending..." : "Submit"}
                 </Button>
               )}
             </div>
