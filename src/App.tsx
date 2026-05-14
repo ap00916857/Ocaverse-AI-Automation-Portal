@@ -11,6 +11,12 @@ import { ChatWidget } from "./components/ChatWidget";
 
 const queryClient = new QueryClient();
 
+const WhatsAppButton = () => (
+  <a href="https://wa.me/918796363097?text=Hi%20OcaVerse" target="_blank" rel="noopener noreferrer" style={{position:"fixed",bottom:"20px",right:"90px",backgroundColor:"#25D366",color:"white",borderRadius:"50px",padding:"12px 20px",fontSize:"14px",fontWeight:"bold",textDecoration:"none",zIndex:9999,boxShadow:"0 4px 12px rgba(0,0,0,0.3)"}}>
+    💬 Chat on WhatsApp
+  </a>
+);
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -25,30 +31,7 @@ const App = () => (
         </Routes>
       </BrowserRouter>
       <ChatWidget />
-      
-        href="https://wa.me/918796363097?text=Hi%20OcaVerse%21%20I%20want%20to%20know%20more"
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          position: "fixed",
-          bottom: "20px",
-          right: "90px",
-          backgroundColor: "#25D366",
-          color: "white",
-          borderRadius: "50px",
-          padding: "12px 20px",
-          display: "flex",
-          alignItems: "center",
-          gap: "8px",
-          fontSize: "14px",
-          fontWeight: "bold",
-          textDecoration: "none",
-          zIndex: 9999,
-          boxShadow: "0 4px 12px rgba(0,0,0,0.3)"
-        }}
-      >
-        💬 Chat on WhatsApp
-      </a>
+      <WhatsAppButton />
     </TooltipProvider>
   </QueryClientProvider>
 );
