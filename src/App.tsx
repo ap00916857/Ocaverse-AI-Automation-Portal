@@ -12,7 +12,7 @@ import { ChatWidget } from "./components/ChatWidget";
 const queryClient = new QueryClient();
 
 const WhatsAppButton = () => (
-  <a href="https://wa.me/918796363097?text=Hi%20OcaVerse" target="_blank" rel="noopener noreferrer" style={{position:"fixed",bottom:"20px",right:"90px",backgroundColor:"#25D366",color:"white",borderRadius:"50px",padding:"12px 20px",fontSize:"14px",fontWeight:"bold",textDecoration:"none",zIndex:9999,boxShadow:"0 4px 12px rgba(0,0,0,0.3)"}}>
+  <a href="https://wa.me/919582975776?text=Hi%20OcaVerse" target="_blank" rel="noopener noreferrer" style={{position:"fixed",bottom:"20px",right:"90px",backgroundColor:"#25D366",color:"white",borderRadius:"50px",padding:"12px 20px",fontSize:"14px",fontWeight:"bold",textDecoration:"none",zIndex:9999,boxShadow:"0 4px 12px rgba(0,0,0,0.3)"}}>
     💬 Chat on WhatsApp
   </a>
 );
