@@ -7,6 +7,7 @@ import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import Admin from "./pages/Admin.tsx";
 import AdminLogin from "./pages/AdminLogin.tsx";
+import { NewArrival } from "./components/NewArrival";
 import { ChatWidget } from "./components/ChatWidget";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/new-arrival" element={<NewArrival />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
