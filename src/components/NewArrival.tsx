@@ -55,7 +55,7 @@ const slides = [
   },
 ];
 
-export default function NewArrival() {
+export function NewArrival() {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
