@@ -88,17 +88,17 @@ export function NewArrival() {
       <Navbar />
 
       {/* Back Button */}
-<a
-  href="/"
-  className="fixed top-24 left-6 z-50 flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium"
-  style={{
-    background: "rgba(0,198,167,0.15)",
-    border: "1px solid rgba(0,198,167,0.3)",
-    color: "#00C6A7"
-  }}
->
-  &larr; Back to Home
-</a>
+      <a
+        href="/"
+        className="fixed top-24 left-6 z-50 flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium"
+        style={{
+          background: "rgba(0,198,167,0.15)",
+          border: "1px solid rgba(0,198,167,0.3)",
+          color: "#00C6A7"
+        }}
+      >
+        &larr; Back to Home
+      </a>
 
       <div className="flex flex-col items-center pt-32 pb-8 px-4 text-center">
         {/* Badge */}
@@ -215,7 +215,7 @@ export function NewArrival() {
 
         {/* CTA Buttons */}
         <div className="flex flex-wrap gap-4 justify-center mb-16">
-          
+          <a
             href="/#designs"
             className="px-8 py-3 rounded-full font-semibold text-base"
             style={{
@@ -226,7 +226,8 @@ export function NewArrival() {
           >
             🎯 Try Live Demo
           </a>
-          
+
+          <a
             href="/#contact"
             className="px-8 py-3 rounded-full font-semibold text-base"
             style={{
@@ -237,7 +238,8 @@ export function NewArrival() {
           >
             💬 Get Early Access
           </a>
-          
+
+          <a
             href="/#services"
             className="px-8 py-3 rounded-full font-semibold text-base"
             style={{
