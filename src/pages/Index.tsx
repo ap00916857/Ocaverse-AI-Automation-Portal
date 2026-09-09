@@ -2,7 +2,7 @@ import { AnimatedBackground } from "@/components/AnimatedBackground";
 import { Navbar } from "@/components/Navbar";
 import { FontSwitcher } from "@/components/FontSwitcher";
 import { Hero } from "@/components/Hero";
-import { NewArrival } from "@/components/NewArrival";
+import NewArrival from "@/components/NewArrival";
 import { Services } from "@/components/Services";
 import { DemoShowcase } from "@/components/DemoShowcase";
 import { BuildYourWebsite } from "@/components/BuildYourWebsite";
