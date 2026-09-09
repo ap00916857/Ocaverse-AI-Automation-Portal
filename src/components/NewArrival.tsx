@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Navbar } from "@/components/Navbar";
 
 const slides = [
   {
@@ -80,11 +81,26 @@ export function NewArrival() {
 
   return (
     <div
-      id="new-arrival"
       className="min-h-screen w-full"
       style={{ background: "linear-gradient(135deg, #0c1021 0%, #0d2233 60%, #0a1a2e 100%)" }}
     >
-      <div className="flex flex-col items-center pt-16 pb-8 px-4 text-center">
+      {/* Navbar */}
+      <Navbar />
+
+      {/* Back Button */}
+      
+        href="/"
+        className="fixed top-24 left-6 z-50 flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium"
+        style={{
+          background: "rgba(0,198,167,0.15)",
+          border: "1px solid rgba(0,198,167,0.3)",
+          color: "#00C6A7"
+        }}
+      >
+        ← Back to Home
+      </a>
+
+      <div className="flex flex-col items-center pt-32 pb-8 px-4 text-center">
         {/* Badge */}
         <span
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide mb-6"
@@ -126,7 +142,6 @@ export function NewArrival() {
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
-          {/* Video embed */}
           <video
             src="/new-arrival-demo.mp4"
             autoPlay
@@ -137,7 +152,6 @@ export function NewArrival() {
             style={{ zIndex: 1 }}
           />
 
-          {/* Slide content overlay */}
           <div
             className={`absolute inset-0 bg-gradient-to-br ${slide.bg} flex flex-col justify-end p-8`}
             style={{ backdropFilter: "blur(4px)", zIndex: 2 }}
@@ -155,7 +169,6 @@ export function NewArrival() {
               </ul>
             </div>
 
-            {/* Fullscreen button */}
             <div className="absolute top-4 right-4">
               <button
                 onClick={() => setFullscreen(!fullscreen)}
@@ -166,7 +179,6 @@ export function NewArrival() {
               </button>
             </div>
 
-            {/* Prev */}
             <button
               onClick={prev}
               className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white text-xl"
@@ -175,7 +187,6 @@ export function NewArrival() {
               ‹
             </button>
 
-            {/* Next */}
             <button
               onClick={next}
               className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white text-xl"
@@ -204,8 +215,8 @@ export function NewArrival() {
 
         {/* CTA Buttons */}
         <div className="flex flex-wrap gap-4 justify-center mb-16">
-          <a
-            href="#designs"
+          
+            href="/#designs"
             className="px-8 py-3 rounded-full font-semibold text-base"
             style={{
               background: "linear-gradient(90deg, #00C6A7, #0EA5E9)",
@@ -215,8 +226,8 @@ export function NewArrival() {
           >
             🎯 Try Live Demo
           </a>
-          <a
-            href="#contact"
+          
+            href="/#contact"
             className="px-8 py-3 rounded-full font-semibold text-base"
             style={{
               background: "transparent",
@@ -226,8 +237,8 @@ export function NewArrival() {
           >
             💬 Get Early Access
           </a>
-          <a
-            href="#services"
+          
+            href="/#services"
             className="px-8 py-3 rounded-full font-semibold text-base"
             style={{
               background: "rgba(255,255,255,0.05)",
