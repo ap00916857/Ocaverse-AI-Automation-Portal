@@ -7,21 +7,28 @@ export function NewArrival() {
 
   return (
     <div
-      className="min-h-screen w-full"
-      style={{ background: "linear-gradient(135deg, #0c1021 0%, #0d2233 60%, #0a1a2e 100%)" }}
+      className="min-h-screen w-full relative overflow-hidden bg-slate-950 text-white"
     >
+      {/* Background Ambient Teal Glow Effect - Matches Main Landing Page */}
+      <div 
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[500px] pointer-events-none opacity-40 blur-[120px]" 
+        style={{
+          background: "radial-gradient(circle at 50% 20%, rgba(0,198,167,0.3) 0%, rgba(14,165,233,0.15) 50%, transparent 80%)"
+        }}
+      />
+
       <Navbar />
 
-      <div className="w-full max-w-5xl mx-auto px-6 pt-32 pb-16 flex flex-col items-center text-center">
+      <div className="relative z-10 w-full max-w-5xl mx-auto px-6 pt-32 pb-16 flex flex-col items-center text-center">
 
-        {/* Back Button (Fixed: Force reload home instead of scroll) */}
+        {/* Back Button */}
         <div className="w-full flex justify-start mb-6">
           <button
             type="button"
             onClick={() => {
               window.location.href = "/";
             }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium cursor-pointer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium cursor-pointer transition-all hover:bg-[#00C6A7]/20"
             style={{
               background: "rgba(0,198,167,0.15)",
               border: "1px solid rgba(0,198,167,0.3)",
@@ -58,7 +65,7 @@ export function NewArrival() {
         <p className="text-lg text-slate-300 max-w-2xl mb-2">
           Your AI-powered sales agent that never sleeps — captures, qualifies, and follows up with every lead automatically.
         </p>
-        <p className="text-sm text-slate-500 mb-10">
+        <p className="text-sm text-slate-400 mb-10">
           Built for Real Estate · Medical · Legal · Restaurant · Agency
         </p>
 
@@ -103,7 +110,7 @@ export function NewArrival() {
             href="https://wa.me/918796363097?text=Hi%20OcaVerse!%20I%20want%20to%20try%20the%20live%20demo%20for%20Lead%20Generator%20Pro"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-8 py-3 rounded-full font-semibold text-base"
+            className="px-8 py-3 rounded-full font-semibold text-base transition-transform hover:scale-105"
             style={{
               background: "linear-gradient(90deg, #00C6A7, #0EA5E9)",
               color: "#fff",
@@ -118,7 +125,7 @@ export function NewArrival() {
             href="https://wa.me/918796363097?text=Hi%20OcaVerse!%20I%20want%20early%20access%20to%20Lead%20Generator%20Pro"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-8 py-3 rounded-full font-semibold text-base"
+            className="px-8 py-3 rounded-full font-semibold text-base transition-transform hover:scale-105"
             style={{
               background: "transparent",
               color: "#00C6A7",
@@ -132,7 +139,7 @@ export function NewArrival() {
           <button
             type="button"
             onClick={() => setShowPricing(!showPricing)}
-            className="px-8 py-3 rounded-full font-semibold text-base"
+            className="px-8 py-3 rounded-full font-semibold text-base transition-colors hover:bg-white/10"
             style={{
               background: "rgba(255,255,255,0.05)",
               color: "#fff",
@@ -185,10 +192,10 @@ export function NewArrival() {
             </div>
 
             <div
-              className="rounded-2xl p-6 text-left"
+              className="rounded-2xl p-6 text-left backdrop-blur-md"
               style={{
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.15)",
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.1)",
               }}
             >
               <span
@@ -232,8 +239,8 @@ export function NewArrival() {
           ].map((f, i) => (
             <div
               key={i}
-              className="flex flex-col items-center gap-2 p-4 rounded-xl text-center"
-              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(0,198,167,0.15)" }}
+              className="flex flex-col items-center gap-2 p-4 rounded-xl text-center backdrop-blur-sm"
+              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(0,198,167,0.15)" }}
             >
               <span className="text-2xl">{f.icon}</span>
               <span className="text-sm font-semibold text-white">{f.label}</span>
