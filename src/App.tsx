@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
+import { HomeView } from "./components/views/HomeView";
 import { ServicesView } from "./components/views/ServicesView";
 import { DesignsView } from "./components/views/DesignsView";
 import { AdvantageView } from "./components/views/AdvantageView";
