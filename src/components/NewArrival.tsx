@@ -81,30 +81,59 @@ export function NewArrival() {
 
   return (
     <div
-      className="min-h-screen w-full"
+      className="relative min-h-screen w-full"
       style={{ background: "linear-gradient(135deg, #0c1021 0%, #0d2233 60%, #0a1a2e 100%)" }}
     >
-      {/* Navbar */}
       <Navbar />
 
-      {/* Back Button */}
+      {/* Back Button - absolute so it only shows on this page */}
       <a
         href="/"
-        className="absolute top-24 left-6 z-10 flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium"
         style={{
+          position: "absolute",
+          top: "96px",
+          left: "24px",
+          zIndex: 40,
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "6px",
+          padding: "8px 16px",
+          borderRadius: "9999px",
+          fontSize: "14px",
+          fontWeight: 500,
           background: "rgba(0,198,167,0.15)",
           border: "1px solid rgba(0,198,167,0.3)",
-          color: "#00C6A7"
+          color: "#00C6A7",
+          textDecoration: "none",
         }}
       >
-        &larr; Back to Home
+        ← Back to Home
       </a>
 
-      <div className="flex flex-col items-center pt-32 pb-8 px-4 text-center">
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          paddingTop: "128px",
+          paddingBottom: "32px",
+          paddingLeft: "16px",
+          paddingRight: "16px",
+          textAlign: "center",
+        }}
+      >
         {/* Badge */}
         <span
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide mb-6"
           style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "8px",
+            padding: "6px 16px",
+            borderRadius: "9999px",
+            fontSize: "12px",
+            fontWeight: 600,
+            letterSpacing: "0.05em",
+            marginBottom: "24px",
             background: "linear-gradient(90deg, #00C6A7 0%, #7C3AED 100%)",
             color: "#fff",
             boxShadow: "0 0 20px rgba(0,198,167,0.4)",
@@ -114,8 +143,11 @@ export function NewArrival() {
         </span>
 
         <h1
-          className="text-4xl md:text-6xl font-bold mb-4 leading-tight"
           style={{
+            fontSize: "clamp(2rem, 5vw, 3.5rem)",
+            fontWeight: 700,
+            marginBottom: "16px",
+            lineHeight: 1.2,
             background: "linear-gradient(90deg, #00C6A7 0%, #7C3AED 50%, #0EA5E9 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
@@ -124,23 +156,32 @@ export function NewArrival() {
           Lead Generator Pro
         </h1>
 
-        <p className="text-lg md:text-xl text-slate-300 max-w-2xl mb-2">
+        <p style={{ fontSize: "18px", color: "#CBD5E1", maxWidth: "640px", marginBottom: "8px" }}>
           Your AI-powered sales agent that never sleeps — captures, qualifies, and follows up with every lead automatically.
         </p>
-        <p className="text-sm text-slate-500 mb-10">
+        <p style={{ fontSize: "13px", color: "#64748B", marginBottom: "40px" }}>
           Built for Real Estate · Medical · Legal · Restaurant · Agency
         </p>
 
-        {/* Slider */}
+        {/* Slider - centered with auto margins */}
         <div
-         className={`relative w-full max-w-4xl mx-auto rounded-2xl overflow-hidden mb-8 ${fullscreen ? "fixed inset-0 z-50 max-w-none rounded-none" : ""}`}
-          style={{
-            border: "1px solid rgba(0,198,167,0.3)",
-            boxShadow: "0 0 40px rgba(0,198,167,0.15)",
-            minHeight: "360px",
-          }}
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
+          style={{
+            position: fullscreen ? "fixed" : "relative",
+            inset: fullscreen ? 0 : "auto",
+            zIndex: fullscreen ? 50 : "auto",
+            width: fullscreen ? "100%" : "100%",
+            maxWidth: fullscreen ? "none" : "800px",
+            marginLeft: "auto",
+            marginRight: "auto",
+            borderRadius: fullscreen ? 0 : "16px",
+            overflow: "hidden",
+            marginBottom: "32px",
+            minHeight: "360px",
+            border: "1px solid rgba(0,198,167,0.3)",
+            boxShadow: "0 0 40px rgba(0,198,167,0.15)",
+          }}
         >
           <video
             src="/new-arrival-demo.mp4"
@@ -148,112 +189,146 @@ export function NewArrival() {
             muted
             loop
             playsInline
-            className="w-full h-full object-cover absolute inset-0"
-            style={{ zIndex: 1 }}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              zIndex: 1,
+            }}
           />
 
           <div
-            className={`absolute inset-0 bg-gradient-to-br ${slide.bg} flex flex-col justify-end p-8`}
-            style={{ backdropFilter: "blur(4px)", zIndex: 2 }}
+            style={{
+              position: "absolute",
+              inset: 0,
+              zIndex: 2,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-end",
+              padding: "32px",
+              backdropFilter: "blur(4px)",
+              background: `linear-gradient(to bottom right, var(--tw-gradient-stops))`,
+            }}
+            className={`bg-gradient-to-br ${slide.bg}`}
           >
-            <div className="flex flex-col gap-3 text-left">
-              <span className="text-5xl">{slide.icon}</span>
-              <h2 className="text-2xl md:text-4xl font-bold text-white">{slide.title}</h2>
-              <p className="text-slate-300 text-base md:text-lg">{slide.subtitle}</p>
-              <ul className="flex flex-col gap-1 mt-2">
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px", textAlign: "left" }}>
+              <span style={{ fontSize: "48px" }}>{slide.icon}</span>
+              <h2 style={{ fontSize: "clamp(1.5rem, 3vw, 2.5rem)", fontWeight: 700, color: "white" }}>{slide.title}</h2>
+              <p style={{ color: "#CBD5E1", fontSize: "16px" }}>{slide.subtitle}</p>
+              <ul style={{ display: "flex", flexDirection: "column", gap: "4px", marginTop: "8px" }}>
                 {slide.highlights.map((h, i) => (
-                  <li key={i} className="flex items-center gap-2 text-sm text-slate-200">
+                  <li key={i} style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "14px", color: "#E2E8F0" }}>
                     <span style={{ color: slide.accent }}>✓</span> {h}
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="absolute top-4 right-4">
-              <button
-                onClick={() => setFullscreen(!fullscreen)}
-                className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm"
-                style={{ background: "rgba(0,0,0,0.5)", border: "1px solid rgba(255,255,255,0.2)" }}
-              >
-                {fullscreen ? "✕" : "⛶"}
-              </button>
-            </div>
+            {/* Fullscreen */}
+            <button
+              onClick={() => setFullscreen(!fullscreen)}
+              style={{
+                position: "absolute",
+                top: "16px",
+                right: "16px",
+                width: "32px",
+                height: "32px",
+                borderRadius: "50%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "white",
+                fontSize: "14px",
+                background: "rgba(0,0,0,0.5)",
+                border: "1px solid rgba(255,255,255,0.2)",
+                cursor: "pointer",
+              }}
+            >
+              {fullscreen ? "✕" : "⛶"}
+            </button>
 
+            {/* Prev */}
             <button
               onClick={prev}
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white text-xl"
-              style={{ background: "rgba(0,0,0,0.5)", border: "1px solid rgba(255,255,255,0.2)" }}
-            >
-              ‹
-            </button>
+              style={{
+                position: "absolute",
+                left: "12px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                width: "40px",
+                height: "40px",
+                borderRadius: "50%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "white",
+                fontSize: "20px",
+                background: "rgba(0,0,0,0.5)",
+                border: "1px solid rgba(255,255,255,0.2)",
+                cursor: "pointer",
+              }}
+            >‹</button>
 
+            {/* Next */}
             <button
               onClick={next}
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white text-xl"
-              style={{ background: "rgba(0,0,0,0.5)", border: "1px solid rgba(255,255,255,0.2)" }}
-            >
-              ›
-            </button>
+              style={{
+                position: "absolute",
+                right: "12px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                width: "40px",
+                height: "40px",
+                borderRadius: "50%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "white",
+                fontSize: "20px",
+                background: "rgba(0,0,0,0.5)",
+                border: "1px solid rgba(255,255,255,0.2)",
+                cursor: "pointer",
+              }}
+            >›</button>
           </div>
         </div>
 
-        {/* Slide indicators */}
-        <div className="flex gap-2 mb-10">
+        {/* Indicators */}
+        <div style={{ display: "flex", gap: "8px", marginBottom: "40px" }}>
           {slides.map((_, i) => (
             <button
               key={i}
               onClick={() => goTo(i)}
-              className="rounded-full transition-all duration-300"
               style={{
                 width: i === current ? "24px" : "8px",
                 height: "8px",
+                borderRadius: "9999px",
                 background: i === current ? "#00C6A7" : "rgba(255,255,255,0.2)",
+                border: "none",
+                cursor: "pointer",
+                transition: "all 0.3s",
               }}
             />
           ))}
         </div>
 
         {/* CTA Buttons */}
-        <div className="flex flex-wrap gap-4 justify-center mb-16">
-          <a
-            href="/#designs"
-            className="px-8 py-3 rounded-full font-semibold text-base"
-            style={{
-              background: "linear-gradient(90deg, #00C6A7, #0EA5E9)",
-              color: "#fff",
-              boxShadow: "0 0 20px rgba(0,198,167,0.4)",
-            }}
-          >
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", justifyContent: "center", marginBottom: "64px" }}>
+          <a href="/#designs" style={{ padding: "12px 32px", borderRadius: "9999px", fontWeight: 600, fontSize: "15px", background: "linear-gradient(90deg, #00C6A7, #0EA5E9)", color: "#fff", boxShadow: "0 0 20px rgba(0,198,167,0.4)", textDecoration: "none" }}>
             🎯 Try Live Demo
           </a>
-
-          <a
-            href="/#contact"
-            className="px-8 py-3 rounded-full font-semibold text-base"
-            style={{
-              background: "transparent",
-              color: "#00C6A7",
-              border: "1px solid #00C6A7",
-            }}
-          >
+          <a href="/#contact" style={{ padding: "12px 32px", borderRadius: "9999px", fontWeight: 600, fontSize: "15px", background: "transparent", color: "#00C6A7", border: "1px solid #00C6A7", textDecoration: "none" }}>
             💬 Get Early Access
           </a>
-
-          <a
-            href="/#services"
-            className="px-8 py-3 rounded-full font-semibold text-base"
-            style={{
-              background: "rgba(255,255,255,0.05)",
-              color: "#fff",
-              border: "1px solid rgba(255,255,255,0.15)",
-            }}
-          >
+          <a href="/#services" style={{ padding: "12px 32px", borderRadius: "9999px", fontWeight: 600, fontSize: "15px", background: "rgba(255,255,255,0.05)", color: "#fff", border: "1px solid rgba(255,255,255,0.15)", textDecoration: "none" }}>
             📋 View Pricing
           </a>
         </div>
 
         {/* Feature grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl">
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "16px", width: "100%", maxWidth: "800px", margin: "0 auto" }}>
           {[
             { icon: "🤖", label: "AI-Powered", desc: "GPT-driven responses" },
             { icon: "📱", label: "WhatsApp Native", desc: "Works where clients are" },
@@ -262,15 +337,21 @@ export function NewArrival() {
           ].map((f, i) => (
             <div
               key={i}
-              className="flex flex-col items-center gap-2 p-4 rounded-xl text-center"
               style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "8px",
+                padding: "16px",
+                borderRadius: "12px",
+                textAlign: "center",
                 background: "rgba(255,255,255,0.04)",
                 border: "1px solid rgba(0,198,167,0.15)",
               }}
             >
-              <span className="text-2xl">{f.icon}</span>
-              <span className="text-sm font-semibold text-white">{f.label}</span>
-              <span className="text-xs text-slate-400">{f.desc}</span>
+              <span style={{ fontSize: "24px" }}>{f.icon}</span>
+              <span style={{ fontSize: "13px", fontWeight: 600, color: "white" }}>{f.label}</span>
+              <span style={{ fontSize: "12px", color: "#94A3B8" }}>{f.desc}</span>
             </div>
           ))}
         </div>
