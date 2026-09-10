@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
-import { ServicesView } from "@/components/views/ServicesView";
-import { DesignsView } from "@/components/views/DesignsView";
-import { AdvantageView } from "@/components/views/AdvantageView";
-import { PortfolioView } from "@/components/views/PortfolioView";
-import { ContactView } from "@/components/views/ContactView";
+import { ServicesView } from "./components/views/ServicesView";
+import { DesignsView } from "./components/views/DesignsView";
+import { AdvantageView } from "./components/views/AdvantageView";
+import { PortfolioView } from "./components/views/PortfolioView";
+import { ContactView } from "./components/views/ContactView";
 import { NewArrival } from "@/components/NewArrival";
 
 export default function App() {
