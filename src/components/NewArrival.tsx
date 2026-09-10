@@ -60,7 +60,7 @@ export function NewArrival() {
           Built for Real Estate · Medical · Legal · Restaurant · Agency
         </p>
 
-        {/* Clear YouTube Video Container */}
+        {/* Video Container */}
         <div className="w-full mb-10">
           <div
             className={`relative w-full rounded-2xl overflow-hidden aspect-video ${
@@ -80,7 +80,6 @@ export function NewArrival() {
               allowFullScreen
             />
 
-            {/* Optional Custom Fullscreen Button */}
             <button
               onClick={() => setFullscreen(!fullscreen)}
               className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full flex items-center justify-center text-white text-sm"
@@ -96,7 +95,7 @@ export function NewArrival() {
           </div>
         </div>
 
-        {/* CTA Buttons */}
+        {/* Fixed CTA Buttons - Direct WhatsApp / Modal Triggers (No Hash Anchors) */}
         <div className="flex flex-wrap gap-4 justify-center mb-8">
           <a
             href="https://wa.me/918796363097?text=Hi%20OcaVerse!%20I%20want%20to%20try%20the%20live%20demo%20for%20Lead%20Generator%20Pro"
@@ -142,10 +141,9 @@ export function NewArrival() {
           </button>
         </div>
 
-        {/* Pricing Section */}
+        {/* Inline Pricing Section Toggle */}
         {showPricing && (
           <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-            {/* Early Bird */}
             <div
               className="rounded-2xl p-6 text-left relative overflow-hidden"
               style={{
@@ -183,7 +181,6 @@ export function NewArrival() {
               </a>
             </div>
 
-            {/* Standard */}
             <div
               className="rounded-2xl p-6 text-left"
               style={{
