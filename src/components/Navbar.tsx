@@ -1,11 +1,11 @@
 import { motion, useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import logo from "@/assets/ocaverse-logo.png";
 
 const links = [
-  { label: "New Arrival", href: "#new-arrival", isNew: true },
+	{ label: "New Arrival", href: "/new-arrival", isNew: true },
   { label: "Services", href: "#services" },
   { label: "Designs", href: "#designs" },
   { label: "Advantage", href: "#advantage" },
@@ -64,7 +64,6 @@ export const Navbar = () => {
       `}</style>
 
       <motion.header
-        initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
@@ -72,8 +71,8 @@ export const Navbar = () => {
         }`}
       >
         <div className="container">
-          <div className={`glass-strong rounded-full px-5 py-3 flex items-center justify-between transition-all ${scrolled ? "shadow-elegant" : ""}`}>
-            <a href="#" aria-label="OcaVerse — Own Complete Automation" className="flex items-center pl-2">
+					  <div className={`glass-strong rounded-full px-5 py-3 flex items-center justify-between gap-4 transition-all ${scrolled ? "shadow-elegant" : ""}`}>
+						<a href="#" aria-label="OcaVerse — Own Complete Automation" className="flex shrink-0 items-center pl-2">
               <img
                 src={logo}
                 alt="OcaVerse logo"
@@ -82,28 +81,21 @@ export const Navbar = () => {
               />
             </a>
 
-            <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
-              {links.map((l) =>
-                l.isNew ? (
-                  <a key={l.href} href={l.href} className="new-arrival-link">
-                    {l.label}
-                    <span className="new-arrival-dot" />
-                  </a>
-                ) : (
-                  <a key={l.href} href={l.href} className="hover:text-foreground transition-colors">
-                    {l.label}
-                  </a>
-                )
-              )}
+			<nav className="hidden flex-none items-center gap-5 text-sm text-muted-foreground lg:flex lg:gap-7">
+							{links.map((l) => l.isNew ? (
+								<a key={l.href} href={l.href} className="new-arrival-link inline-flex flex-none whitespace-nowrap">{l.label}<span className="new-arrival-dot" /></a>
+							) : (
+								<a key={l.href} href={l.href} className="inline-flex flex-none whitespace-nowrap transition-colors hover:text-foreground">{l.label}</a>
+							))}
             </nav>
 
-            <div className="hidden md:block">
-              <Button variant="hero" size="sm" asChild>
-                <a href="#contact">Get Started</a>
-              </Button>
+			<div className="hidden shrink-0 lg:block">
+							<a href="#contact" className={buttonVariants({ variant: "hero", size: "sm" })}>
+								Get Started
+							</a>
             </div>
 
-            <button className="md:hidden p-2" onClick={() => setOpen(!open)} aria-label="Menu">
+			<button className="p-2 lg:hidden" onClick={() => setOpen(!open)} aria-label="Menu">
               {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
@@ -112,23 +104,20 @@ export const Navbar = () => {
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="md:hidden mt-2 glass-strong rounded-2xl p-4 flex flex-col gap-3"
+			  className="mt-2 flex flex-col gap-3 rounded-2xl glass-strong p-4 lg:hidden"
             >
-              {links.map((l) =>
-                l.isNew ? (
-                  <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="new-arrival-link text-sm py-2">
-                    {l.label}
-                    <span className="new-arrival-dot" />
-                  </a>
-                ) : (
-                  <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-sm py-2 text-muted-foreground hover:text-foreground">
-                    {l.label}
-                  </a>
-                )
-              )}
-              <Button variant="hero" size="sm" asChild className="mt-2">
-                <a href="#contact" onClick={() => setOpen(false)}>Get Started</a>
-              </Button>
+							{links.map((l) => l.isNew ? (
+								<a key={l.href} href={l.href} onClick={() => setOpen(false)} className="new-arrival-link text-sm py-2">{l.label}<span className="new-arrival-dot" /></a>
+							) : (
+								<a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-sm py-2 text-muted-foreground hover:text-foreground">{l.label}</a>
+							))}
+							<a
+								href="#contact"
+								onClick={() => setOpen(false)}
+								className={buttonVariants({ variant: "hero", size: "sm", className: "mt-2" })}
+							>
+								Get Started
+							</a>
             </motion.div>
           )}
         </div>

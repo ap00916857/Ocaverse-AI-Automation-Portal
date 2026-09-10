@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Navbar } from "@/components/Navbar";
 
 export function NewArrival() {
   const [fullscreen, setFullscreen] = useState(false);
@@ -10,9 +9,7 @@ export function NewArrival() {
       className="min-h-screen w-full"
       style={{ background: "linear-gradient(135deg, #0c1021 0%, #0d2233 60%, #0a1a2e 100%)" }}
     >
-      <Navbar />
-
-      <div className="w-full max-w-5xl mx-auto px-6 pt-32 pb-16 flex flex-col items-center text-center">
+      <div className="w-full max-w-5xl mx-auto px-6 pt-6 md:pt-8 pb-16 flex flex-col items-center text-center">
 
         {/* Back Button */}
         <div className="w-full flex justify-start mb-6">
