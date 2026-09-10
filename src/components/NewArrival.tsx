@@ -159,7 +159,7 @@ export function NewArrival() {
             />
 
             <div
-              className={`absolute inset-0 bg-gradient-to-br ${slide.bg} flex flex-col justify-end p-8`}
+              className={`absolute inset-0 bg-gradient-to-br ${slide.bg} flex flex-col justify-end px-16 py-8`}
               style={{ backdropFilter: "blur(4px)", zIndex: 2 }}
             >
               <div className="flex flex-col gap-3 text-left">
