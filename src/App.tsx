@@ -1,3 +1,4 @@
+import { HomeView } from "./components/views/HomeView";
 import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { ServicesView } from "./components/views/ServicesView";
