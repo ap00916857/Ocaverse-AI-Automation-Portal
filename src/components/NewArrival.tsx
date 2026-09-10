@@ -148,15 +148,13 @@ export function NewArrival() {
               boxShadow: "0 0 40px rgba(0,198,167,0.15)",
             }}
           >
-            <video
-              src="/new-arrival-demo.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{ zIndex: 1 }}
-            />
+            <iframe
+  src="https://www.youtube.com/embed/m6f9HBKB2Ls?autoplay=1&mute=1&loop=1&playlist=m6f9HBKB2Ls&controls=0&showinfo=0&rel=0&modestbranding=1"
+  className="absolute inset-0 w-full h-full"
+  style={{ zIndex: 1, border: "none" }}
+  allow="autoplay; fullscreen"
+  allowFullScreen
+/>
 
             <div
               className={`absolute inset-0 bg-gradient-to-br ${slide.bg} flex flex-col justify-center items-center px-16 py-8`}
@@ -220,7 +218,7 @@ export function NewArrival() {
         <div className="flex flex-wrap gap-4 justify-center mb-8">
           {/* Try Live Demo - YouTube */}
           <a
-            href="https://youtu.be/m6f9HBKB2Ls"
+            href="#new-arrival"
             target="_blank"
             rel="noopener noreferrer"
             className="px-8 py-3 rounded-full font-semibold text-base"
