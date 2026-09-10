@@ -1,41 +1,29 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import Index from "./pages/Index.tsx";
-import NotFound from "./pages/NotFound.tsx";
-import Admin from "./pages/Admin.tsx";
-import AdminLogin from "./pages/AdminLogin.tsx";
-import { NewArrival } from "./components/NewArrival";
-import { ChatWidget } from "./components/ChatWidget";
+import { useState } from "react";
+import { Navbar } from "@/components/Navbar";
+import { ServicesView } from "@/components/views/ServicesView";
+import { DesignsView } from "@/components/views/DesignsView";
+import { AdvantageView } from "@/components/views/AdvantageView";
+import { PortfolioView } from "@/components/views/PortfolioView";
+import { ContactView } from "@/components/views/ContactView";
+import { NewArrival } from "@/components/NewArrival";
 
-const queryClient = new QueryClient();
+export default function App() {
+  const [activeTab, setActiveTab] = useState<string>("home");
 
-const WhatsAppButton = () => (
-  <a href="https://wa.me/919582975776?text=Hi%20OcaVerse" target="_blank" rel="noopener noreferrer" style={{position:"fixed",bottom:"20px",right:"90px",backgroundColor:"#25D366",color:"white",borderRadius:"50px",padding:"12px 20px",fontSize:"14px",fontWeight:"bold",textDecoration:"none",zIndex:9999,boxShadow:"0 4px 12px rgba(0,0,0,0.3)"}}>
-    💬 Chat on WhatsApp
-  </a>
-);
+  return (
+    <div className="min-h-screen bg-slate-950 text-white">
+      <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/new-arrival" element={<NewArrival />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-      <ChatWidget />
-      <WhatsAppButton />
-    </TooltipProvider>
-  </QueryClientProvider>
-);
-
-export default App;
+      {/* Main Dynamic View Area (No scrolling jumps) */}
+      <main className="pt-24 px-6 max-w-6xl mx-auto">
+        {activeTab === "home" && <HomeView setActiveTab={setActiveTab} />}
+        {activeTab === "new-arrival" && <NewArrival />}
+        {activeTab === "services" && <ServicesView />}
+        {activeTab === "designs" && <DesignsView />}
+        {activeTab === "advantage" && <AdvantageView />}
+        {activeTab === "portfolio" && <PortfolioView />}
+        {activeTab === "contact" && <ContactView />}
+      </main>
+    </div>
+  );
+}
