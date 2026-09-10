@@ -90,7 +90,7 @@ export function NewArrival() {
       {/* Back Button */}
       <a
         href="/"
-        className="fixed top-24 left-6 z-50 flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium"
+        className="absolute top-24 left-6 z-10 flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium"
         style={{
           background: "rgba(0,198,167,0.15)",
           border: "1px solid rgba(0,198,167,0.3)",
