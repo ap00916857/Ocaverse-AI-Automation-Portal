@@ -1,15 +1,9 @@
-import { useState, MouseEvent } from "react";
+import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 
 export function NewArrival() {
   const [fullscreen, setFullscreen] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
-
-  // Prevent browser jump/scroll on in-page clicks
-  const handlePricingToggle = (e: MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
-    e.preventDefault();
-    setShowPricing((prev) => !prev);
-  };
 
   return (
     <div
@@ -20,20 +14,22 @@ export function NewArrival() {
 
       <div className="w-full max-w-5xl mx-auto px-6 pt-32 pb-16 flex flex-col items-center text-center">
 
-        {/* Back Button */}
+        {/* Back Button (Fixed: Force reload home instead of scroll) */}
         <div className="w-full flex justify-start mb-6">
-          <a
-            href="/"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium"
+          <button
+            type="button"
+            onClick={() => {
+              window.location.href = "/";
+            }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium cursor-pointer"
             style={{
               background: "rgba(0,198,167,0.15)",
               border: "1px solid rgba(0,198,167,0.3)",
               color: "#00C6A7",
-              textDecoration: "none",
             }}
           >
             ← Back to Home
-          </a>
+          </button>
         </div>
 
         {/* Badge */}
@@ -66,7 +62,7 @@ export function NewArrival() {
           Built for Real Estate · Medical · Legal · Restaurant · Agency
         </p>
 
-        {/* Video Player */}
+        {/* Clean YouTube Video Container */}
         <div className="w-full mb-10">
           <div
             className={`relative w-full rounded-2xl overflow-hidden aspect-video ${
@@ -101,7 +97,7 @@ export function NewArrival() {
           </div>
         </div>
 
-        {/* Buttons without Page-Scroll Triggers */}
+        {/* Action Buttons */}
         <div className="flex flex-wrap gap-4 justify-center mb-8">
           <a
             href="https://wa.me/918796363097?text=Hi%20OcaVerse!%20I%20want%20to%20try%20the%20live%20demo%20for%20Lead%20Generator%20Pro"
@@ -135,7 +131,7 @@ export function NewArrival() {
 
           <button
             type="button"
-            onClick={handlePricingToggle}
+            onClick={() => setShowPricing(!showPricing)}
             className="px-8 py-3 rounded-full font-semibold text-base"
             style={{
               background: "rgba(255,255,255,0.05)",
@@ -148,7 +144,7 @@ export function NewArrival() {
           </button>
         </div>
 
-        {/* Pricing Cards (Renders in place without scrolling) */}
+        {/* Pricing Modal */}
         {showPricing && (
           <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
             <div
