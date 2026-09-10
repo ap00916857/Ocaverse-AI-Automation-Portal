@@ -6,8 +6,8 @@ export function NewArrival() {
 
   return (
     <div
-      className="min-h-screen w-full"
-      style={{ background: "linear-gradient(135deg, #0c1021 0%, #0d2233 60%, #0a1a2e 100%)" }}
+      className="min-h-screen w-full bg-gradient-mesh"
+      style={{ backgroundColor: "hsl(var(--background))" }}
     >
       <div className="w-full max-w-5xl mx-auto px-6 pt-6 md:pt-8 pb-16 flex flex-col items-center text-center">
 
@@ -17,9 +17,9 @@ export function NewArrival() {
             href="/"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium"
             style={{
-              background: "rgba(0,198,167,0.15)",
-              border: "1px solid rgba(0,198,167,0.3)",
-              color: "#00C6A7",
+              background: "hsl(var(--primary) / 0.12)",
+              border: "1px solid hsl(var(--primary) / 0.3)",
+              color: "hsl(var(--primary))",
               textDecoration: "none",
             }}
           >
@@ -31,7 +31,7 @@ export function NewArrival() {
         <span
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold mb-6"
           style={{
-            background: "linear-gradient(90deg, #00C6A7 0%, #7C3AED 100%)",
+            background: "var(--gradient-primary)",
             color: "#fff",
             boxShadow: "0 0 20px rgba(0,198,167,0.4)",
           }}
@@ -42,7 +42,7 @@ export function NewArrival() {
         <h1
           className="text-4xl md:text-6xl font-bold mb-4 leading-tight"
           style={{
-            background: "linear-gradient(90deg, #00C6A7 0%, #7C3AED 50%, #0EA5E9 100%)",
+            background: "linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)), hsl(var(--primary-glow)))",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
           }}

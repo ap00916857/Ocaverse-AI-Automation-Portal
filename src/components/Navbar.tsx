@@ -26,8 +26,16 @@ export const Navbar = () => {
     <>
       <style>{`
         @keyframes newArrivalPulse {
-          0%, 100% { background-position: 0% 50%; filter: drop-shadow(0 0 6px rgba(0,198,167,0.6)); }
-          50% { background-position: 100% 50%; filter: drop-shadow(0 0 14px rgba(124,58,237,0.9)); }
+					0%, 100% {
+						background-position: 0% 50%;
+						filter: drop-shadow(0 0 5px rgba(0,198,167,0.55));
+						opacity: 0.78;
+					}
+					50% {
+						background-position: 100% 50%;
+						filter: drop-shadow(0 0 13px rgba(14,165,233,0.95));
+						opacity: 1;
+					}
         }
         @keyframes dotPing {
           0% { transform: scale(1); opacity: 1; }
@@ -39,7 +47,7 @@ export const Navbar = () => {
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          animation: newArrivalPulse 3s ease infinite;
+		  animation: newArrivalPulse 1.8s ease-in-out infinite;
           font-weight: 700;
           position: relative;
           padding-right: 12px;
