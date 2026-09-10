@@ -60,6 +60,7 @@ export function NewArrival() {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
+  const [showPricing, setShowPricing] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
@@ -85,7 +86,6 @@ export function NewArrival() {
     >
       <Navbar />
 
-      {/* Main Content */}
       <div className="w-full max-w-5xl mx-auto px-6 pt-32 pb-16 flex flex-col items-center text-center">
 
         {/* Back Button */}
@@ -134,7 +134,7 @@ export function NewArrival() {
           Built for Real Estate · Medical · Legal · Restaurant · Agency
         </p>
 
-        {/* Slider - fully centered */}
+        {/* Slider */}
         <div
           className="w-full"
           onMouseEnter={() => setPaused(true)}
@@ -217,20 +217,133 @@ export function NewArrival() {
         </div>
 
         {/* CTA Buttons */}
-        <div className="flex flex-wrap gap-4 justify-center mb-16">
-          <a href="/#designs" className="px-8 py-3 rounded-full font-semibold text-base"
-            style={{ background: "linear-gradient(90deg, #00C6A7, #0EA5E9)", color: "#fff", boxShadow: "0 0 20px rgba(0,198,167,0.4)", textDecoration: "none" }}>
-            🎯 Try Live Demo
+        <div className="flex flex-wrap gap-4 justify-center mb-8">
+          {/* Try Live Demo - YouTube */}
+          <a
+            href="https://youtu.be/m6f9HBKB2Ls"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-8 py-3 rounded-full font-semibold text-base"
+            style={{
+              background: "linear-gradient(90deg, #00C6A7, #0EA5E9)",
+              color: "#fff",
+              boxShadow: "0 0 20px rgba(0,198,167,0.4)",
+              textDecoration: "none",
+            }}
+          >
+            ▶ Try Live Demo
           </a>
-          <a href="/#contact" className="px-8 py-3 rounded-full font-semibold text-base"
-            style={{ background: "transparent", color: "#00C6A7", border: "1px solid #00C6A7", textDecoration: "none" }}>
+
+          {/* Get Early Access - WhatsApp */}
+          <a
+            href="https://wa.me/918796363097?text=Hi%20OcaVerse!%20I%20want%20early%20access%20to%20Lead%20Generator%20Pro"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-8 py-3 rounded-full font-semibold text-base"
+            style={{
+              background: "transparent",
+              color: "#00C6A7",
+              border: "1px solid #00C6A7",
+              textDecoration: "none",
+            }}
+          >
             💬 Get Early Access
           </a>
-          <a href="/#services" className="px-8 py-3 rounded-full font-semibold text-base"
-            style={{ background: "rgba(255,255,255,0.05)", color: "#fff", border: "1px solid rgba(255,255,255,0.15)", textDecoration: "none" }}>
+
+          {/* View Pricing - Toggle */}
+          <button
+            onClick={() => setShowPricing(!showPricing)}
+            className="px-8 py-3 rounded-full font-semibold text-base"
+            style={{
+              background: "rgba(255,255,255,0.05)",
+              color: "#fff",
+              border: "1px solid rgba(255,255,255,0.15)",
+              cursor: "pointer",
+            }}
+          >
             📋 View Pricing
-          </a>
+          </button>
         </div>
+
+        {/* Pricing Section */}
+        {showPricing && (
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            {/* Early Bird */}
+            <div
+              className="rounded-2xl p-6 text-left relative overflow-hidden"
+              style={{
+                background: "linear-gradient(135deg, rgba(0,198,167,0.2), rgba(0,198,167,0.05))",
+                border: "2px solid #00C6A7",
+                boxShadow: "0 0 30px rgba(0,198,167,0.2)",
+              }}
+            >
+              <span
+                className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4"
+                style={{ background: "#00C6A7", color: "#0c1021" }}
+              >
+                🔥 EARLY BIRD OFFER
+              </span>
+              <div className="flex items-end gap-2 mb-2">
+                <span className="text-4xl font-bold text-white">₹10,000</span>
+                <span className="text-slate-400 mb-1">/month</span>
+              </div>
+              <p className="text-slate-300 text-sm mb-4">Limited time offer — grab it before it's gone!</p>
+              <ul className="flex flex-col gap-2 mb-6">
+                {["Up to 2000 leads/month", "All tab access included", "WhatsApp AI Agent", "Full Analytics Dashboard", "Priority Support"].map((f, i) => (
+                  <li key={i} className="flex items-center gap-2 text-sm text-slate-200">
+                    <span style={{ color: "#00C6A7" }}>✓</span> {f}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="https://wa.me/918796363097?text=Hi%20OcaVerse!%20I%20want%20the%20Early%20Bird%20offer%20for%20Lead%20Generator%20Pro"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full text-center py-3 rounded-full font-semibold text-sm"
+                style={{ background: "#00C6A7", color: "#0c1021", textDecoration: "none" }}
+              >
+                Grab Early Bird →
+              </a>
+            </div>
+
+            {/* Standard */}
+            <div
+              className="rounded-2xl p-6 text-left"
+              style={{
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.15)",
+              }}
+            >
+              <span
+                className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4"
+                style={{ background: "rgba(255,255,255,0.1)", color: "#fff" }}
+              >
+                STANDARD PLAN
+              </span>
+              <div className="flex items-end gap-2 mb-2">
+                <span className="text-4xl font-bold text-white">₹15,000</span>
+                <span className="text-slate-400 mb-1">/month</span>
+              </div>
+              <p className="text-slate-300 text-sm mb-4">Full access for growing businesses.</p>
+              <ul className="flex flex-col gap-2 mb-6">
+                {["Up to 2000 leads/month", "All tab access included", "WhatsApp AI Agent", "Full Analytics Dashboard", "Standard Support"].map((f, i) => (
+                  <li key={i} className="flex items-center gap-2 text-sm text-slate-200">
+                    <span style={{ color: "#7C3AED" }}>✓</span> {f}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="https://wa.me/918796363097?text=Hi%20OcaVerse!%20I%20want%20the%20Standard%20Plan%20for%20Lead%20Generator%20Pro"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full text-center py-3 rounded-full font-semibold text-sm"
+                style={{ background: "rgba(124,58,237,0.2)", color: "#fff", border: "1px solid #7C3AED", textDecoration: "none" }}
+              >
+                Get Started →
+              </a>
+            </div>
+          </div>
+        )}
 
         {/* Feature grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
