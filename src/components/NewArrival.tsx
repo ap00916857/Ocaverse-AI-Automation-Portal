@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useState, MouseEvent } from "react";
 import { Navbar } from "@/components/Navbar";
 
 export function NewArrival() {
   const [fullscreen, setFullscreen] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
+
+  // Prevent browser jump/scroll on in-page clicks
+  const handlePricingToggle = (e: MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+    e.preventDefault();
+    setShowPricing((prev) => !prev);
+  };
 
   return (
     <div
@@ -60,7 +66,7 @@ export function NewArrival() {
           Built for Real Estate · Medical · Legal · Restaurant · Agency
         </p>
 
-        {/* Video Container */}
+        {/* Video Player */}
         <div className="w-full mb-10">
           <div
             className={`relative w-full rounded-2xl overflow-hidden aspect-video ${
@@ -95,7 +101,7 @@ export function NewArrival() {
           </div>
         </div>
 
-        {/* Fixed CTA Buttons - Direct WhatsApp / Modal Triggers (No Hash Anchors) */}
+        {/* Buttons without Page-Scroll Triggers */}
         <div className="flex flex-wrap gap-4 justify-center mb-8">
           <a
             href="https://wa.me/918796363097?text=Hi%20OcaVerse!%20I%20want%20to%20try%20the%20live%20demo%20for%20Lead%20Generator%20Pro"
@@ -128,7 +134,8 @@ export function NewArrival() {
           </a>
 
           <button
-            onClick={() => setShowPricing(!showPricing)}
+            type="button"
+            onClick={handlePricingToggle}
             className="px-8 py-3 rounded-full font-semibold text-base"
             style={{
               background: "rgba(255,255,255,0.05)",
@@ -141,7 +148,7 @@ export function NewArrival() {
           </button>
         </div>
 
-        {/* Inline Pricing Section Toggle */}
+        {/* Pricing Cards (Renders in place without scrolling) */}
         {showPricing && (
           <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
             <div
