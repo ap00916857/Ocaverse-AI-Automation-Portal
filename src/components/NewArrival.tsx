@@ -1,79 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 
-const slides = [
-  {
-    id: 1,
-    title: "AI Lead Generator Pro",
-    subtitle: "Capture & qualify leads 24/7 automatically",
-    highlights: [
-      "WhatsApp + Web chat in one inbox",
-      "AI qualifies leads before you see them",
-      "Auto-follow up sequences built in",
-    ],
-    accent: "#00C6A7",
-    icon: "🤖",
-  },
-  {
-    id: 2,
-    title: "Smart Automation Dashboard",
-    subtitle: "One dashboard to run your entire business",
-    highlights: [
-      "Real-time lead pipeline view",
-      "Trigger actions from WhatsApp replies",
-      "Integrates with your existing CRM",
-    ],
-    accent: "#7C3AED",
-    icon: "⚡",
-  },
-  {
-    id: 3,
-    title: "Multi-Channel Outreach",
-    subtitle: "Reach clients on WhatsApp, Email & SMS simultaneously",
-    highlights: [
-      "Personalised messages at scale",
-      "Schedule campaigns in advance",
-      "Analytics on every message sent",
-    ],
-    accent: "#0EA5E9",
-    icon: "📣",
-  },
-  {
-    id: 4,
-    title: "No-Code Setup in Minutes",
-    subtitle: "Launch your AI agent without writing a single line of code",
-    highlights: [
-      "Drag-and-drop flow builder",
-      "Pre-built templates for Real Estate, Medical & more",
-      "Go live in under 30 minutes",
-    ],
-    accent: "#10B981",
-    icon: "🚀",
-  },
-];
-
 export function NewArrival() {
-  const [current, setCurrent] = useState(0);
-  const [paused, setPaused] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  useEffect(() => {
-    if (!paused) {
-      intervalRef.current = setInterval(() => {
-        setCurrent((prev) => (prev + 1) % slides.length);
-      }, 5000);
-    }
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [paused]);
-
-  const goTo = (i: number) => setCurrent(i);
-  const prev = () => setCurrent((c) => (c - 1 + slides.length) % slides.length);
-  const next = () => setCurrent((c) => (c + 1) % slides.length);
-  const slide = slides[current];
 
   return (
     <div
@@ -83,6 +13,7 @@ export function NewArrival() {
       <Navbar />
 
       <div className="w-full max-w-5xl mx-auto px-6 pt-32 pb-16 flex flex-col items-center text-center">
+
         {/* Back Button */}
         <div className="w-full flex justify-start mb-6">
           <a
@@ -129,118 +60,46 @@ export function NewArrival() {
           Built for Real Estate · Medical · Legal · Restaurant · Agency
         </p>
 
-     {/* Video Player Section */}
-<div className="w-full mb-10">
-  <div
-    className={`relative w-full rounded-2xl overflow-hidden aspect-video ${
-      fullscreen ? "fixed inset-0 z-50 rounded-none h-screen w-screen" : ""
-    }`}
-    style={{
-      border: "1px solid rgba(0,198,167,0.3)",
-      boxShadow: "0 0 40px rgba(0,198,167,0.15)",
-      background: "#000",
-    }}
-  >
-    <iframe
-      src="https://www.youtube.com/embed/m6f9HBKB2Ls?autoplay=1&mute=1&loop=1&playlist=m6f9HBKB2Ls&controls=1&rel=0&modestbranding=1"
-      className="w-full h-full"
-      style={{ border: "none" }}
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowFullScreen
-    />
-
-    {/* Fullscreen Toggle Button */}
-    <button
-      onClick={() => setFullscreen(!fullscreen)}
-      className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full flex items-center justify-center text-white text-sm transition-opacity hover:opacity-80"
-      style={{
-        background: "rgba(0,0,0,0.6)",
-        border: "1px solid rgba(255,255,255,0.2)",
-        cursor: "pointer",
-      }}
-      title={fullscreen ? "Exit Fullscreen" : "Fullscreen"}
-    >
-      {fullscreen ? "✕" : "⛶"}
-    </button>
-  </div>
-</div>
-            {/* Background YouTube Video */}
+        {/* Clear YouTube Video Container */}
+        <div className="w-full mb-10">
+          <div
+            className={`relative w-full rounded-2xl overflow-hidden aspect-video ${
+              fullscreen ? "fixed inset-0 z-50 rounded-none h-screen w-screen" : ""
+            }`}
+            style={{
+              border: "1px solid rgba(0,198,167,0.3)",
+              boxShadow: "0 0 40px rgba(0,198,167,0.15)",
+              background: "#000",
+            }}
+          >
             <iframe
-              src="https://www.youtube.com/embed/m6f9HBKB2Ls?autoplay=1&mute=1&loop=1&playlist=m6f9HBKB2Ls&controls=0&showinfo=0&rel=0&modestbranding=1"
-              className="absolute inset-0 w-full h-full object-cover scale-125"
-              style={{ zIndex: 1, border: "none", pointerEvents: "none" }}
-              allow="autoplay; fullscreen"
+              src="https://www.youtube.com/embed/m6f9HBKB2Ls?autoplay=1&mute=1&loop=1&playlist=m6f9HBKB2Ls&controls=1&rel=0&modestbranding=1"
+              className="w-full h-full"
+              style={{ border: "none" }}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
 
-            {/* Dark Transparent Overlay for Text Visibility */}
-            <div
-              className="absolute inset-0 bg-black/60 flex flex-col justify-center items-center px-16 py-8"
-              style={{ backdropFilter: "blur(2px)", zIndex: 2 }}
-            >
-              <div className="flex flex-col gap-3 text-center items-center">
-                <span className="text-5xl">{slide.icon}</span>
-                <h2 className="text-2xl md:text-4xl font-bold text-white drop-shadow-md">{slide.title}</h2>
-                <p className="text-slate-200 text-base md:text-lg drop-shadow">{slide.subtitle}</p>
-                <ul className="flex flex-col gap-1 mt-2">
-                  {slide.highlights.map((h, i) => (
-                    <li key={i} className="flex items-center gap-2 text-sm text-slate-100 drop-shadow">
-                      <span style={{ color: slide.accent }}>✓</span> {h}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Controls */}
-              <button
-                onClick={() => setFullscreen(!fullscreen)}
-                className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center text-white text-sm"
-                style={{ background: "rgba(0,0,0,0.6)", border: "1px solid rgba(255,255,255,0.2)" }}
-              >
-                {fullscreen ? "✕" : "⛶"}
-              </button>
-
-              <button
-                onClick={prev}
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white text-xl"
-                style={{ background: "rgba(0,0,0,0.6)", border: "1px solid rgba(255,255,255,0.2)" }}
-              >
-                ‹
-              </button>
-
-              <button
-                onClick={next}
-                className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white text-xl"
-                style={{ background: "rgba(0,0,0,0.6)", border: "1px solid rgba(255,255,255,0.2)" }}
-              >
-                ›
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Indicators */}
-        <div className="flex gap-2 mb-10">
-          {slides.map((_, i) => (
+            {/* Optional Custom Fullscreen Button */}
             <button
-              key={i}
-              onClick={() => goTo(i)}
-              className="rounded-full transition-all duration-300"
+              onClick={() => setFullscreen(!fullscreen)}
+              className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full flex items-center justify-center text-white text-sm"
               style={{
-                width: i === current ? "24px" : "8px",
-                height: "8px",
-                background: i === current ? "#00C6A7" : "rgba(255,255,255,0.2)",
-                border: "none",
+                background: "rgba(0,0,0,0.6)",
+                border: "1px solid rgba(255,255,255,0.2)",
                 cursor: "pointer",
               }}
-            />
-          ))}
+              title={fullscreen ? "Exit Fullscreen" : "Fullscreen"}
+            >
+              {fullscreen ? "✕" : "⛶"}
+            </button>
+          </div>
         </div>
 
         {/* CTA Buttons */}
         <div className="flex flex-wrap gap-4 justify-center mb-8">
           <a
-            href="https://www.youtube.com/watch?v=m6f9HBKB2Ls"
+            href="https://wa.me/918796363097?text=Hi%20OcaVerse!%20I%20want%20to%20try%20the%20live%20demo%20for%20Lead%20Generator%20Pro"
             target="_blank"
             rel="noopener noreferrer"
             className="px-8 py-3 rounded-full font-semibold text-base"
@@ -251,7 +110,7 @@ export function NewArrival() {
               textDecoration: "none",
             }}
           >
-            ▶ Watch Demo Video
+            ▶ Try Live Demo
           </a>
 
           <a
@@ -382,6 +241,7 @@ export function NewArrival() {
             </div>
           ))}
         </div>
+
       </div>
     </div>
   );
