@@ -4,16 +4,22 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/ocaverse-logo.png";
 
+interface NavbarProps {
+  activeTab?: string;
+  setActiveTab?: (tab: string) => void;
+}
+
 const links = [
-  { label: "New Arrival", href: "#new-arrival", isNew: true },
-  { label: "Services", href: "#services" },
-  { label: "Designs", href: "#designs" },
-  { label: "Advantage", href: "#advantage" },
-  { label: "Portfolio", href: "#portfolio" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", tab: "home" },
+  { label: "New Arrival", tab: "new-arrival", isNew: true },
+  { label: "Services", tab: "services" },
+  { label: "Designs", tab: "designs" },
+  { label: "Advantage", tab: "advantage" },
+  { label: "Portfolio", tab: "portfolio" },
+  { label: "Contact", tab: "contact" },
 ];
 
-export const Navbar = () => {
+export const Navbar = ({ activeTab = "home", setActiveTab }: NavbarProps) => {
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -21,6 +27,13 @@ export const Navbar = () => {
   useEffect(() => {
     return scrollY.on("change", (v) => setScrolled(v > 30));
   }, [scrollY]);
+
+  const handleNavClick = (tab: string) => {
+    if (setActiveTab) {
+      setActiveTab(tab);
+    }
+    setOpen(false);
+  };
 
   return (
     <>
@@ -73,33 +86,43 @@ export const Navbar = () => {
       >
         <div className="container">
           <div className={`glass-strong rounded-full px-5 py-3 flex items-center justify-between transition-all ${scrolled ? "shadow-elegant" : ""}`}>
-            <a href="#" aria-label="OcaVerse — Own Complete Automation" className="flex items-center pl-2">
+            <button onClick={() => handleNavClick("home")} aria-label="OcaVerse" className="flex items-center pl-2 border-0 bg-transparent cursor-pointer">
               <img
                 src={logo}
                 alt="OcaVerse logo"
                 className="h-[56px] md:h-[72px] w-auto object-contain select-none"
                 draggable={false}
               />
-            </a>
+            </button>
 
             <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
               {links.map((l) =>
                 l.isNew ? (
-                  <a key={l.href} href={l.href} className="new-arrival-link">
+                  <button
+                    key={l.tab}
+                    onClick={() => handleNavClick(l.tab)}
+                    className="new-arrival-link cursor-pointer border-0 bg-transparent text-left"
+                  >
                     {l.label}
                     <span className="new-arrival-dot" />
-                  </a>
+                  </button>
                 ) : (
-                  <a key={l.href} href={l.href} className="hover:text-foreground transition-colors">
+                  <button
+                    key={l.tab}
+                    onClick={() => handleNavClick(l.tab)}
+                    className={`cursor-pointer border-0 bg-transparent transition-colors ${
+                      activeTab === l.tab ? "text-cyan-400 font-semibold" : "hover:text-foreground"
+                    }`}
+                  >
                     {l.label}
-                  </a>
+                  </button>
                 )
               )}
             </nav>
 
             <div className="hidden md:block">
-              <Button variant="hero" size="sm" asChild>
-                <a href="#contact">Get Started</a>
+              <Button variant="hero" size="sm" onClick={() => handleNavClick("contact")}>
+                Get Started
               </Button>
             </div>
 
@@ -116,18 +139,28 @@ export const Navbar = () => {
             >
               {links.map((l) =>
                 l.isNew ? (
-                  <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="new-arrival-link text-sm py-2">
+                  <button
+                    key={l.tab}
+                    onClick={() => handleNavClick(l.tab)}
+                    className="new-arrival-link text-sm py-2 text-left cursor-pointer border-0 bg-transparent"
+                  >
                     {l.label}
                     <span className="new-arrival-dot" />
-                  </a>
+                  </button>
                 ) : (
-                  <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-sm py-2 text-muted-foreground hover:text-foreground">
+                  <button
+                    key={l.tab}
+                    onClick={() => handleNavClick(l.tab)}
+                    className={`text-sm py-2 text-left cursor-pointer border-0 bg-transparent ${
+                      activeTab === l.tab ? "text-cyan-400 font-semibold" : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
                     {l.label}
-                  </a>
+                  </button>
                 )
               )}
-              <Button variant="hero" size="sm" asChild className="mt-2">
-                <a href="#contact" onClick={() => setOpen(false)}>Get Started</a>
+              <Button variant="hero" size="sm" onClick={() => handleNavClick("contact")} className="mt-2">
+                Get Started
               </Button>
             </motion.div>
           )}
