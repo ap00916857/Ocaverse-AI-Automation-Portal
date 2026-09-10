@@ -76,64 +76,38 @@ export function NewArrival() {
   const goTo = (i: number) => setCurrent(i);
   const prev = () => setCurrent((c) => (c - 1 + slides.length) % slides.length);
   const next = () => setCurrent((c) => (c + 1) % slides.length);
-
   const slide = slides[current];
 
   return (
     <div
-      className="relative min-h-screen w-full"
+      className="min-h-screen w-full"
       style={{ background: "linear-gradient(135deg, #0c1021 0%, #0d2233 60%, #0a1a2e 100%)" }}
     >
       <Navbar />
 
-      {/* Back Button - absolute so it only shows on this page */}
-      <a
-        href="/"
-        style={{
-          position: "absolute",
-          top: "96px",
-          left: "24px",
-          zIndex: 40,
-          display: "inline-flex",
-          alignItems: "center",
-          gap: "6px",
-          padding: "8px 16px",
-          borderRadius: "9999px",
-          fontSize: "14px",
-          fontWeight: 500,
-          background: "rgba(0,198,167,0.15)",
-          border: "1px solid rgba(0,198,167,0.3)",
-          color: "#00C6A7",
-          textDecoration: "none",
-        }}
-      >
-        ← Back to Home
-      </a>
+      {/* Main Content */}
+      <div className="w-full max-w-5xl mx-auto px-6 pt-32 pb-16 flex flex-col items-center text-center">
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          paddingTop: "128px",
-          paddingBottom: "32px",
-          paddingLeft: "16px",
-          paddingRight: "16px",
-          textAlign: "center",
-        }}
-      >
+        {/* Back Button */}
+        <div className="w-full flex justify-start mb-6">
+          <a
+            href="/"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium"
+            style={{
+              background: "rgba(0,198,167,0.15)",
+              border: "1px solid rgba(0,198,167,0.3)",
+              color: "#00C6A7",
+              textDecoration: "none",
+            }}
+          >
+            ← Back to Home
+          </a>
+        </div>
+
         {/* Badge */}
         <span
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold mb-6"
           style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "8px",
-            padding: "6px 16px",
-            borderRadius: "9999px",
-            fontSize: "12px",
-            fontWeight: 600,
-            letterSpacing: "0.05em",
-            marginBottom: "24px",
             background: "linear-gradient(90deg, #00C6A7 0%, #7C3AED 100%)",
             color: "#fff",
             boxShadow: "0 0 20px rgba(0,198,167,0.4)",
@@ -143,11 +117,8 @@ export function NewArrival() {
         </span>
 
         <h1
+          className="text-4xl md:text-6xl font-bold mb-4 leading-tight"
           style={{
-            fontSize: "clamp(2rem, 5vw, 3.5rem)",
-            fontWeight: 700,
-            marginBottom: "16px",
-            lineHeight: 1.2,
             background: "linear-gradient(90deg, #00C6A7 0%, #7C3AED 50%, #0EA5E9 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
@@ -156,205 +127,128 @@ export function NewArrival() {
           Lead Generator Pro
         </h1>
 
-        <p style={{ fontSize: "18px", color: "#CBD5E1", maxWidth: "640px", marginBottom: "8px" }}>
+        <p className="text-lg text-slate-300 max-w-2xl mb-2">
           Your AI-powered sales agent that never sleeps — captures, qualifies, and follows up with every lead automatically.
         </p>
-        <p style={{ fontSize: "13px", color: "#64748B", marginBottom: "40px" }}>
+        <p className="text-sm text-slate-500 mb-10">
           Built for Real Estate · Medical · Legal · Restaurant · Agency
         </p>
 
-        {/* Slider - centered with auto margins */}
+        {/* Slider - fully centered */}
         <div
+          className="w-full"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
-          style={{
-            position: fullscreen ? "fixed" : "relative",
-            inset: fullscreen ? 0 : "auto",
-            zIndex: fullscreen ? 50 : "auto",
-            width: fullscreen ? "100%" : "100%",
-            maxWidth: fullscreen ? "none" : "800px",
-            marginLeft: "auto",
-            marginRight: "auto",
-            borderRadius: fullscreen ? 0 : "16px",
-            overflow: "hidden",
-            marginBottom: "32px",
-            minHeight: "360px",
-            border: "1px solid rgba(0,198,167,0.3)",
-            boxShadow: "0 0 40px rgba(0,198,167,0.15)",
-          }}
         >
-          <video
-            src="/new-arrival-demo.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              zIndex: 1,
-            }}
-          />
-
           <div
+            className={`relative w-full rounded-2xl overflow-hidden mb-8 ${fullscreen ? "fixed inset-0 z-50 rounded-none" : ""}`}
             style={{
-              position: "absolute",
-              inset: 0,
-              zIndex: 2,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "flex-end",
-              padding: "32px",
-              backdropFilter: "blur(4px)",
-              background: `linear-gradient(to bottom right, var(--tw-gradient-stops))`,
+              minHeight: "400px",
+              border: "1px solid rgba(0,198,167,0.3)",
+              boxShadow: "0 0 40px rgba(0,198,167,0.15)",
             }}
-            className={`bg-gradient-to-br ${slide.bg}`}
           >
-            <div style={{ display: "flex", flexDirection: "column", gap: "12px", textAlign: "left" }}>
-              <span style={{ fontSize: "48px" }}>{slide.icon}</span>
-              <h2 style={{ fontSize: "clamp(1.5rem, 3vw, 2.5rem)", fontWeight: 700, color: "white" }}>{slide.title}</h2>
-              <p style={{ color: "#CBD5E1", fontSize: "16px" }}>{slide.subtitle}</p>
-              <ul style={{ display: "flex", flexDirection: "column", gap: "4px", marginTop: "8px" }}>
-                {slide.highlights.map((h, i) => (
-                  <li key={i} style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "14px", color: "#E2E8F0" }}>
-                    <span style={{ color: slide.accent }}>✓</span> {h}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <video
+              src="/new-arrival-demo.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{ zIndex: 1 }}
+            />
 
-            {/* Fullscreen */}
-            <button
-              onClick={() => setFullscreen(!fullscreen)}
-              style={{
-                position: "absolute",
-                top: "16px",
-                right: "16px",
-                width: "32px",
-                height: "32px",
-                borderRadius: "50%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "white",
-                fontSize: "14px",
-                background: "rgba(0,0,0,0.5)",
-                border: "1px solid rgba(255,255,255,0.2)",
-                cursor: "pointer",
-              }}
+            <div
+              className={`absolute inset-0 bg-gradient-to-br ${slide.bg} flex flex-col justify-end p-8`}
+              style={{ backdropFilter: "blur(4px)", zIndex: 2 }}
             >
-              {fullscreen ? "✕" : "⛶"}
-            </button>
+              <div className="flex flex-col gap-3 text-left">
+                <span className="text-5xl">{slide.icon}</span>
+                <h2 className="text-2xl md:text-4xl font-bold text-white">{slide.title}</h2>
+                <p className="text-slate-300 text-base md:text-lg">{slide.subtitle}</p>
+                <ul className="flex flex-col gap-1 mt-2">
+                  {slide.highlights.map((h, i) => (
+                    <li key={i} className="flex items-center gap-2 text-sm text-slate-200">
+                      <span style={{ color: slide.accent }}>✓</span> {h}
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-            {/* Prev */}
-            <button
-              onClick={prev}
-              style={{
-                position: "absolute",
-                left: "12px",
-                top: "50%",
-                transform: "translateY(-50%)",
-                width: "40px",
-                height: "40px",
-                borderRadius: "50%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "white",
-                fontSize: "20px",
-                background: "rgba(0,0,0,0.5)",
-                border: "1px solid rgba(255,255,255,0.2)",
-                cursor: "pointer",
-              }}
-            >‹</button>
+              <button
+                onClick={() => setFullscreen(!fullscreen)}
+                className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center text-white text-sm"
+                style={{ background: "rgba(0,0,0,0.5)", border: "1px solid rgba(255,255,255,0.2)" }}
+              >
+                {fullscreen ? "✕" : "⛶"}
+              </button>
 
-            {/* Next */}
-            <button
-              onClick={next}
-              style={{
-                position: "absolute",
-                right: "12px",
-                top: "50%",
-                transform: "translateY(-50%)",
-                width: "40px",
-                height: "40px",
-                borderRadius: "50%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "white",
-                fontSize: "20px",
-                background: "rgba(0,0,0,0.5)",
-                border: "1px solid rgba(255,255,255,0.2)",
-                cursor: "pointer",
-              }}
-            >›</button>
+              <button
+                onClick={prev}
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white text-xl"
+                style={{ background: "rgba(0,0,0,0.5)", border: "1px solid rgba(255,255,255,0.2)" }}
+              >‹</button>
+
+              <button
+                onClick={next}
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white text-xl"
+                style={{ background: "rgba(0,0,0,0.5)", border: "1px solid rgba(255,255,255,0.2)" }}
+              >›</button>
+            </div>
           </div>
         </div>
 
         {/* Indicators */}
-        <div style={{ display: "flex", gap: "8px", marginBottom: "40px" }}>
+        <div className="flex gap-2 mb-10">
           {slides.map((_, i) => (
             <button
               key={i}
               onClick={() => goTo(i)}
+              className="rounded-full transition-all duration-300"
               style={{
                 width: i === current ? "24px" : "8px",
                 height: "8px",
-                borderRadius: "9999px",
                 background: i === current ? "#00C6A7" : "rgba(255,255,255,0.2)",
                 border: "none",
                 cursor: "pointer",
-                transition: "all 0.3s",
               }}
             />
           ))}
         </div>
 
         {/* CTA Buttons */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", justifyContent: "center", marginBottom: "64px" }}>
-          <a href="/#designs" style={{ padding: "12px 32px", borderRadius: "9999px", fontWeight: 600, fontSize: "15px", background: "linear-gradient(90deg, #00C6A7, #0EA5E9)", color: "#fff", boxShadow: "0 0 20px rgba(0,198,167,0.4)", textDecoration: "none" }}>
+        <div className="flex flex-wrap gap-4 justify-center mb-16">
+          <a href="/#designs" className="px-8 py-3 rounded-full font-semibold text-base"
+            style={{ background: "linear-gradient(90deg, #00C6A7, #0EA5E9)", color: "#fff", boxShadow: "0 0 20px rgba(0,198,167,0.4)", textDecoration: "none" }}>
             🎯 Try Live Demo
           </a>
-          <a href="/#contact" style={{ padding: "12px 32px", borderRadius: "9999px", fontWeight: 600, fontSize: "15px", background: "transparent", color: "#00C6A7", border: "1px solid #00C6A7", textDecoration: "none" }}>
+          <a href="/#contact" className="px-8 py-3 rounded-full font-semibold text-base"
+            style={{ background: "transparent", color: "#00C6A7", border: "1px solid #00C6A7", textDecoration: "none" }}>
             💬 Get Early Access
           </a>
-          <a href="/#services" style={{ padding: "12px 32px", borderRadius: "9999px", fontWeight: 600, fontSize: "15px", background: "rgba(255,255,255,0.05)", color: "#fff", border: "1px solid rgba(255,255,255,0.15)", textDecoration: "none" }}>
+          <a href="/#services" className="px-8 py-3 rounded-full font-semibold text-base"
+            style={{ background: "rgba(255,255,255,0.05)", color: "#fff", border: "1px solid rgba(255,255,255,0.15)", textDecoration: "none" }}>
             📋 View Pricing
           </a>
         </div>
 
         {/* Feature grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "16px", width: "100%", maxWidth: "800px", margin: "0 auto" }}>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
           {[
             { icon: "🤖", label: "AI-Powered", desc: "GPT-driven responses" },
             { icon: "📱", label: "WhatsApp Native", desc: "Works where clients are" },
             { icon: "⚡", label: "Instant Setup", desc: "Live in 30 minutes" },
             { icon: "📊", label: "Full Analytics", desc: "Track every interaction" },
           ].map((f, i) => (
-            <div
-              key={i}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: "8px",
-                padding: "16px",
-                borderRadius: "12px",
-                textAlign: "center",
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(0,198,167,0.15)",
-              }}
-            >
-              <span style={{ fontSize: "24px" }}>{f.icon}</span>
-              <span style={{ fontSize: "13px", fontWeight: 600, color: "white" }}>{f.label}</span>
-              <span style={{ fontSize: "12px", color: "#94A3B8" }}>{f.desc}</span>
+            <div key={i} className="flex flex-col items-center gap-2 p-4 rounded-xl text-center"
+              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(0,198,167,0.15)" }}>
+              <span className="text-2xl">{f.icon}</span>
+              <span className="text-sm font-semibold text-white">{f.label}</span>
+              <span className="text-xs text-slate-400">{f.desc}</span>
             </div>
           ))}
         </div>
+
       </div>
     </div>
   );
