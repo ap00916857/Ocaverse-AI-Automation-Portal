@@ -133,7 +133,7 @@ export function NewArrival() {
 
         {/* Slider */}
         <div
-          className={`relative w-full max-w-4xl rounded-2xl overflow-hidden mb-8 ${fullscreen ? "fixed inset-0 z-50 max-w-none rounded-none" : ""}`}
+         className={`relative w-full max-w-4xl mx-auto rounded-2xl overflow-hidden mb-8 ${fullscreen ? "fixed inset-0 z-50 max-w-none rounded-none" : ""}`}
           style={{
             border: "1px solid rgba(0,198,167,0.3)",
             boxShadow: "0 0 40px rgba(0,198,167,0.15)",
