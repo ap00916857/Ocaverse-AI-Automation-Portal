@@ -11,7 +11,6 @@ const slides = [
       "AI qualifies leads before you see them",
       "Auto-follow up sequences built in",
     ],
-    bg: "from-cyan-900/60 to-indigo-900/60",
     accent: "#00C6A7",
     icon: "🤖",
   },
@@ -24,7 +23,6 @@ const slides = [
       "Trigger actions from WhatsApp replies",
       "Integrates with your existing CRM",
     ],
-    bg: "from-violet-900/60 to-cyan-900/60",
     accent: "#7C3AED",
     icon: "⚡",
   },
@@ -37,7 +35,6 @@ const slides = [
       "Schedule campaigns in advance",
       "Analytics on every message sent",
     ],
-    bg: "from-teal-900/60 to-blue-900/60",
     accent: "#0EA5E9",
     icon: "📣",
   },
@@ -50,7 +47,6 @@ const slides = [
       "Pre-built templates for Real Estate, Medical & more",
       "Go live in under 30 minutes",
     ],
-    bg: "from-emerald-900/60 to-teal-900/60",
     accent: "#10B981",
     icon: "🚀",
   },
@@ -87,7 +83,6 @@ export function NewArrival() {
       <Navbar />
 
       <div className="w-full max-w-5xl mx-auto px-6 pt-32 pb-16 flex flex-col items-center text-center">
-
         {/* Back Button */}
         <div className="w-full flex justify-start mb-6">
           <a
@@ -134,7 +129,7 @@ export function NewArrival() {
           Built for Real Estate · Medical · Legal · Restaurant · Agency
         </p>
 
-        {/* Slider */}
+        {/* Slider Section */}
         <div
           className="w-full"
           onMouseEnter={() => setPaused(true)}
@@ -143,40 +138,43 @@ export function NewArrival() {
           <div
             className={`relative w-full rounded-2xl overflow-hidden mb-8 ${fullscreen ? "fixed inset-0 z-50 rounded-none" : ""}`}
             style={{
-              minHeight: "400px",
+              minHeight: "450px",
               border: "1px solid rgba(0,198,167,0.3)",
               boxShadow: "0 0 40px rgba(0,198,167,0.15)",
             }}
           >
+            {/* Background YouTube Video */}
             <iframe
-  src="https://www.youtube.com/embed/m6f9HBKB2Ls?autoplay=1&mute=1&loop=1&playlist=m6f9HBKB2Ls&controls=0&showinfo=0&rel=0&modestbranding=1"
-  className="absolute inset-0 w-full h-full"
-  style={{ zIndex: 1, border: "none" }}
-  allow="autoplay; fullscreen"
-  allowFullScreen
-/>
+              src="https://www.youtube.com/embed/m6f9HBKB2Ls?autoplay=1&mute=1&loop=1&playlist=m6f9HBKB2Ls&controls=0&showinfo=0&rel=0&modestbranding=1"
+              className="absolute inset-0 w-full h-full object-cover scale-125"
+              style={{ zIndex: 1, border: "none", pointerEvents: "none" }}
+              allow="autoplay; fullscreen"
+              allowFullScreen
+            />
 
+            {/* Dark Transparent Overlay for Text Visibility */}
             <div
-              className={`absolute inset-0 bg-gradient-to-br ${slide.bg} flex flex-col justify-center items-center px-16 py-8`}
-              style={{ backdropFilter: "blur(4px)", zIndex: 2 }}
+              className="absolute inset-0 bg-black/60 flex flex-col justify-center items-center px-16 py-8"
+              style={{ backdropFilter: "blur(2px)", zIndex: 2 }}
             >
               <div className="flex flex-col gap-3 text-center items-center">
                 <span className="text-5xl">{slide.icon}</span>
-                <h2 className="text-2xl md:text-4xl font-bold text-white">{slide.title}</h2>
-                <p className="text-slate-300 text-base md:text-lg">{slide.subtitle}</p>
+                <h2 className="text-2xl md:text-4xl font-bold text-white drop-shadow-md">{slide.title}</h2>
+                <p className="text-slate-200 text-base md:text-lg drop-shadow">{slide.subtitle}</p>
                 <ul className="flex flex-col gap-1 mt-2">
                   {slide.highlights.map((h, i) => (
-                    <li key={i} className="flex items-center gap-2 text-sm text-slate-200">
+                    <li key={i} className="flex items-center gap-2 text-sm text-slate-100 drop-shadow">
                       <span style={{ color: slide.accent }}>✓</span> {h}
                     </li>
                   ))}
                 </ul>
               </div>
 
+              {/* Controls */}
               <button
                 onClick={() => setFullscreen(!fullscreen)}
                 className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center text-white text-sm"
-                style={{ background: "rgba(0,0,0,0.5)", border: "1px solid rgba(255,255,255,0.2)" }}
+                style={{ background: "rgba(0,0,0,0.6)", border: "1px solid rgba(255,255,255,0.2)" }}
               >
                 {fullscreen ? "✕" : "⛶"}
               </button>
@@ -184,14 +182,18 @@ export function NewArrival() {
               <button
                 onClick={prev}
                 className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white text-xl"
-                style={{ background: "rgba(0,0,0,0.5)", border: "1px solid rgba(255,255,255,0.2)" }}
-              >‹</button>
+                style={{ background: "rgba(0,0,0,0.6)", border: "1px solid rgba(255,255,255,0.2)" }}
+              >
+                ‹
+              </button>
 
               <button
                 onClick={next}
                 className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white text-xl"
-                style={{ background: "rgba(0,0,0,0.5)", border: "1px solid rgba(255,255,255,0.2)" }}
-              >›</button>
+                style={{ background: "rgba(0,0,0,0.6)", border: "1px solid rgba(255,255,255,0.2)" }}
+              >
+                ›
+              </button>
             </div>
           </div>
         </div>
@@ -216,9 +218,8 @@ export function NewArrival() {
 
         {/* CTA Buttons */}
         <div className="flex flex-wrap gap-4 justify-center mb-8">
-          {/* Try Live Demo - YouTube */}
           <a
-            href="#new-arrival"
+            href="https://www.youtube.com/watch?v=m6f9HBKB2Ls"
             target="_blank"
             rel="noopener noreferrer"
             className="px-8 py-3 rounded-full font-semibold text-base"
@@ -229,10 +230,9 @@ export function NewArrival() {
               textDecoration: "none",
             }}
           >
-            ▶ Try Live Demo
+            ▶ Watch Demo Video
           </a>
 
-          {/* Get Early Access - WhatsApp */}
           <a
             href="https://wa.me/918796363097?text=Hi%20OcaVerse!%20I%20want%20early%20access%20to%20Lead%20Generator%20Pro"
             target="_blank"
@@ -248,7 +248,6 @@ export function NewArrival() {
             💬 Get Early Access
           </a>
 
-          {/* View Pricing - Toggle */}
           <button
             onClick={() => setShowPricing(!showPricing)}
             className="px-8 py-3 rounded-full font-semibold text-base"
@@ -343,7 +342,7 @@ export function NewArrival() {
           </div>
         )}
 
-        {/* Feature grid */}
+        {/* Feature Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
           {[
             { icon: "🤖", label: "AI-Powered", desc: "GPT-driven responses" },
@@ -351,15 +350,17 @@ export function NewArrival() {
             { icon: "⚡", label: "Instant Setup", desc: "Live in 30 minutes" },
             { icon: "📊", label: "Full Analytics", desc: "Track every interaction" },
           ].map((f, i) => (
-            <div key={i} className="flex flex-col items-center gap-2 p-4 rounded-xl text-center"
-              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(0,198,167,0.15)" }}>
+            <div
+              key={i}
+              className="flex flex-col items-center gap-2 p-4 rounded-xl text-center"
+              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(0,198,167,0.15)" }}
+            >
               <span className="text-2xl">{f.icon}</span>
               <span className="text-sm font-semibold text-white">{f.label}</span>
               <span className="text-xs text-slate-400">{f.desc}</span>
             </div>
           ))}
         </div>
-
       </div>
     </div>
   );
