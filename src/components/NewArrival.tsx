@@ -159,10 +159,10 @@ export function NewArrival() {
             />
 
             <div
-              className={`absolute inset-0 bg-gradient-to-br ${slide.bg} flex flex-col justify-end px-16 py-8`}
+              className={`absolute inset-0 bg-gradient-to-br ${slide.bg} flex flex-col justify-center items-center px-16 py-8`}
               style={{ backdropFilter: "blur(4px)", zIndex: 2 }}
             >
-              <div className="flex flex-col gap-3 text-left">
+              <div className="flex flex-col gap-3 text-center items-center">
                 <span className="text-5xl">{slide.icon}</span>
                 <h2 className="text-2xl md:text-4xl font-bold text-white">{slide.title}</h2>
                 <p className="text-slate-300 text-base md:text-lg">{slide.subtitle}</p>
