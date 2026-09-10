@@ -129,20 +129,41 @@ export function NewArrival() {
           Built for Real Estate · Medical · Legal · Restaurant · Agency
         </p>
 
-        {/* Slider Section */}
-        <div
-          className="w-full"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-        >
-          <div
-            className={`relative w-full rounded-2xl overflow-hidden mb-8 ${fullscreen ? "fixed inset-0 z-50 rounded-none" : ""}`}
-            style={{
-              minHeight: "450px",
-              border: "1px solid rgba(0,198,167,0.3)",
-              boxShadow: "0 0 40px rgba(0,198,167,0.15)",
-            }}
-          >
+     {/* Video Player Section */}
+<div className="w-full mb-10">
+  <div
+    className={`relative w-full rounded-2xl overflow-hidden aspect-video ${
+      fullscreen ? "fixed inset-0 z-50 rounded-none h-screen w-screen" : ""
+    }`}
+    style={{
+      border: "1px solid rgba(0,198,167,0.3)",
+      boxShadow: "0 0 40px rgba(0,198,167,0.15)",
+      background: "#000",
+    }}
+  >
+    <iframe
+      src="https://www.youtube.com/embed/m6f9HBKB2Ls?autoplay=1&mute=1&loop=1&playlist=m6f9HBKB2Ls&controls=1&rel=0&modestbranding=1"
+      className="w-full h-full"
+      style={{ border: "none" }}
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    />
+
+    {/* Fullscreen Toggle Button */}
+    <button
+      onClick={() => setFullscreen(!fullscreen)}
+      className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full flex items-center justify-center text-white text-sm transition-opacity hover:opacity-80"
+      style={{
+        background: "rgba(0,0,0,0.6)",
+        border: "1px solid rgba(255,255,255,0.2)",
+        cursor: "pointer",
+      }}
+      title={fullscreen ? "Exit Fullscreen" : "Fullscreen"}
+    >
+      {fullscreen ? "✕" : "⛶"}
+    </button>
+  </div>
+</div>
             {/* Background YouTube Video */}
             <iframe
               src="https://www.youtube.com/embed/m6f9HBKB2Ls?autoplay=1&mute=1&loop=1&playlist=m6f9HBKB2Ls&controls=0&showinfo=0&rel=0&modestbranding=1"
