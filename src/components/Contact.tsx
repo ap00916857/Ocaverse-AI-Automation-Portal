@@ -44,18 +44,30 @@ export const Contact = () => {
     const message = projectType ? `[${projectType}] ${details}` : details;
 
     setSubmitting(true);
-    const { error } = await (supabase as any).from("contacts").insert({ name, email, phone: phone || null, message });
-    setSubmitting(false);
+    try {
+      const { error } = await supabase.from("contacts").insert({
+        name,
+        email,
+        phone: phone || null,
+        message,
+      });
 
-    if (error) {
-      toast.error("Something went wrong. Please try again.");
-      return;
+      if (error) {
+        console.error("Supabase contact submission error:", error);
+        toast.error(error.message || "Something went wrong. Please try again.");
+        return;
+      }
+
+      localStorage.setItem(COOLDOWN_KEY, String(Date.now()));
+      form.reset();
+      setErrors({});
+      toast.success("Message sent successfully! We'll get back to you within 24 hours.");
+    } catch (err: any) {
+      console.error("Unexpected error during contact submission:", err);
+      toast.error(err?.message || "Network error. Please try again or reach out on WhatsApp.");
+    } finally {
+      setSubmitting(false);
     }
-
-    localStorage.setItem(COOLDOWN_KEY, String(Date.now()));
-    form.reset();
-    setErrors({});
-    toast.success("Your inquiry has been submitted successfully.");
   };
 
   return (
