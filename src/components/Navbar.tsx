@@ -6,6 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 import logo from "@/assets/ocaverse-logo.png";
 
 const links = [
+  { label: "Home", href: "/" },
   { label: "New Arrival", href: "/new-arrival", isNew: true },
   { label: "Services", href: "/services" },
   { label: "Designs", href: "/designs" },
