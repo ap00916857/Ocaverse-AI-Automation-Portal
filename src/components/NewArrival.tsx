@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
-import { Link } from "react-router-dom";
-import { Play, ArrowLeft, Maximize2, X } from "lucide-react";
+import { Play, Maximize2, X } from "lucide-react";
 
 export function NewArrival() {
   const [fullscreen, setFullscreen] = useState(false);
@@ -22,19 +21,7 @@ export function NewArrival() {
       className="min-h-screen w-full bg-gradient-mesh"
       style={{ backgroundColor: "hsl(var(--background))" }}
     >
-      <div className="w-full max-w-5xl mx-auto px-6 pt-10 md:pt-14 pb-16 flex flex-col items-center text-center relative">
-
-        {/* Back Button Container - High z-index & clean stacking */}
-        <div className="w-full flex justify-start mb-6 relative z-50">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-slate-900/80 hover:bg-cyan-950/90 border border-cyan-500/30 hover:border-cyan-400 text-cyan-300 hover:text-white shadow-md backdrop-blur-md"
-            style={{ textDecoration: "none" }}
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Back to Home</span>
-          </Link>
-        </div>
+      <div className="w-full max-w-5xl mx-auto px-6 pt-4 md:pt-6 pb-16 flex flex-col items-center text-center relative">
 
         {/* Badge - Darkened container, high contrast text, refined subtle glow */}
         <div

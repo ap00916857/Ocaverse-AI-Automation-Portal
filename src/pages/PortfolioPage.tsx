@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { AnimatedBackground } from "@/components/AnimatedBackground";
 import { Navbar } from "@/components/Navbar";
 import { Portfolio } from "@/components/Portfolio";
@@ -11,15 +10,9 @@ export default function PortfolioPage() {
       <AnimatedBackground />
       <Navbar />
 
-      <main className="pt-28 md:pt-32">
-        {/* Page Breadcrumb & Header */}
+      <main className="pt-24 md:pt-28">
+        {/* Page Header */}
         <div className="max-w-5xl mx-auto px-6 text-center mb-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-medium bg-cyan-950/70 border border-cyan-500/30 text-cyan-300 mb-4 backdrop-blur-md">
-            <Link to="/" className="hover:text-white transition">Home</Link>
-            <span className="text-slate-500">/</span>
-            <span className="text-white font-semibold">Portfolio</span>
-          </div>
-
           <h1
             className="text-3xl md:text-5xl font-bold mb-4 tracking-tight"
             style={{
