@@ -97,16 +97,13 @@ export function NewArrival() {
               >
                 {/* High-Resolution Software Thumbnail */}
                 <img
-                  src="https://img.youtube.com/vi/m6f9HBKB2Ls/maxresdefault.jpg"
-                  onError={(e) => {
-                    e.currentTarget.src = "/lead-gen-preview.png";
-                  }}
+                  src="/lead-gen-preview.png"
                   alt="Lead Generator Pro Demo Preview"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
 
                 {/* Ambient Dark Gradient Overlay */}
-                <div className="absolute inset-0 bg-slate-950/40 group-hover:bg-slate-950/20 transition-all duration-300" />
+                <div className="absolute inset-0 bg-slate-950/25 group-hover:bg-slate-950/10 transition-all duration-300" />
 
                 {/* Prominent Centered Play Icon Overlay */}
                 <div className="relative z-10 flex flex-col items-center gap-3">
