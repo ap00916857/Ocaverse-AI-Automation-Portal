@@ -21,7 +21,13 @@ export const Navbar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
 
-  const isActive = (path: string) => location.pathname === path;
+  // Normalize path to handle trailing slashes reliably
+  const currentPath = location.pathname.replace(/\/$/, "") || "/";
+  const isActive = (path: string) => {
+    const targetPath = path.replace(/\/$/, "") || "/";
+    if (targetPath === "/") return currentPath === "/";
+    return currentPath === targetPath || currentPath.startsWith(targetPath + "/");
+  };
 
   useEffect(() => {
     return scrollY.on("change", (v) => setScrolled(v > 30));
@@ -94,7 +100,7 @@ export const Navbar = () => {
               />
             </Link>
 
-            <nav className="hidden flex-none items-center gap-5 text-sm text-muted-foreground lg:flex lg:gap-7">
+            <nav className="hidden flex-none items-center gap-5 text-sm lg:flex lg:gap-7">
               {links.map((l) => {
                 const active = isActive(l.href);
                 if (l.isNew) {
@@ -102,12 +108,17 @@ export const Navbar = () => {
                     <Link
                       key={l.href}
                       to={l.href}
-                      className={`new-arrival-link inline-flex flex-none whitespace-nowrap transition-all ${
-                        active ? "ring-1 ring-[#00C6A7]/50 rounded-full px-2.5 py-0.5 bg-cyan-950/40" : ""
+                      className={`new-arrival-link relative inline-flex flex-none items-center whitespace-nowrap transition-all py-1 ${
+                        active
+                          ? "font-bold text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,0.7)]"
+                          : ""
                       }`}
                     >
                       {l.label}
                       <span className="new-arrival-dot" />
+                      {active && (
+                        <span className="absolute -bottom-1 left-0 right-3 h-[2px] bg-gradient-to-r from-cyan-400 to-teal-400 shadow-[0_0_8px_rgba(34,211,238,0.8)] rounded-full" />
+                      )}
                     </Link>
                   );
                 }
@@ -115,13 +126,16 @@ export const Navbar = () => {
                   <Link
                     key={l.href}
                     to={l.href}
-                    className={`inline-flex flex-none whitespace-nowrap transition-colors py-1 ${
+                    className={`relative inline-flex flex-none whitespace-nowrap transition-all duration-200 py-1 ${
                       active
-                        ? "text-[#00C6A7] font-semibold drop-shadow-[0_0_8px_rgba(0,198,167,0.4)]"
-                        : "text-muted-foreground hover:text-foreground"
+                        ? "text-cyan-400 font-semibold drop-shadow-[0_0_10px_rgba(34,211,238,0.6)]"
+                        : "text-slate-300 hover:text-white"
                     }`}
                   >
                     {l.label}
+                    {active && (
+                      <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_8px_rgba(34,211,238,0.8)] rounded-full" />
+                    )}
                   </Link>
                 );
               })}
@@ -133,7 +147,7 @@ export const Navbar = () => {
               </Link>
             </div>
 
-            <button className="p-2 lg:hidden" onClick={() => setOpen(!open)} aria-label="Menu">
+            <button className="p-2 lg:hidden text-slate-200 hover:text-white" onClick={() => setOpen(!open)} aria-label="Menu">
               {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
@@ -142,7 +156,7 @@ export const Navbar = () => {
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mt-2 flex flex-col gap-3 rounded-2xl glass-strong p-4 lg:hidden"
+              className="mt-2 flex flex-col gap-2 rounded-2xl glass-strong p-4 lg:hidden border border-white/10"
             >
               {links.map((l) => {
                 const active = isActive(l.href);
@@ -152,8 +166,10 @@ export const Navbar = () => {
                       key={l.href}
                       to={l.href}
                       onClick={() => setOpen(false)}
-                      className={`new-arrival-link text-sm py-2 ${
-                        active ? "font-bold text-[#00C6A7]" : ""
+                      className={`new-arrival-link text-sm py-2 px-3 rounded-xl transition-all ${
+                        active
+                          ? "bg-cyan-950/70 text-cyan-400 font-bold border border-cyan-500/40 shadow-[0_0_12px_rgba(34,211,238,0.25)]"
+                          : "hover:bg-white/5"
                       }`}
                     >
                       {l.label}
@@ -166,10 +182,10 @@ export const Navbar = () => {
                     key={l.href}
                     to={l.href}
                     onClick={() => setOpen(false)}
-                    className={`text-sm py-2 transition-colors ${
+                    className={`text-sm py-2 px-3 rounded-xl transition-all ${
                       active
-                        ? "text-[#00C6A7] font-semibold"
-                        : "text-muted-foreground hover:text-foreground"
+                        ? "text-cyan-400 font-bold bg-cyan-950/70 border border-cyan-500/40 shadow-[0_0_12px_rgba(34,211,238,0.25)]"
+                        : "text-slate-300 hover:text-white hover:bg-white/5"
                     }`}
                   >
                     {l.label}
