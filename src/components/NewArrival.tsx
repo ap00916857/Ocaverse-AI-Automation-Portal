@@ -89,24 +89,24 @@ export function NewArrival() {
               /* Thumbnail & Centered Play Icon Overlay */
               <div
                 onClick={handleStartDemo}
-                className="relative w-full h-full cursor-pointer group flex items-center justify-center overflow-hidden select-none"
+                className="relative w-full h-full cursor-pointer group overflow-hidden select-none bg-[#070b1a]"
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && handleStartDemo()}
                 aria-label="Play Lead Generator Pro Demo Video"
               >
-                {/* High-Resolution Software Thumbnail */}
+                {/* High-Resolution Software Thumbnail - Fits perfectly to container */}
                 <img
                   src="/lead-gen-preview.png"
                   alt="Lead Generator Pro Demo Preview"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="absolute inset-0 w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.02]"
                 />
 
                 {/* Ambient Dark Gradient Overlay */}
-                <div className="absolute inset-0 bg-slate-950/25 group-hover:bg-slate-950/10 transition-all duration-300" />
+                <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-slate-950/10 transition-all duration-300" />
 
                 {/* Prominent Centered Play Icon Overlay */}
-                <div className="relative z-10 flex flex-col items-center gap-3">
+                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3">
                   <div className="relative flex items-center justify-center">
                     {/* Outer Pulsing Glow Ring */}
                     <div className="absolute w-24 h-24 md:w-28 md:h-28 rounded-full bg-cyan-400/30 animate-ping opacity-75 pointer-events-none" />
@@ -118,7 +118,7 @@ export function NewArrival() {
                   </div>
 
                   {/* Play Action Label */}
-                  <span className="px-4 py-1.5 rounded-full text-xs md:text-sm font-semibold text-white bg-slate-900/80 border border-cyan-500/40 backdrop-blur-md shadow-md tracking-wide group-hover:border-cyan-400 transition-colors">
+                  <span className="px-4 py-1.5 rounded-full text-xs md:text-sm font-semibold text-white bg-slate-900/85 border border-cyan-500/40 backdrop-blur-md shadow-md tracking-wide group-hover:border-cyan-400 transition-colors">
                     Click to Watch Live Demo
                   </span>
                 </div>
