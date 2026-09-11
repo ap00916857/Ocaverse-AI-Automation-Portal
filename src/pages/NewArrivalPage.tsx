@@ -9,7 +9,7 @@ export default function NewArrivalPage() {
     <div className="relative min-h-screen overflow-x-hidden">
       <AnimatedBackground />
       <Navbar />
-      <main className="pt-20 md:pt-24">
+      <main className="pt-28 md:pt-36">
         <NewArrival />
       </main>
       <Footer />

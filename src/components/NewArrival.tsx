@@ -33,15 +33,9 @@ export function NewArrival() {
           </span>
         </div>
 
-        <h1
-          className="text-4xl md:text-6xl font-bold mb-4 leading-tight"
-          style={{
-            background: "linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)), hsl(var(--primary-glow)))",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}
-        >
-          Lead Generator Pro
+        <h1 className="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">
+          <span className="text-cyan-400">Lead Generator</span>{" "}
+          <span className="text-white">Pro</span>
         </h1>
 
         <p className="text-lg text-slate-300 max-w-2xl mb-2">
