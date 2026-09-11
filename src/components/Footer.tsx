@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Github, Twitter, Linkedin, Instagram } from "lucide-react";
 import logo from "@/assets/ocaverse-logo.png";
 
@@ -7,25 +8,27 @@ export const Footer = () => {
       <div className="container">
         <div className="grid md:grid-cols-4 gap-8 mb-10">
           <div className="md:col-span-2">
-            <a href="#" aria-label="OcaVerse — Own Complete Automation" className="inline-flex items-center mb-3">
+            <Link to="/" aria-label="OcaVerse — Own Complete Automation" className="inline-flex items-center mb-3">
               <img
                 src={logo}
                 alt="OcaVerse logo"
                 className="h-15 md:h-20 w-auto object-contain select-none"
                 draggable={false}
               />
-            </a>
+            </Link>
             <p className="text-sm text-muted-foreground max-w-sm">
               Premium digital solutions for ambitious brands. Designed in-house, built to last.
             </p>
           </div>
           <div>
-            <h4 className="font-semibold mb-3 text-sm">Company</h4>
+            <h4 className="font-semibold mb-3 text-sm">Navigation</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#services" className="hover:text-foreground transition">Services</a></li>
-              <li><a href="#designs" className="hover:text-foreground transition">Designs</a></li>
-              <li><a href="#portfolio" className="hover:text-foreground transition">Portfolio</a></li>
-              <li><a href="#contact" className="hover:text-foreground transition">Contact</a></li>
+              <li><Link to="/new-arrival" className="hover:text-foreground transition">New Arrival</Link></li>
+              <li><Link to="/services" className="hover:text-foreground transition">Services</Link></li>
+              <li><Link to="/designs" className="hover:text-foreground transition">Designs</Link></li>
+              <li><Link to="/advantage" className="hover:text-foreground transition">Advantage</Link></li>
+              <li><Link to="/portfolio" className="hover:text-foreground transition">Portfolio</Link></li>
+              <li><Link to="/contact" className="hover:text-foreground transition">Contact</Link></li>
             </ul>
           </div>
           <div>

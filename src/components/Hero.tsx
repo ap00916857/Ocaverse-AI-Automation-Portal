@@ -1,5 +1,6 @@
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import { ArrowRight, Sparkles, Play, Stethoscope, Building2, Compass, ShoppingBag, Scale, UtensilsCrossed, LayoutDashboard, Smartphone, Zap } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import doctor from "@/assets/customer-doctor.jpg";
@@ -140,12 +141,12 @@ export const Hero = () => {
             </motion.p>
 
             <motion.div variants={fadeUp} custom={3} className="flex flex-wrap gap-3 justify-center lg:justify-start">
-              <a href="#contact" className={buttonVariants({ variant: "hero", size: "lg" })}>
+              <Link to="/contact" className={buttonVariants({ variant: "hero", size: "lg" })}>
                 Start Your Project <ArrowRight className="ml-1 h-4 w-4" />
-              </a>
-              <a href="#designs" className={buttonVariants({ variant: "glass", size: "lg" })}>
+              </Link>
+              <Link to="/designs" className={buttonVariants({ variant: "glass", size: "lg" })}>
                 <Play className="h-4 w-4" /> Explore Designs
-              </a>
+              </Link>
             </motion.div>
 
             {/* Stats */}
