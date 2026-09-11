@@ -1,43 +1,50 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { Link } from "react-router-dom";
+import { Play, ArrowLeft, Maximize2, X } from "lucide-react";
 
 export function NewArrival() {
   const [fullscreen, setFullscreen] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoContainerRef = useRef<HTMLDivElement>(null);
+
+  const handleStartDemo = () => {
+    setIsPlaying(true);
+    // Smooth scroll down or up to the main video container
+    videoContainerRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  };
 
   return (
     <div
       className="min-h-screen w-full bg-gradient-mesh"
       style={{ backgroundColor: "hsl(var(--background))" }}
     >
-      <div className="w-full max-w-5xl mx-auto px-6 pt-6 md:pt-8 pb-16 flex flex-col items-center text-center">
+      <div className="w-full max-w-5xl mx-auto px-6 pt-10 md:pt-14 pb-16 flex flex-col items-center text-center relative">
 
-        {/* Back Button */}
-        <div className="w-full flex justify-start mb-6">
-          <a
-            href="/"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium"
-            style={{
-              background: "hsl(var(--primary) / 0.12)",
-              border: "1px solid hsl(var(--primary) / 0.3)",
-              color: "hsl(var(--primary))",
-              textDecoration: "none",
-            }}
+        {/* Back Button Container - High z-index & clean stacking */}
+        <div className="w-full flex justify-start mb-6 relative z-50">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-slate-900/80 hover:bg-cyan-950/90 border border-cyan-500/30 hover:border-cyan-400 text-cyan-300 hover:text-white shadow-md backdrop-blur-md"
+            style={{ textDecoration: "none" }}
           >
-            ← Back to Home
-          </a>
+            <ArrowLeft className="w-4 h-4" />
+            <span>Back to Home</span>
+          </Link>
         </div>
 
-        {/* Badge */}
-        <span
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold mb-6"
-          style={{
-            background: "var(--gradient-primary)",
-            color: "#fff",
-            boxShadow: "0 0 20px rgba(0,198,167,0.4)",
-          }}
+        {/* Badge - Darkened container, high contrast text, refined subtle glow */}
+        <div
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold mb-6 bg-slate-900/80 border border-cyan-500/40 backdrop-blur-md shadow-[0_0_12px_rgba(6,182,212,0.25)] text-cyan-300"
         >
-          🚀 JUST LAUNCHED
-        </span>
+          <span className="text-sm leading-none">🚀</span>
+          <span className="font-semibold text-white tracking-wider drop-shadow-sm">
+            JUST LAUNCHED
+          </span>
+        </div>
 
         <h1
           className="text-4xl md:text-6xl font-bold mb-4 leading-tight"
@@ -57,64 +64,113 @@ export function NewArrival() {
           Built for Real Estate · Medical · Legal · Restaurant · Agency
         </p>
 
-        {/* Clear YouTube Video Container */}
-        <div className="w-full mb-10">
+        {/* Clear YouTube Video Container with High-Res Thumbnail Overlay */}
+        <div ref={videoContainerRef} className="w-full mb-10 scroll-mt-24">
           <div
-            className={`relative w-full rounded-2xl overflow-hidden aspect-video ${
+            className={`relative w-full rounded-2xl overflow-hidden aspect-video transition-all duration-300 ${
               fullscreen ? "fixed inset-0 z-50 rounded-none h-screen w-screen" : ""
             }`}
             style={{
               border: "1px solid rgba(0,198,167,0.3)",
               boxShadow: "0 0 40px rgba(0,198,167,0.15)",
-              background: "#000",
+              background: "#050b14",
             }}
           >
-            <iframe
-              src="https://www.youtube.com/embed/m6f9HBKB2Ls?autoplay=1&mute=1&loop=1&playlist=m6f9HBKB2Ls&controls=1&rel=0&modestbranding=1"
-              className="w-full h-full"
-              style={{ border: "none" }}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
+            {isPlaying ? (
+              <iframe
+                src="https://www.youtube.com/embed/m6f9HBKB2Ls?autoplay=1&enablejsapi=1&controls=1&rel=0&modestbranding=1"
+                className="w-full h-full"
+                style={{ border: "none" }}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title="Lead Generator Pro Demo Video"
+              />
+            ) : (
+              /* Thumbnail & Centered Play Icon Overlay */
+              <div
+                onClick={handleStartDemo}
+                className="relative w-full h-full cursor-pointer group flex items-center justify-center overflow-hidden select-none"
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && handleStartDemo()}
+                aria-label="Play Lead Generator Pro Demo Video"
+              >
+                {/* High-Resolution Software Thumbnail */}
+                <img
+                  src="https://img.youtube.com/vi/m6f9HBKB2Ls/maxresdefault.jpg"
+                  onError={(e) => {
+                    e.currentTarget.src = "/lead-gen-preview.png";
+                  }}
+                  alt="Lead Generator Pro Demo Preview"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
 
-            {/* Optional Custom Fullscreen Button */}
-            <button
-              onClick={() => setFullscreen(!fullscreen)}
-              className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full flex items-center justify-center text-white text-sm"
-              style={{
-                background: "rgba(0,0,0,0.6)",
-                border: "1px solid rgba(255,255,255,0.2)",
-                cursor: "pointer",
-              }}
-              title={fullscreen ? "Exit Fullscreen" : "Fullscreen"}
-            >
-              {fullscreen ? "✕" : "⛶"}
-            </button>
+                {/* Ambient Dark Gradient Overlay */}
+                <div className="absolute inset-0 bg-slate-950/40 group-hover:bg-slate-950/20 transition-all duration-300" />
+
+                {/* Prominent Centered Play Icon Overlay */}
+                <div className="relative z-10 flex flex-col items-center gap-3">
+                  <div className="relative flex items-center justify-center">
+                    {/* Outer Pulsing Glow Ring */}
+                    <div className="absolute w-24 h-24 md:w-28 md:h-28 rounded-full bg-cyan-400/30 animate-ping opacity-75 pointer-events-none" />
+                    
+                    {/* Centered Play Button */}
+                    <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white flex items-center justify-center shadow-[0_0_35px_rgba(6,182,212,0.7)] group-hover:scale-110 group-active:scale-95 transition-transform duration-300 border border-white/20">
+                      <Play className="w-8 h-8 md:w-10 md:h-10 fill-current translate-x-0.5" />
+                    </div>
+                  </div>
+
+                  {/* Play Action Label */}
+                  <span className="px-4 py-1.5 rounded-full text-xs md:text-sm font-semibold text-white bg-slate-900/80 border border-cyan-500/40 backdrop-blur-md shadow-md tracking-wide group-hover:border-cyan-400 transition-colors">
+                    Click to Watch Live Demo
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Custom Fullscreen Button */}
+            {isPlaying && (
+              <button
+                onClick={() => setFullscreen(!fullscreen)}
+                className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full flex items-center justify-center text-white text-sm transition-all hover:bg-black/80"
+                style={{
+                  background: "rgba(0,0,0,0.6)",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                  cursor: "pointer",
+                }}
+                title={fullscreen ? "Exit Fullscreen" : "Fullscreen"}
+                aria-label={fullscreen ? "Exit Fullscreen" : "Fullscreen"}
+              >
+                {fullscreen ? <X className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+              </button>
+            )}
           </div>
         </div>
 
         {/* CTA Buttons */}
         <div className="flex flex-wrap gap-4 justify-center mb-8">
-          <a
-            href="https://wa.me/918796363097?text=Hi%20OcaVerse!%20I%20want%20to%20try%20the%20live%20demo%20for%20Lead%20Generator%20Pro"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-8 py-3 rounded-full font-semibold text-base"
+          {/* Try Live Demo - Triggers Smooth Scroll & Inlined Video Autoplay */}
+          <button
+            type="button"
+            onClick={handleStartDemo}
+            className="px-8 py-3 rounded-full font-semibold text-base transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer inline-flex items-center gap-2"
             style={{
               background: "linear-gradient(90deg, #00C6A7, #0EA5E9)",
               color: "#fff",
               boxShadow: "0 0 20px rgba(0,198,167,0.4)",
-              textDecoration: "none",
+              border: "none",
             }}
           >
-            ▶ Try Live Demo
-          </a>
+            <Play className="w-4 h-4 fill-current" />
+            <span>Try Live Demo</span>
+          </button>
 
+          {/* Get Early Access - WhatsApp Direct Link */}
           <a
             href="https://wa.me/918796363097?text=Hi%20OcaVerse!%20I%20want%20early%20access%20to%20Lead%20Generator%20Pro"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-8 py-3 rounded-full font-semibold text-base"
+            className="px-8 py-3 rounded-full font-semibold text-base transition-all duration-300 hover:scale-105 active:scale-95"
             style={{
               background: "transparent",
               color: "#00C6A7",
@@ -125,9 +181,11 @@ export function NewArrival() {
             💬 Get Early Access
           </a>
 
+          {/* View Pricing - Toggle */}
           <button
+            type="button"
             onClick={() => setShowPricing(!showPricing)}
-            className="px-8 py-3 rounded-full font-semibold text-base"
+            className="px-8 py-3 rounded-full font-semibold text-base transition-all duration-300 hover:scale-105 active:scale-95"
             style={{
               background: "rgba(255,255,255,0.05)",
               color: "#fff",
