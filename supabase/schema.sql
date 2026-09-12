@@ -38,26 +38,30 @@ CREATE TABLE IF NOT EXISTS public.new_arrivals_items (
 ALTER TABLE public.tools_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.new_arrivals_items ENABLE ROW LEVEL SECURITY;
 
--- 4. Public Read Policies (Allow anyone to view products & new arrivals)
+-- 4. Public Read Policies
+DROP POLICY IF EXISTS "Allow public read tools_items" ON public.tools_items;
 CREATE POLICY "Allow public read tools_items"
 ON public.tools_items
 FOR SELECT
 TO anon, authenticated
 USING (true);
 
+DROP POLICY IF EXISTS "Allow public read new_arrivals_items" ON public.new_arrivals_items;
 CREATE POLICY "Allow public read new_arrivals_items"
 ON public.new_arrivals_items
 FOR SELECT
 TO anon, authenticated
 USING (true);
 
--- 5. Admin Write Policies (Allow authenticated users to add/edit/delete)
+-- 5. Admin Write Policies (authenticated users)
+DROP POLICY IF EXISTS "Allow authenticated insert tools_items" ON public.tools_items;
 CREATE POLICY "Allow authenticated insert tools_items"
 ON public.tools_items
 FOR INSERT
 TO authenticated
 WITH CHECK (true);
 
+DROP POLICY IF EXISTS "Allow authenticated update tools_items" ON public.tools_items;
 CREATE POLICY "Allow authenticated update tools_items"
 ON public.tools_items
 FOR UPDATE
@@ -65,18 +69,21 @@ TO authenticated
 USING (true)
 WITH CHECK (true);
 
+DROP POLICY IF EXISTS "Allow authenticated delete tools_items" ON public.tools_items;
 CREATE POLICY "Allow authenticated delete tools_items"
 ON public.tools_items
 FOR DELETE
 TO authenticated
 USING (true);
 
+DROP POLICY IF EXISTS "Allow authenticated insert new_arrivals_items" ON public.new_arrivals_items;
 CREATE POLICY "Allow authenticated insert new_arrivals_items"
 ON public.new_arrivals_items
 FOR INSERT
 TO authenticated
 WITH CHECK (true);
 
+DROP POLICY IF EXISTS "Allow authenticated update new_arrivals_items" ON public.new_arrivals_items;
 CREATE POLICY "Allow authenticated update new_arrivals_items"
 ON public.new_arrivals_items
 FOR UPDATE
@@ -84,25 +91,20 @@ TO authenticated
 USING (true)
 WITH CHECK (true);
 
+DROP POLICY IF EXISTS "Allow authenticated delete new_arrivals_items" ON public.new_arrivals_items;
 CREATE POLICY "Allow authenticated delete new_arrivals_items"
 ON public.new_arrivals_items
 FOR DELETE
 TO authenticated
 USING (true);
 
--- 6. Also ensure contacts and chat_leads public inserts are permitted
-DO 
-BEGIN
-  IF NOT EXISTS (
-    SELECT 1 FROM pg_policies WHERE tablename = 'contacts' AND policyname = 'Allow public contact form submissions'
-  ) THEN
-    CREATE POLICY "Allow public contact form submissions"
-    ON public.contacts
-    FOR INSERT
-    TO anon, authenticated
-    WITH CHECK (true);
-  END IF;
-END ;
+-- 6. Ensure contacts public submission is permitted
+DROP POLICY IF EXISTS "Allow public contact form submissions" ON public.contacts;
+CREATE POLICY "Allow public contact form submissions"
+ON public.contacts
+FOR INSERT
+TO anon, authenticated
+WITH CHECK (true);
 
 -- 7. Seed Default New Arrival Item
 INSERT INTO public.new_arrivals_items (
@@ -119,8 +121,8 @@ INSERT INTO public.new_arrivals_items (
   is_active
 ) VALUES (
   'Lead Generator Pro',
-  'Your AI-powered sales agent that never sleeps — captures, qualifies, and follows up with every lead automatically.',
-  'Built for Real Estate · Medical · Legal · Restaurant · Agency',
+  'Your AI-powered sales agent that never sleeps - captures, qualifies, and follows up with every lead automatically.',
+  'Built for Real Estate, Medical, Legal, Restaurant, and Agencies',
   'JUST LAUNCHED',
   '/lead-gen-preview.png',
   'https://www.youtube-nocookie.com/embed/m6f9HBKB2Ls',
@@ -135,7 +137,7 @@ INSERT INTO public.new_arrivals_items (
   '?10,000/mo',
   '?15,000/mo',
   true
-) ON CONFLICT DO NOTHING;
+);
 
 -- 8. Seed Default Tools Items
 INSERT INTO public.tools_items (
@@ -181,5 +183,4 @@ INSERT INTO public.tools_items (
   ARRAY['Real-time Ingestion', 'Temperature Scoring (Hot/Warm/Cold)', 'Export to CSV & Webhook Dispatch'],
   '/admin',
   'Included in Pro'
-)
-ON CONFLICT DO NOTHING;
+);
