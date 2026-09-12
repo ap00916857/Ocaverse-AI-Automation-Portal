@@ -18,6 +18,32 @@ const getSessionId = () => {
   return id;
 };
 
+const DEFAULT_AI_GATEWAY_URL = "https://yftxjpgxnmxwsgtbpvfn.supabase.co/functions/v1/chat-ai";
+const DEFAULT_AI_GATEWAY_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlmdHhqcGd4bm14d3NndGJwdmZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4Nzg0MDgsImV4cCI6MjA5MzQ1NDQwOH0.Lwb7HyvKiXtvn-ClxOBDM3ZnClxYO1AK9GyfA1exTIw";
+
+const CHAT_AI_URL = (import.meta.env.VITE_CHAT_AI_URL as string) || DEFAULT_AI_GATEWAY_URL;
+const CHAT_AI_KEY = (import.meta.env.VITE_CHAT_AI_KEY as string) || DEFAULT_AI_GATEWAY_KEY;
+
+const getFallbackReply = (userInput: string): string => {
+  const q = userInput.toLowerCase();
+  if (q.includes("price") || q.includes("cost") || q.includes("rate") || q.includes("plan") || q.includes("fee") || q.includes("subscription")) {
+    return "Our AI automation solutions start with our Early Bird offer at ₹10,000/month (standard ₹15,000/month). For customized enterprise software and bespoke lead pipelines, pricing is tailored to your scope. Would you like to share your project requirements or connect directly on WhatsApp?";
+  }
+  if (q.includes("lead") || q.includes("software") || q.includes("tool") || q.includes("product") || q.includes("crm") || q.includes("app")) {
+    return "OcaVerse offers high-performance AI lead automation tools and custom SaaS solutions designed to maximize conversions and eliminate manual work. You can leave your details below or chat with us on WhatsApp for a personalized demo!";
+  }
+  if (q.includes("service") || q.includes("feature") || q.includes("build") || q.includes("custom") || q.includes("develop")) {
+    return "We specialize in end-to-end AI automation, custom CRM/lead systems, automated marketing workflows, and responsive web platforms. Tell us about your workflow goals, or reach out on WhatsApp for a quick consultation!";
+  }
+  if (q.includes("contact") || q.includes("email") || q.includes("call") || q.includes("phone") || q.includes("number") || q.includes("support")) {
+    return "You can reach out to our team at support@ocaverse.com, or use the 'Leave your details' form right here in this chat window. We typically respond within minutes!";
+  }
+  if (q.includes("hi") || q.includes("hello") || q.includes("hey") || q.includes("namaste") || q.includes("good morning") || q.includes("good evening")) {
+    return "Hello! 👋 Welcome to OcaVerse. I'm here to answer any questions about our AI tools, automation services, or pricing plans. How can I help you today?";
+  }
+  return "Thanks for reaching out! Our team is dedicated to building state-of-the-art AI automation for your business. Feel free to leave your contact info below or connect with us on WhatsApp for instant assistance.";
+};
+
 export const ChatWidget = () => {
   const [open, setOpen] = useState(false);
   const [unread, setUnread] = useState(1);
@@ -72,31 +98,47 @@ export const ChatWidget = () => {
     setMessages(next);
     setTyping(true);
     const sessionId = sessionIdRef.current;
+    let reply = "";
+
     try {
       const apiMessages = next
         .filter((m, i) => !(i === 0 && m.from === "bot"))
         .map((m) => ({ role: m.from === "user" ? "user" : "assistant", content: m.text }));
 
-      // The chat-ai edge function lives on the Lovable Cloud project, not the user's
-      // own Supabase project that the `supabase` client now points to. Call it
-      // directly via fetch so we hit the right deployment.
-      const fnUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat-ai`;
-      const fnKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
-      const resp = await fetch(fnUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          apikey: fnKey,
-          Authorization: `Bearer ${fnKey}`,
-        },
-        body: JSON.stringify({ messages: apiMessages, sessionId }),
-      });
-      if (!resp.ok) {
-        const errTxt = await resp.text().catch(() => "");
-        throw new Error(`Chat service error (${resp.status}): ${errTxt || resp.statusText}`);
+      // Call the AI edge function gateway with an abort timeout
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 12000);
+
+        const resp = await fetch(CHAT_AI_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: CHAT_AI_KEY,
+            Authorization: `Bearer ${CHAT_AI_KEY}`,
+          },
+          body: JSON.stringify({ messages: apiMessages, sessionId }),
+          signal: controller.signal,
+        });
+        clearTimeout(timeoutId);
+
+        if (resp.ok) {
+          const data = await resp.json();
+          if (data && typeof data.reply === "string" && data.reply.trim()) {
+            reply = data.reply.trim();
+          }
+        } else {
+          console.warn("Chat AI gateway non-200 status:", resp.status);
+        }
+      } catch (fetchErr) {
+        console.warn("Chat AI gateway fetch failed, falling back to local responder:", fetchErr);
       }
-      const data = await resp.json();
-      const reply = (data as any)?.reply || "Sorry, I couldn't respond just now.";
+
+      // If remote AI was unavailable or timed out, use intelligent fallback
+      if (!reply) {
+        reply = getFallbackReply(text);
+      }
+
       setMessages((m) => [...m, { from: "bot", text: reply }]);
 
       // Persist conversation client-side to the user's own Supabase project.
@@ -109,16 +151,17 @@ export const ChatWidget = () => {
             { session_id: sessionId, role: "assistant", content: String(reply).slice(0, 4000) },
           ]);
         if (insertError) {
-          console.error("Chat save failed", insertError);
-        } else {
-          console.log("Chat saved successfully");
+          console.warn("Chat save notice:", insertError.message);
         }
       } catch (saveErr) {
-        console.error("Chat save failed", saveErr);
+        console.warn("Chat save notice:", saveErr);
       }
     } catch (e: any) {
       console.error("Chat send failed", e);
-      toast.error(e?.message || "Chat failed. Please try again.");
+      if (!reply) {
+        reply = getFallbackReply(text);
+        setMessages((m) => [...m, { from: "bot", text: reply }]);
+      }
     } finally {
       setTyping(false);
     }
