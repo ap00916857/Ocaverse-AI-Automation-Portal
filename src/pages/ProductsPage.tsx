@@ -5,7 +5,8 @@ import { AnimatedBackground } from "@/components/AnimatedBackground";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FontSwitcher } from "@/components/FontSwitcher";
-import { Play, ExternalLink, ArrowRight, Sparkles, Check, Layers } from "lucide-react";
+import { Play, ExternalLink, ArrowRight, Sparkles, Check, Layers, X } from "lucide-react";
+import { getYouTubeEmbedUrl, getYouTubeWatchUrl } from "@/lib/video";
 
 export type ToolItem = {
   id: string;
@@ -126,6 +127,16 @@ export default function ProductsPage() {
   useEffect(() => {
     loadTools();
   }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setActiveVideo(null);
+    };
+    if (activeVideo) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activeVideo]);
 
   const categories = ["All", ...Array.from(new Set(tools.map((t) => t.category).filter(Boolean)))];
 
@@ -323,23 +334,37 @@ export default function ProductsPage() {
       {/* Video Modal Player */}
       {activeVideo && (
         <div
-          className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6"
+          className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200"
           onClick={() => setActiveVideo(null)}
         >
           <div
             className="relative w-full max-w-4xl aspect-video rounded-2xl overflow-hidden border border-cyan-500/40 shadow-[0_0_50px_rgba(6,182,212,0.3)] bg-black"
             onClick={(e) => e.stopPropagation()}
           >
-            <button
-              onClick={() => setActiveVideo(null)}
-              className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-slate-900/80 text-white flex items-center justify-center hover:bg-black transition-colors"
-            >
-              ?
-            </button>
+            {/* Action Bar */}
+            <div className="absolute top-3 right-3 z-20 flex items-center gap-2">
+              <a
+                href={getYouTubeWatchUrl(activeVideo)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-1.5 text-xs font-medium rounded-full bg-slate-900/80 hover:bg-slate-800 text-cyan-300 border border-cyan-500/30 flex items-center gap-1.5 transition-colors shadow-sm"
+                title="Open video directly on YouTube"
+              >
+                <span>Open on YouTube</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+              <button
+                onClick={() => setActiveVideo(null)}
+                className="w-8 h-8 rounded-full bg-slate-900/80 hover:bg-slate-800 text-white flex items-center justify-center border border-white/20 transition-colors"
+                aria-label="Close video"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
             <iframe
-              src={activeVideo.includes("autoplay=1") ? activeVideo : `${activeVideo}?autoplay=1&playsinline=1`}
+              src={getYouTubeEmbedUrl(activeVideo, true)}
               className="w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
               title="Tool Demo Video"
             />

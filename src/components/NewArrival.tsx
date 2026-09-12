@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Play, Maximize2, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { getYouTubeEmbedUrl } from "@/lib/video";
 
 export type NewArrivalItem = {
   id: string;
@@ -20,8 +21,8 @@ export type NewArrivalItem = {
 const DEFAULT_NEW_ARRIVAL: NewArrivalItem = {
   id: "lead-gen-pro",
   title: "Lead Generator Pro",
-  subtitle: "Your AI-powered sales agent that never sleeps — captures, qualifies, and follows up with every lead automatically.",
-  description: "Built for Real Estate · Medical · Legal · Restaurant · Agency",
+  subtitle: "Your AI-powered sales agent that never sleeps ï¿½ captures, qualifies, and follows up with every lead automatically.",
+  description: "Built for Real Estate ï¿½ Medical ï¿½ Legal ï¿½ Restaurant ï¿½ Agency",
   badge: "JUST LAUNCHED",
   image_url: "/lead-gen-preview.png",
   video_url: "https://www.youtube-nocookie.com/embed/m6f9HBKB2Ls",
@@ -97,19 +98,7 @@ export function NewArrival() {
   const titleParts = formatTitle(item.title || "Lead Generator Pro");
 
   const getEmbedSrc = (raw?: string | null) => {
-    if (!raw) return "https://www.youtube-nocookie.com/embed/m6f9HBKB2Ls";
-    let url = raw;
-    if (url.includes("watch?v=")) {
-      url = url.replace("watch?v=", "embed/");
-    } else if (url.includes("youtu.be/")) {
-      url = url.replace("youtu.be/", "www.youtube-nocookie.com/embed/");
-    }
-    if (!url.includes("youtube-nocookie.com") && url.includes("youtube.com/embed/")) {
-      url = url.replace("youtube.com/embed/", "youtube-nocookie.com/embed/");
-    }
-    const origin = typeof window !== "undefined" ? window.location.origin : "";
-    const sep = url.includes("?") ? "&" : "?";
-    return `${url}${sep}autoplay=1&enablejsapi=1&controls=1&rel=0&modestbranding=1&playsinline=1&origin=${encodeURIComponent(origin)}`;
+    return getYouTubeEmbedUrl(raw || "https://www.youtube-nocookie.com/embed/m6f9HBKB2Ls", true);
   };
 
   const featuresList = item.features && item.features.length > 0 ? item.features : DEFAULT_NEW_ARRIVAL.features!;
@@ -307,7 +296,7 @@ export function NewArrival() {
                 <span className="text-4xl font-bold text-white">{item.early_bird_price || "?10,000"}</span>
                 <span className="text-slate-400 mb-1">/month</span>
               </div>
-              <p className="text-slate-300 text-sm mb-4">Limited time offer — grab it before it's gone!</p>
+              <p className="text-slate-300 text-sm mb-4">Limited time offer ï¿½ grab it before it's gone!</p>
               <ul className="flex flex-col gap-2 mb-6">
                 {featuresList.map((f, i) => (
                   <li key={i} className="flex items-center gap-2 text-sm text-slate-200">
