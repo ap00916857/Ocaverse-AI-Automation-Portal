@@ -6,7 +6,7 @@ import { FontSwitcher } from "@/components/FontSwitcher";
 
 export default function PortfolioPage() {
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-[#070b19] text-white">
+    <div className="relative min-h-screen overflow-x-hidden">
       <AnimatedBackground />
       <Navbar />
 

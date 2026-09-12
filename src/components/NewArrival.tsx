@@ -104,17 +104,14 @@ export function NewArrival() {
   const featuresList = item.features && item.features.length > 0 ? item.features : DEFAULT_NEW_ARRIVAL.features!;
 
   return (
-    <div
-      className="min-h-screen w-full bg-gradient-mesh"
-      style={{ backgroundColor: "hsl(var(--background))" }}
-    >
+    <section className="relative w-full">
       <div className="w-full max-w-5xl mx-auto px-6 pt-4 md:pt-6 pb-16 flex flex-col items-center text-center relative">
 
         {/* Badge - Darkened container, high contrast text, refined subtle glow */}
         <div
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold mb-6 bg-slate-900/80 border border-cyan-500/40 backdrop-blur-md shadow-[0_0_12px_rgba(6,182,212,0.25)] text-cyan-300"
         >
-          <span className="text-sm leading-none">??</span>
+          <span className="text-sm leading-none">🚀</span>
           <span className="font-semibold text-white tracking-wider drop-shadow-sm">
             {item.badge || "JUST LAUNCHED"}
           </span>
@@ -128,21 +125,16 @@ export function NewArrival() {
         <p className="text-lg text-slate-300 max-w-2xl mb-2">
           {item.subtitle || DEFAULT_NEW_ARRIVAL.subtitle}
         </p>
-        <p className="text-sm text-slate-500 mb-10">
+        <p className="text-sm text-slate-400 mb-10">
           {item.description || DEFAULT_NEW_ARRIVAL.description}
         </p>
 
         {/* Clear YouTube Video Container with High-Res Thumbnail Overlay */}
         <div ref={videoContainerRef} className="w-full mb-10 scroll-mt-24">
           <div
-            className={`relative w-full rounded-2xl overflow-hidden aspect-video transition-all duration-300 isolate transform-gpu ${
+            className={`relative w-full rounded-2xl overflow-hidden aspect-video transition-all duration-300 isolate transform-gpu bg-slate-950 border border-slate-800 shadow-[0_0_40px_rgba(6,182,212,0.15)] ${
               fullscreen ? "fixed inset-0 z-50 rounded-none h-screen w-screen" : ""
             }`}
-            style={{
-              border: "1px solid rgba(0,198,167,0.3)",
-              boxShadow: "0 0 40px rgba(0,198,167,0.15)",
-              background: "#050b14",
-            }}
           >
             {isPlaying ? (
               <iframe
@@ -162,7 +154,7 @@ export function NewArrival() {
                 onClick={handleStartDemo}
                 onMouseEnter={warmUpPlayer}
                 onFocus={warmUpPlayer}
-                className="relative w-full h-full cursor-pointer group overflow-hidden select-none bg-[#070b1a]"
+                className="relative w-full h-full cursor-pointer group overflow-hidden select-none bg-slate-950"
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && handleStartDemo()}
@@ -230,13 +222,7 @@ export function NewArrival() {
             onClick={handleStartDemo}
             onMouseEnter={warmUpPlayer}
             onFocus={warmUpPlayer}
-            className="px-8 py-3 rounded-full font-semibold text-base transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer inline-flex items-center gap-2"
-            style={{
-              background: "linear-gradient(90deg, #00C6A7, #0EA5E9)",
-              color: "#fff",
-              boxShadow: "0 0 20px rgba(0,198,167,0.4)",
-              border: "none",
-            }}
+            className="px-8 py-3 rounded-full font-semibold text-base transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer inline-flex items-center gap-2 bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:opacity-95"
           >
             <Play className="w-4 h-4 fill-current" />
             <span>Try Live Demo</span>
@@ -247,30 +233,18 @@ export function NewArrival() {
             href={`https://wa.me/918796363097?text=Hi%20OcaVerse!%20I%20want%20early%20access%20to%20${encodeURIComponent(item.title)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-8 py-3 rounded-full font-semibold text-base transition-all duration-300 hover:scale-105 active:scale-95"
-            style={{
-              background: "transparent",
-              color: "#00C6A7",
-              border: "1px solid #00C6A7",
-              textDecoration: "none",
-            }}
+            className="px-8 py-3 rounded-full font-semibold text-base transition-all duration-300 hover:scale-105 active:scale-95 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-500/10 no-underline"
           >
-            ?? Get Early Access
+            💬 Get Early Access
           </a>
 
           {/* View Pricing - Toggle */}
           <button
             type="button"
             onClick={() => setShowPricing(!showPricing)}
-            className="px-8 py-3 rounded-full font-semibold text-base transition-all duration-300 hover:scale-105 active:scale-95"
-            style={{
-              background: "rgba(255,255,255,0.05)",
-              color: "#fff",
-              border: "1px solid rgba(255,255,255,0.15)",
-              cursor: "pointer",
-            }}
+            className="px-8 py-3 rounded-full font-semibold text-base transition-all duration-300 hover:scale-105 active:scale-95 text-white bg-slate-900/60 border border-slate-800 hover:bg-slate-800/80 cursor-pointer"
           >
-            ?? View Pricing
+            🏷️ View Pricing
           </button>
         </div>
 
@@ -278,29 +252,19 @@ export function NewArrival() {
         {showPricing && (
           <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
             {/* Early Bird */}
-            <div
-              className="rounded-2xl p-6 text-left relative overflow-hidden"
-              style={{
-                background: "linear-gradient(135deg, rgba(0,198,167,0.2), rgba(0,198,167,0.05))",
-                border: "2px solid #00C6A7",
-                boxShadow: "0 0 30px rgba(0,198,167,0.2)",
-              }}
-            >
-              <span
-                className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4"
-                style={{ background: "#00C6A7", color: "#0c1021" }}
-              >
-                ?? EARLY BIRD OFFER
+            <div className="rounded-2xl p-6 text-left relative overflow-hidden bg-slate-900/80 border-2 border-cyan-500 shadow-[0_0_30px_rgba(6,182,212,0.2)] backdrop-blur-md">
+              <span className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4 bg-cyan-400 text-slate-950">
+                ⚡ EARLY BIRD OFFER
               </span>
               <div className="flex items-end gap-2 mb-2">
-                <span className="text-4xl font-bold text-white">{item.early_bird_price || "?10,000"}</span>
+                <span className="text-4xl font-bold text-white">{item.early_bird_price || "₹10,000"}</span>
                 <span className="text-slate-400 mb-1">/month</span>
               </div>
-              <p className="text-slate-300 text-sm mb-4">Limited time offer � grab it before it's gone!</p>
+              <p className="text-slate-300 text-sm mb-4">Limited time offer — grab it before it's gone!</p>
               <ul className="flex flex-col gap-2 mb-6">
                 {featuresList.map((f, i) => (
                   <li key={i} className="flex items-center gap-2 text-sm text-slate-200">
-                    <span style={{ color: "#00C6A7" }}>?</span> {f}
+                    <span className="text-cyan-400">✓</span> {f}
                   </li>
                 ))}
               </ul>
@@ -308,36 +272,26 @@ export function NewArrival() {
                 href={`https://wa.me/918796363097?text=Hi%20OcaVerse!%20I%20want%20the%20Early%20Bird%20offer%20for%20${encodeURIComponent(item.title)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full text-center py-3 rounded-full font-semibold text-sm"
-                style={{ background: "#00C6A7", color: "#0c1021", textDecoration: "none" }}
+                className="block w-full text-center py-3 rounded-full font-semibold text-sm bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 hover:opacity-95 shadow-md transition-transform hover:scale-[1.02] no-underline"
               >
-                Grab Early Bird ?
+                Grab Early Bird →
               </a>
             </div>
 
             {/* Standard */}
-            <div
-              className="rounded-2xl p-6 text-left"
-              style={{
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.15)",
-              }}
-            >
-              <span
-                className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4"
-                style={{ background: "rgba(255,255,255,0.1)", color: "#fff" }}
-              >
+            <div className="rounded-2xl p-6 text-left relative overflow-hidden bg-slate-900/50 border border-slate-800 backdrop-blur-md">
+              <span className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4 bg-slate-800 text-slate-300 border border-slate-700">
                 STANDARD PLAN
               </span>
               <div className="flex items-end gap-2 mb-2">
-                <span className="text-4xl font-bold text-white">{item.standard_price || "?15,000"}</span>
+                <span className="text-4xl font-bold text-white">{item.standard_price || "₹15,000"}</span>
                 <span className="text-slate-400 mb-1">/month</span>
               </div>
               <p className="text-slate-300 text-sm mb-4">Full access for growing businesses.</p>
               <ul className="flex flex-col gap-2 mb-6">
                 {featuresList.map((f, i) => (
                   <li key={i} className="flex items-center gap-2 text-sm text-slate-200">
-                    <span style={{ color: "#7C3AED" }}>?</span> {f}
+                    <span className="text-blue-400">✓</span> {f}
                   </li>
                 ))}
               </ul>
@@ -345,10 +299,9 @@ export function NewArrival() {
                 href={`https://wa.me/918796363097?text=Hi%20OcaVerse!%20I%20want%20the%20Standard%20Plan%20for%20${encodeURIComponent(item.title)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full text-center py-3 rounded-full font-semibold text-sm"
-                style={{ background: "rgba(124,58,237,0.2)", color: "#fff", border: "1px solid #7C3AED", textDecoration: "none" }}
+                className="block w-full text-center py-3 rounded-full font-semibold text-sm bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 transition-colors no-underline"
               >
-                Get Started ?
+                Get Started →
               </a>
             </div>
           </div>
@@ -357,15 +310,14 @@ export function NewArrival() {
         {/* Feature Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
           {[
-            { icon: "??", label: "AI-Powered", desc: "GPT-driven responses" },
-            { icon: "??", label: "WhatsApp Native", desc: "Works where clients are" },
-            { icon: "?", label: "Instant Setup", desc: "Live in 30 minutes" },
-            { icon: "??", label: "Full Analytics", desc: "Track every interaction" },
+            { icon: "🤖", label: "AI-Powered", desc: "GPT-driven responses" },
+            { icon: "💬", label: "WhatsApp Native", desc: "Works where clients are" },
+            { icon: "⚡", label: "Instant Setup", desc: "Live in 30 minutes" },
+            { icon: "📊", label: "Full Analytics", desc: "Track every interaction" },
           ].map((f, i) => (
             <div
               key={i}
-              className="flex flex-col items-center gap-2 p-4 rounded-xl text-center"
-              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(0,198,167,0.15)" }}
+              className="flex flex-col items-center gap-2 p-4 rounded-xl text-center bg-slate-900/60 border border-slate-800 backdrop-blur-sm"
             >
               <span className="text-2xl">{f.icon}</span>
               <span className="text-sm font-semibold text-white">{f.label}</span>
@@ -375,6 +327,6 @@ export function NewArrival() {
         </div>
 
       </div>
-    </div>
+    </section>
   );
 }

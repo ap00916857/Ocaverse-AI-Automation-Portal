@@ -145,7 +145,7 @@ export default function ProductsPage() {
     : tools.filter((t) => t.category === selectedCategory);
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-[#070b19] text-white">
+    <div className="relative min-h-screen overflow-x-hidden">
       <AnimatedBackground />
       <Navbar />
 
@@ -175,10 +175,10 @@ export default function ProductsPage() {
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-200 cursor-pointer ${
+              className={`px-4 py-2 rounded-full text-xs md:text-sm font-semibold transition-all duration-200 cursor-pointer ${
                 selectedCategory === cat
-                  ? "bg-cyan-500 text-slate-950 font-semibold shadow-[0_0_15px_rgba(6,182,212,0.4)]"
-                  : "bg-slate-900/60 text-slate-400 hover:text-white hover:bg-slate-800/80 border border-white/5"
+                  ? "bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 shadow-[0_0_20px_rgba(6,182,212,0.4)] scale-105"
+                  : "bg-slate-900/60 text-slate-300 hover:text-white hover:bg-slate-800/80 border border-slate-800"
               }`}
             >
               {cat}
@@ -191,10 +191,10 @@ export default function ProductsPage() {
           {filtered.map((tool) => (
             <div
               key={tool.id}
-              className="rounded-3xl border border-white/10 bg-slate-900/50 backdrop-blur-xl overflow-hidden hover:border-cyan-500/40 transition-all duration-300 hover:shadow-[0_0_30px_rgba(6,182,212,0.15)] flex flex-col group"
+              className="rounded-3xl border border-slate-800 bg-slate-900/70 backdrop-blur-md overflow-hidden hover:border-cyan-500/40 transition-all duration-300 shadow-card hover:shadow-elegant flex flex-col group"
             >
               {/* Media Preview Container */}
-              <div className="relative w-full aspect-video bg-slate-950 overflow-hidden border-b border-white/10">
+              <div className="relative w-full aspect-video bg-slate-950 overflow-hidden border-b border-slate-800">
                 {tool.image_url ? (
                   <img
                     src={tool.image_url}
@@ -217,7 +217,7 @@ export default function ProductsPage() {
                       {tool.badge}
                     </span>
                   )}
-                  <span className="px-3 py-1 rounded-full text-[11px] font-medium tracking-wide bg-slate-950/80 border border-white/10 text-slate-300 backdrop-blur-sm">
+                  <span className="px-3 py-1 rounded-full text-[11px] font-medium tracking-wide bg-slate-950/80 border border-slate-800 text-slate-300 backdrop-blur-sm">
                     {tool.category}
                   </span>
                 </div>
@@ -228,7 +228,6 @@ export default function ProductsPage() {
                     onClick={() => setActiveVideo(tool.video_url || null)}
                     className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-cyan-500/90 hover:bg-cyan-400 text-slate-950 flex items-center justify-center shadow-lg transition-transform duration-200 hover:scale-110 active:scale-95 cursor-pointer"
                     title="Watch Video Preview"
-                    aria-label={`Watch preview for ${tool.title}`}
                   >
                     <Play className="w-6 h-6 fill-current translate-x-0.5" />
                   </button>
@@ -267,7 +266,7 @@ export default function ProductsPage() {
                 </div>
 
                 {/* Action CTA Buttons */}
-                <div className="flex items-center gap-3 pt-4 border-t border-white/5 mt-auto">
+                <div className="flex items-center gap-3 pt-4 border-t border-slate-800 mt-auto">
                   {tool.demo_url ? (
                     tool.demo_url.startsWith("http") ? (
                       <a
@@ -292,7 +291,7 @@ export default function ProductsPage() {
 
                   <Link
                     to="/contact"
-                    className="py-2.5 px-4 rounded-xl text-xs md:text-sm font-semibold text-center bg-slate-800 hover:bg-slate-700 text-white border border-white/10 transition-colors"
+                    className="py-2.5 px-4 rounded-xl text-xs md:text-sm font-semibold text-center bg-slate-900 hover:bg-slate-800 text-white border border-slate-700 transition-colors"
                   >
                     Inquire
                   </Link>
@@ -303,7 +302,7 @@ export default function ProductsPage() {
         </div>
 
         {/* Custom Tools CTA Box */}
-        <div className="rounded-3xl p-8 md:p-12 bg-gradient-to-r from-slate-900 via-cyan-950/40 to-slate-900 border border-cyan-500/30 text-center max-w-4xl mx-auto relative overflow-hidden shadow-[0_0_40px_rgba(6,182,212,0.15)]">
+        <div className="rounded-3xl p-8 md:p-12 bg-slate-900/80 border border-slate-800 text-center max-w-4xl mx-auto relative overflow-hidden shadow-card backdrop-blur-md">
           <div className="relative z-10">
             <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-3">
               Need a Custom Tool or Automated Pipeline?

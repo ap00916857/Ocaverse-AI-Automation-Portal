@@ -245,7 +245,7 @@ export const Portfolio = ({ showFullHeader = false }: { showFullHeader?: boolean
     : CASE_STUDIES.filter((s) => s.category === selectedCategory);
 
   return (
-    <section id="portfolio" className="py-12 md:py-20 relative text-white">
+    <section id="portfolio" className="py-12 md:py-20 relative">
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         {/* Section Header */}
         <motion.div
@@ -279,7 +279,7 @@ export const Portfolio = ({ showFullHeader = false }: { showFullHeader?: boolean
             return (
               <div
                 key={idx}
-                className="rounded-2xl p-5 bg-[#0c1021]/80 border border-cyan-500/20 backdrop-blur-md shadow-[0_4px_24px_rgba(0,0,0,0.4)] flex items-center gap-4 hover:border-cyan-500/40 transition-colors"
+                className="rounded-2xl p-5 bg-slate-900/70 border border-slate-800 hover:border-cyan-500/40 backdrop-blur-md shadow-card flex items-center gap-4 transition-colors"
               >
                 <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center shrink-0 text-cyan-400">
                   <Icon className="w-6 h-6" />
@@ -306,7 +306,7 @@ export const Portfolio = ({ showFullHeader = false }: { showFullHeader?: boolean
               className={`px-4 py-2 rounded-full text-xs md:text-sm font-semibold transition-all duration-200 cursor-pointer ${
                 selectedCategory === cat
                   ? "bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 shadow-[0_0_20px_rgba(6,182,212,0.4)] scale-105"
-                  : "bg-slate-900/60 text-slate-300 hover:text-white hover:bg-slate-800/80 border border-white/10"
+                  : "bg-slate-900/60 text-slate-300 hover:text-white hover:bg-slate-800/80 border border-slate-800"
               }`}
             >
               {cat}
@@ -323,7 +323,7 @@ export const Portfolio = ({ showFullHeader = false }: { showFullHeader?: boolean
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ delay: idx * 0.08, duration: 0.5 }}
-              className="group rounded-3xl overflow-hidden bg-[#0c1021]/80 border border-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 flex flex-col shadow-[0_8px_32px_rgba(0,0,0,0.5)] hover:shadow-[0_12px_40px_rgba(6,182,212,0.18)] hover:-translate-y-1.5"
+              className="group rounded-3xl overflow-hidden bg-slate-900/70 border border-slate-800 hover:border-cyan-500/40 backdrop-blur-md transition-all duration-300 flex flex-col shadow-card hover:shadow-elegant hover:-translate-y-1.5"
             >
               {/* Image & Overlay */}
               <div className="relative aspect-[16/10] overflow-hidden bg-slate-950">
@@ -333,7 +333,7 @@ export const Portfolio = ({ showFullHeader = false }: { showFullHeader?: boolean
                   loading="lazy"
                   className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0c1021] via-transparent to-black/30" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/30" />
 
                 {/* Badge */}
                 <div className="absolute top-4 left-4">
@@ -343,7 +343,7 @@ export const Portfolio = ({ showFullHeader = false }: { showFullHeader?: boolean
                 </div>
 
                 <div className="absolute top-4 right-4">
-                  <span className="px-2.5 py-1 rounded-full text-[10px] font-medium bg-black/60 text-slate-300 border border-white/10 backdrop-blur-md">
+                  <span className="px-2.5 py-1 rounded-full text-[10px] font-medium bg-black/60 text-slate-300 border border-slate-800 backdrop-blur-md">
                     {study.category}
                   </span>
                 </div>
@@ -362,7 +362,7 @@ export const Portfolio = ({ showFullHeader = false }: { showFullHeader?: boolean
                 </p>
 
                 {/* Key Metrics Highlight Grid */}
-                <div className="grid grid-cols-3 gap-2 py-3 px-3 rounded-xl bg-slate-950/60 border border-cyan-500/20 mb-5">
+                <div className="grid grid-cols-3 gap-2 py-3 px-3 rounded-xl bg-slate-950/60 border border-slate-800 mb-5">
                   {study.metrics.map((m, mIdx) => (
                     <div key={mIdx} className="text-center">
                       <div className="text-xs sm:text-sm font-extrabold text-cyan-400 truncate">
@@ -380,7 +380,7 @@ export const Portfolio = ({ showFullHeader = false }: { showFullHeader?: boolean
                   {study.techStack.slice(0, 3).map((t, tIdx) => (
                     <span
                       key={tIdx}
-                      className="px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-slate-900 text-slate-300 border border-white/10"
+                      className="px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-slate-900 text-slate-300 border border-slate-800"
                     >
                       {t}
                     </span>
@@ -393,7 +393,7 @@ export const Portfolio = ({ showFullHeader = false }: { showFullHeader?: boolean
                 </div>
 
                 {/* Card Footer Action */}
-                <div className="mt-auto pt-4 border-t border-white/10 flex items-center justify-between">
+                <div className="mt-auto pt-4 border-t border-slate-800 flex items-center justify-between">
                   <button
                     onClick={() => setActiveStudy(study)}
                     className="text-xs font-semibold text-cyan-400 hover:text-cyan-300 flex items-center gap-1 transition-colors cursor-pointer"
@@ -406,7 +406,7 @@ export const Portfolio = ({ showFullHeader = false }: { showFullHeader?: boolean
                     href={`https://wa.me/918796363097?text=Hi%20OcaVerse!%20I%20am%20interested%20in%20a%20solution%20like%20${encodeURIComponent(study.title)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-8 h-8 rounded-full bg-slate-900 hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-300 flex items-center justify-center border border-white/10 transition-colors"
+                    className="w-8 h-8 rounded-full bg-slate-900 hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-300 flex items-center justify-center border border-slate-800 transition-colors"
                     title="Inquire on WhatsApp"
                   >
                     <MessageSquare className="w-3.5 h-3.5" />
@@ -437,7 +437,7 @@ export const Portfolio = ({ showFullHeader = false }: { showFullHeader?: boolean
             {TESTIMONIALS.map((test, idx) => (
               <div
                 key={idx}
-                className="rounded-3xl p-6 sm:p-8 bg-[#0c1021]/80 border border-cyan-500/20 relative flex flex-col justify-between shadow-xl"
+                className="rounded-3xl p-6 sm:p-8 bg-slate-900/70 border border-slate-800 backdrop-blur-md relative flex flex-col justify-between shadow-card"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
@@ -455,7 +455,7 @@ export const Portfolio = ({ showFullHeader = false }: { showFullHeader?: boolean
                   </p>
                 </div>
 
-                <div className="flex items-center gap-3 pt-4 border-t border-white/10">
+                <div className="flex items-center gap-3 pt-4 border-t border-slate-800">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 text-slate-950 font-extrabold flex items-center justify-center text-sm shadow-md">
                     {test.avatar}
                   </div>
@@ -476,7 +476,7 @@ export const Portfolio = ({ showFullHeader = false }: { showFullHeader?: boolean
           initial={{ opacity: 0, scale: 0.96 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="rounded-3xl p-8 md:p-12 bg-gradient-to-r from-[#0c1021] via-slate-900 to-[#0c1021] border border-cyan-500/40 text-center relative overflow-hidden shadow-[0_0_50px_rgba(6,182,212,0.15)]"
+          className="rounded-3xl p-8 md:p-12 bg-slate-900/80 border border-slate-800 text-center relative overflow-hidden shadow-card backdrop-blur-md"
         >
           <div className="relative z-10 max-w-3xl mx-auto">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold mb-4 bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
@@ -521,13 +521,13 @@ export const Portfolio = ({ showFullHeader = false }: { showFullHeader?: boolean
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-3xl rounded-3xl bg-[#0c1021] border border-cyan-500/40 shadow-[0_0_60px_rgba(6,182,212,0.25)] overflow-hidden text-white my-8"
+              className="relative w-full max-w-3xl rounded-3xl bg-slate-950 border border-slate-800 shadow-[0_0_60px_rgba(0,0,0,0.8)] overflow-hidden text-white my-8"
             >
               {/* Modal Header */}
-              <div className="relative p-6 sm:p-8 bg-gradient-to-r from-slate-900 to-[#0c1021] border-b border-white/10">
+              <div className="relative p-6 sm:p-8 bg-gradient-to-r from-slate-900 to-slate-950 border-b border-slate-800">
                 <button
                   onClick={() => setActiveStudy(null)}
-                  className="absolute top-5 right-5 w-9 h-9 rounded-full bg-slate-800/80 hover:bg-slate-700 text-white flex items-center justify-center border border-white/10 transition-colors"
+                  className="absolute top-5 right-5 w-9 h-9 rounded-full bg-slate-800/80 hover:bg-slate-700 text-white flex items-center justify-center border border-slate-700 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -556,7 +556,7 @@ export const Portfolio = ({ showFullHeader = false }: { showFullHeader?: boolean
                   {activeStudy.metrics.map((m, idx) => (
                     <div
                       key={idx}
-                      className="p-4 rounded-2xl bg-slate-950/70 border border-cyan-500/30 text-center"
+                      className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 text-center"
                     >
                       <div className="text-lg sm:text-2xl font-black text-cyan-400">
                         {m.value}
@@ -612,7 +612,7 @@ export const Portfolio = ({ showFullHeader = false }: { showFullHeader?: boolean
                     {activeStudy.techStack.map((tech, idx) => (
                       <span
                         key={idx}
-                        className="px-3 py-1 rounded-lg text-xs font-medium bg-slate-900 border border-cyan-500/20 text-cyan-300"
+                        className="px-3 py-1 rounded-lg text-xs font-medium bg-slate-900 border border-slate-800 text-cyan-300"
                       >
                         {tech}
                       </span>
@@ -622,7 +622,7 @@ export const Portfolio = ({ showFullHeader = false }: { showFullHeader?: boolean
               </div>
 
               {/* Modal Footer */}
-              <div className="p-6 bg-slate-950/80 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
+              <div className="p-6 bg-slate-900/90 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
                 <span className="text-xs text-slate-400">
                   Ready to deploy a similar architecture for your organization?
                 </span>
