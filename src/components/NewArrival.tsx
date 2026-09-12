@@ -1,11 +1,68 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Play, Maximize2, X } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+
+export type NewArrivalItem = {
+  id: string;
+  title: string;
+  subtitle?: string | null;
+  description?: string | null;
+  badge?: string | null;
+  image_url?: string | null;
+  video_url?: string | null;
+  category?: string | null;
+  features?: string[] | null;
+  early_bird_price?: string | null;
+  standard_price?: string | null;
+  is_active?: boolean;
+};
+
+const DEFAULT_NEW_ARRIVAL: NewArrivalItem = {
+  id: "lead-gen-pro",
+  title: "Lead Generator Pro",
+  subtitle: "Your AI-powered sales agent that never sleeps � captures, qualifies, and follows up with every lead automatically.",
+  description: "Built for Real Estate � Medical � Legal � Restaurant � Agency",
+  badge: "JUST LAUNCHED",
+  image_url: "/lead-gen-preview.png",
+  video_url: "https://www.youtube-nocookie.com/embed/m6f9HBKB2Ls",
+  features: [
+    "Up to 2000 leads/month",
+    "All tab access included",
+    "WhatsApp AI Agent",
+    "Full Analytics Dashboard",
+    "Priority Support"
+  ],
+  early_bird_price: "?10,000",
+  standard_price: "?15,000",
+  is_active: true
+};
 
 export function NewArrival() {
+  const [item, setItem] = useState<NewArrivalItem>(DEFAULT_NEW_ARRIVAL);
   const [fullscreen, setFullscreen] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const videoContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const fetchActiveShowcase = async () => {
+      try {
+        const { data, error } = await (supabase as any)
+          .from("new_arrivals_items")
+          .select("*")
+          .eq("is_active", true)
+          .order("created_at", { ascending: false })
+          .limit(1);
+
+        if (!error && data && data.length > 0) {
+          setItem(data[0] as NewArrivalItem);
+        }
+      } catch (err) {
+        console.warn("Could not load dynamic new arrival, using default:", err);
+      }
+    };
+    fetchActiveShowcase();
+  }, []);
 
   const warmUpPlayer = () => {
     if (typeof document !== "undefined" && !document.getElementById("yt-preconnect-warm")) {
@@ -28,6 +85,35 @@ export function NewArrival() {
     });
   };
 
+  const formatTitle = (raw: string) => {
+    const words = raw.trim().split(" ");
+    if (words.length <= 1) {
+      return { main: raw, highlight: "" };
+    }
+    const highlight = words.pop() || "";
+    return { main: words.join(" "), highlight };
+  };
+
+  const titleParts = formatTitle(item.title || "Lead Generator Pro");
+
+  const getEmbedSrc = (raw?: string | null) => {
+    if (!raw) return "https://www.youtube-nocookie.com/embed/m6f9HBKB2Ls";
+    let url = raw;
+    if (url.includes("watch?v=")) {
+      url = url.replace("watch?v=", "embed/");
+    } else if (url.includes("youtu.be/")) {
+      url = url.replace("youtu.be/", "www.youtube-nocookie.com/embed/");
+    }
+    if (!url.includes("youtube-nocookie.com") && url.includes("youtube.com/embed/")) {
+      url = url.replace("youtube.com/embed/", "youtube-nocookie.com/embed/");
+    }
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
+    const sep = url.includes("?") ? "&" : "?";
+    return `${url}${sep}autoplay=1&enablejsapi=1&controls=1&rel=0&modestbranding=1&playsinline=1&origin=${encodeURIComponent(origin)}`;
+  };
+
+  const featuresList = item.features && item.features.length > 0 ? item.features : DEFAULT_NEW_ARRIVAL.features!;
+
   return (
     <div
       className="min-h-screen w-full bg-gradient-mesh"
@@ -39,22 +125,22 @@ export function NewArrival() {
         <div
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold mb-6 bg-slate-900/80 border border-cyan-500/40 backdrop-blur-md shadow-[0_0_12px_rgba(6,182,212,0.25)] text-cyan-300"
         >
-          <span className="text-sm leading-none">🚀</span>
+          <span className="text-sm leading-none">??</span>
           <span className="font-semibold text-white tracking-wider drop-shadow-sm">
-            JUST LAUNCHED
+            {item.badge || "JUST LAUNCHED"}
           </span>
         </div>
 
         <h1 className="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">
-          <span className="text-cyan-400">Lead Generator</span>{" "}
-          <span className="text-white">Pro</span>
+          <span className="text-cyan-400">{titleParts.main}</span>{" "}
+          <span className="text-white">{titleParts.highlight}</span>
         </h1>
 
         <p className="text-lg text-slate-300 max-w-2xl mb-2">
-          Your AI-powered sales agent that never sleeps — captures, qualifies, and follows up with every lead automatically.
+          {item.subtitle || DEFAULT_NEW_ARRIVAL.subtitle}
         </p>
         <p className="text-sm text-slate-500 mb-10">
-          Built for Real Estate · Medical · Legal · Restaurant · Agency
+          {item.description || DEFAULT_NEW_ARRIVAL.description}
         </p>
 
         {/* Clear YouTube Video Container with High-Res Thumbnail Overlay */}
@@ -71,7 +157,7 @@ export function NewArrival() {
           >
             {isPlaying ? (
               <iframe
-                src={`https://www.youtube-nocookie.com/embed/m6f9HBKB2Ls?autoplay=1&enablejsapi=1&controls=1&rel=0&modestbranding=1&playsinline=1&origin=${encodeURIComponent(typeof window !== "undefined" ? window.location.origin : "")}`}
+                src={getEmbedSrc(item.video_url)}
                 width="100%"
                 height="100%"
                 className="w-full h-full"
@@ -79,7 +165,7 @@ export function NewArrival() {
                 loading="lazy"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
-                title="Lead Generator Pro Demo Video"
+                title={`${item.title} Demo Video`}
               />
             ) : (
               /* Thumbnail & Centered Play Icon Overlay */
@@ -91,12 +177,12 @@ export function NewArrival() {
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && handleStartDemo()}
-                aria-label="Play Lead Generator Pro Demo Video"
+                aria-label={`Play ${item.title} Demo Video`}
               >
                 {/* High-Resolution Software Thumbnail - Fits perfectly to container */}
                 <img
-                  src="/lead-gen-preview.png"
-                  alt="Lead Generator Pro Demo Preview"
+                  src={item.image_url || "/lead-gen-preview.png"}
+                  alt={`${item.title} Demo Preview`}
                   width={1280}
                   height={720}
                   loading="eager"
@@ -169,7 +255,7 @@ export function NewArrival() {
 
           {/* Get Early Access - WhatsApp Direct Link */}
           <a
-            href="https://wa.me/918796363097?text=Hi%20OcaVerse!%20I%20want%20early%20access%20to%20Lead%20Generator%20Pro"
+            href={`https://wa.me/918796363097?text=Hi%20OcaVerse!%20I%20want%20early%20access%20to%20${encodeURIComponent(item.title)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="px-8 py-3 rounded-full font-semibold text-base transition-all duration-300 hover:scale-105 active:scale-95"
@@ -180,7 +266,7 @@ export function NewArrival() {
               textDecoration: "none",
             }}
           >
-            💬 Get Early Access
+            ?? Get Early Access
           </a>
 
           {/* View Pricing - Toggle */}
@@ -195,7 +281,7 @@ export function NewArrival() {
               cursor: "pointer",
             }}
           >
-            📋 View Pricing
+            ?? View Pricing
           </button>
         </div>
 
@@ -215,28 +301,28 @@ export function NewArrival() {
                 className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4"
                 style={{ background: "#00C6A7", color: "#0c1021" }}
               >
-                🔥 EARLY BIRD OFFER
+                ?? EARLY BIRD OFFER
               </span>
               <div className="flex items-end gap-2 mb-2">
-                <span className="text-4xl font-bold text-white">₹10,000</span>
+                <span className="text-4xl font-bold text-white">{item.early_bird_price || "?10,000"}</span>
                 <span className="text-slate-400 mb-1">/month</span>
               </div>
-              <p className="text-slate-300 text-sm mb-4">Limited time offer — grab it before it's gone!</p>
+              <p className="text-slate-300 text-sm mb-4">Limited time offer � grab it before it's gone!</p>
               <ul className="flex flex-col gap-2 mb-6">
-                {["Up to 2000 leads/month", "All tab access included", "WhatsApp AI Agent", "Full Analytics Dashboard", "Priority Support"].map((f, i) => (
+                {featuresList.map((f, i) => (
                   <li key={i} className="flex items-center gap-2 text-sm text-slate-200">
-                    <span style={{ color: "#00C6A7" }}>✓</span> {f}
+                    <span style={{ color: "#00C6A7" }}>?</span> {f}
                   </li>
                 ))}
               </ul>
               <a
-                href="https://wa.me/918796363097?text=Hi%20OcaVerse!%20I%20want%20the%20Early%20Bird%20offer%20for%20Lead%20Generator%20Pro"
+                href={`https://wa.me/918796363097?text=Hi%20OcaVerse!%20I%20want%20the%20Early%20Bird%20offer%20for%20${encodeURIComponent(item.title)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block w-full text-center py-3 rounded-full font-semibold text-sm"
                 style={{ background: "#00C6A7", color: "#0c1021", textDecoration: "none" }}
               >
-                Grab Early Bird →
+                Grab Early Bird ?
               </a>
             </div>
 
@@ -255,25 +341,25 @@ export function NewArrival() {
                 STANDARD PLAN
               </span>
               <div className="flex items-end gap-2 mb-2">
-                <span className="text-4xl font-bold text-white">₹15,000</span>
+                <span className="text-4xl font-bold text-white">{item.standard_price || "?15,000"}</span>
                 <span className="text-slate-400 mb-1">/month</span>
               </div>
               <p className="text-slate-300 text-sm mb-4">Full access for growing businesses.</p>
               <ul className="flex flex-col gap-2 mb-6">
-                {["Up to 2000 leads/month", "All tab access included", "WhatsApp AI Agent", "Full Analytics Dashboard", "Standard Support"].map((f, i) => (
+                {featuresList.map((f, i) => (
                   <li key={i} className="flex items-center gap-2 text-sm text-slate-200">
-                    <span style={{ color: "#7C3AED" }}>✓</span> {f}
+                    <span style={{ color: "#7C3AED" }}>?</span> {f}
                   </li>
                 ))}
               </ul>
               <a
-                href="https://wa.me/918796363097?text=Hi%20OcaVerse!%20I%20want%20the%20Standard%20Plan%20for%20Lead%20Generator%20Pro"
+                href={`https://wa.me/918796363097?text=Hi%20OcaVerse!%20I%20want%20the%20Standard%20Plan%20for%20${encodeURIComponent(item.title)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block w-full text-center py-3 rounded-full font-semibold text-sm"
                 style={{ background: "rgba(124,58,237,0.2)", color: "#fff", border: "1px solid #7C3AED", textDecoration: "none" }}
               >
-                Get Started →
+                Get Started ?
               </a>
             </div>
           </div>
@@ -282,10 +368,10 @@ export function NewArrival() {
         {/* Feature Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
           {[
-            { icon: "🤖", label: "AI-Powered", desc: "GPT-driven responses" },
-            { icon: "📱", label: "WhatsApp Native", desc: "Works where clients are" },
-            { icon: "⚡", label: "Instant Setup", desc: "Live in 30 minutes" },
-            { icon: "📊", label: "Full Analytics", desc: "Track every interaction" },
+            { icon: "??", label: "AI-Powered", desc: "GPT-driven responses" },
+            { icon: "??", label: "WhatsApp Native", desc: "Works where clients are" },
+            { icon: "?", label: "Instant Setup", desc: "Live in 30 minutes" },
+            { icon: "??", label: "Full Analytics", desc: "Track every interaction" },
           ].map((f, i) => (
             <div
               key={i}

@@ -25,9 +25,9 @@ export const Footer = () => {
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><Link to="/" className="hover:text-foreground transition">Home</Link></li>
               <li><Link to="/new-arrival" className="hover:text-foreground transition">New Arrival</Link></li>
+              <li><Link to="/products" className="hover:text-foreground transition">Products</Link></li>
               <li><Link to="/services" className="hover:text-foreground transition">Services</Link></li>
               <li><Link to="/designs" className="hover:text-foreground transition">Designs</Link></li>
-              <li><Link to="/advantage" className="hover:text-foreground transition">Advantage</Link></li>
               <li><Link to="/portfolio" className="hover:text-foreground transition">Portfolio</Link></li>
               <li><Link to="/contact" className="hover:text-foreground transition">Contact</Link></li>
             </ul>

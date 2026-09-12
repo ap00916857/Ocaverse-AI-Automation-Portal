@@ -8,9 +8,9 @@ import logo from "@/assets/ocaverse-logo.png";
 const links = [
   { label: "Home", href: "/" },
   { label: "New Arrival", href: "/new-arrival", isNew: true },
+  { label: "Products", href: "/products" },
   { label: "Services", href: "/services" },
   { label: "Designs", href: "/designs" },
-  { label: "Advantage", href: "/advantage" },
   { label: "Portfolio", href: "/portfolio" },
   { label: "Contact", href: "/contact" },
 ];

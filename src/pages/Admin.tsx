@@ -1,43 +1,35 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { isAdmin } from "@/lib/admin";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
-} from "@/components/ui/select";
-import {
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { LogOut, Search, RefreshCw } from "lucide-react";
-
-type Contact = {
-  id: string;
-  name: string;
-  email: string;
-  message: string;
-  status: string;
-  created_at: string;
-};
-
-const STATUSES = ["New", "Contacted", "Closed"] as const;
-
-const statusVariant = (s: string) =>
-  s === "Closed" ? "secondary" : s === "Contacted" ? "default" : "outline";
+import { LogOut, RefreshCw, MessageSquare, Wrench, Flame } from "lucide-react";
+import { InquiriesTab, type Contact } from "@/components/admin/InquiriesTab";
+import { ToolsTab } from "@/components/admin/ToolsTab";
+import { ArrivalsTab } from "@/components/admin/ArrivalsTab";
+import type { ToolItem } from "./ProductsPage";
+import type { NewArrivalItem } from "@/components/NewArrival";
 
 export default function Admin() {
   const navigate = useNavigate();
   const [ready, setReady] = useState(false);
-  const [rows, setRows] = useState<Contact[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [activeTab, setActiveTab] = useState("inquiries");
 
+  // Inquiries State
+  const [inquiries, setInquiries] = useState<Contact[]>([]);
+  const [loadingInquiries, setLoadingInquiries] = useState(false);
+
+  // Tools CMS State
+  const [tools, setTools] = useState<ToolItem[]>([]);
+
+  // New Arrivals CMS State
+  const [newArrivals, setNewArrivals] = useState<NewArrivalItem[]>([]);
+
+  // Auth Protection
   useEffect(() => {
-    document.title = "Admin Â· Inquiries";
+    document.title = "Admin Portal · OcaVerse";
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
       if (!isAdmin(session?.user.email)) navigate("/admin/login", { replace: true });
     });
@@ -51,43 +43,61 @@ export default function Admin() {
     return () => sub.subscription.unsubscribe();
   }, [navigate]);
 
-  const load = async () => {
-    setLoading(true);
+  const loadInquiries = async () => {
+    setLoadingInquiries(true);
     const { data, error } = await (supabase as any)
       .from("contacts")
       .select("*")
       .order("created_at", { ascending: false });
-    setLoading(false);
+    setLoadingInquiries(false);
     if (error) return toast.error(error.message);
-    setRows((data ?? []) as Contact[]);
+    setInquiries((data ?? []) as Contact[]);
+  };
+
+  const loadTools = async () => {
+    try {
+      const { data, error } = await (supabase as any)
+        .from("tools_items")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (!error && data) setTools(data as ToolItem[]);
+    } catch (err) {
+      console.warn("Could not load tools_items:", err);
+    }
+  };
+
+  const loadNewArrivals = async () => {
+    try {
+      const { data, error } = await (supabase as any)
+        .from("new_arrivals_items")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (!error && data) setNewArrivals(data as NewArrivalItem[]);
+    } catch (err) {
+      console.warn("Could not load new_arrivals_items:", err);
+    }
   };
 
   useEffect(() => {
-    if (ready) load();
+    if (ready) {
+      loadInquiries();
+      loadTools();
+      loadNewArrivals();
+    }
   }, [ready]);
 
-  const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase();
-    return rows.filter((r) => {
-      if (statusFilter !== "all" && r.status !== statusFilter) return false;
-      if (!q) return true;
-      return (
-        r.name.toLowerCase().includes(q) ||
-        r.email.toLowerCase().includes(q) ||
-        r.message.toLowerCase().includes(q)
-      );
-    });
-  }, [rows, search, statusFilter]);
-
-  const updateStatus = async (id: string, status: string) => {
-    const prev = rows;
-    setRows((r) => r.map((x) => (x.id === id ? { ...x, status } : x)));
-    const { error } = await (supabase as any).from("contacts").update({ status }).eq("id", id);
-    if (error) {
-      setRows(prev);
-      toast.error("Failed to update status.");
-    } else {
-      toast.success("Status updated.");
+  const handleMediaUpload = async (file: File): Promise<string | null> => {
+    try {
+      const fileExt = file.name.split(".").pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
+      const filePath = `cms/${fileName}`;
+      const { error: uploadError } = await supabase.storage.from("media").upload(filePath, file);
+      if (uploadError) throw uploadError;
+      const { data } = supabase.storage.from("media").getPublicUrl(filePath);
+      return data.publicUrl;
+    } catch (err: any) {
+      toast.error(`Storage bucket error: ${err.message}. You can paste a direct URL.`);
+      return null;
     }
   };
 
@@ -99,91 +109,94 @@ export default function Admin() {
   if (!ready) return null;
 
   return (
-    <main className="min-h-screen container py-8">
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+    <main className="min-h-screen container mx-auto py-8 px-4 max-w-7xl">
+      {/* Top Header */}
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-6 border-b border-white/10">
         <div>
-          <h1 className="text-2xl md:text-3xl font-semibold text-primary-glow">Inquiries</h1>
-          <p className="text-sm text-muted-foreground">{filtered.length} of {rows.length}</p>
+          <h1 className="text-3xl font-extrabold text-cyan-400 flex items-center gap-2">
+            <span>OcaVerse</span>
+            <span className="text-white text-xl font-normal">| Admin CMS</span>
+          </h1>
+          <p className="text-xs md:text-sm text-slate-400 mt-1">
+            Dynamic content control center for Inquiries, Tools & Products, and New Arrivals.
+          </p>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={load} disabled={loading}>
-            <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} /> Refresh
+
+        <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              loadInquiries();
+              loadTools();
+              loadNewArrivals();
+              toast.success("Refreshed all CMS data.");
+            }}
+            className="border-white/10 bg-slate-900/60"
+          >
+            <RefreshCw className="h-4 w-4 mr-1.5" /> Refresh
           </Button>
-          <Button variant="outline" size="sm" onClick={signOut}>
-            <LogOut className="h-4 w-4" /> Sign out
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={signOut}
+            className="bg-red-500/20 text-red-300 hover:bg-red-500/30 border border-red-500/30"
+          >
+            <LogOut className="h-4 w-4 mr-1.5" /> Sign out
           </Button>
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-3 mb-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search name, email, message..."
-            className="pl-9 bg-background/40 border-white/10"
+      {/* Main Tab Navigation */}
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <TabsList className="bg-slate-900/80 p-1.5 border border-white/10 rounded-2xl flex flex-wrap gap-2 w-auto max-w-md">
+          <TabsTrigger
+            value="inquiries"
+            className="rounded-xl flex items-center gap-2 data-[state=active]:bg-cyan-500 data-[state=active]:text-slate-950"
+          >
+            <MessageSquare className="w-4 h-4" />
+            <span>Inquiries ({inquiries.length})</span>
+          </TabsTrigger>
+          <TabsTrigger
+            value="tools"
+            className="rounded-xl flex items-center gap-2 data-[state=active]:bg-cyan-500 data-[state=active]:text-slate-950"
+          >
+            <Wrench className="w-4 h-4" />
+            <span>Tools & Products ({tools.length})</span>
+          </TabsTrigger>
+          <TabsTrigger
+            value="arrivals"
+            className="rounded-xl flex items-center gap-2 data-[state=active]:bg-cyan-500 data-[state=active]:text-slate-950"
+          >
+            <Flame className="w-4 h-4" />
+            <span>New Arrivals ({newArrivals.length})</span>
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="inquiries" className="space-y-4 m-0">
+          <InquiriesTab
+            inquiries={inquiries}
+            loading={loadingInquiries}
+            setInquiries={setInquiries}
           />
-        </div>
-        <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-full sm:w-48 bg-background/40 border-white/10">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All statuses</SelectItem>
-            {STATUSES.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
-          </SelectContent>
-        </Select>
-      </div>
+        </TabsContent>
 
-      <div className="glass-strong rounded-2xl overflow-hidden border border-white/10">
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead className="min-w-[260px]">Message</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Created</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filtered.length === 0 && (
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center text-muted-foreground py-10">
-                    {loading ? "Loading..." : "No inquiries found."}
-                  </TableCell>
-                </TableRow>
-              )}
-              {filtered.map((r) => (
-                <TableRow key={r.id}>
-                  <TableCell className="font-medium">{r.name}</TableCell>
-                  <TableCell><a href={`mailto:${r.email}`} className="hover:underline">{r.email}</a></TableCell>
-                  <TableCell className="max-w-md">
-                    <p className="line-clamp-3 text-sm text-muted-foreground">{r.message}</p>
-                  </TableCell>
-                  <TableCell>
-                    <Select value={r.status} onValueChange={(v) => updateStatus(r.id, v)}>
-                      <SelectTrigger className="w-32 h-8 bg-background/40 border-white/10">
-                        <SelectValue>
-                          <Badge variant={statusVariant(r.status) as any}>{r.status}</Badge>
-                        </SelectValue>
-                      </SelectTrigger>
-                      <SelectContent>
-                        {STATUSES.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
-                      </SelectContent>
-                    </Select>
-                  </TableCell>
-                  <TableCell className="whitespace-nowrap text-sm text-muted-foreground">
-                    {new Date(r.created_at).toLocaleString()}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      </div>
+        <TabsContent value="tools" className="space-y-6 m-0">
+          <ToolsTab
+            tools={tools}
+            loadTools={loadTools}
+            handleMediaUpload={handleMediaUpload}
+          />
+        </TabsContent>
+
+        <TabsContent value="arrivals" className="space-y-6 m-0">
+          <ArrivalsTab
+            newArrivals={newArrivals}
+            loadNewArrivals={loadNewArrivals}
+            handleMediaUpload={handleMediaUpload}
+          />
+        </TabsContent>
+      </Tabs>
     </main>
   );
 }

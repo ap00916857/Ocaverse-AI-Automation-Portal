@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import Index from "./pages/Index.tsx";
 import NewArrivalPage from "./pages/NewArrivalPage.tsx";
+import ProductsPage from "./pages/ProductsPage.tsx";
 import ServicesPage from "./pages/ServicesPage.tsx";
 import DesignsPage from "./pages/DesignsPage.tsx";
 import AdvantagePage from "./pages/AdvantagePage.tsx";
@@ -52,6 +53,8 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/new-arrival" element={<NewArrivalPage />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/tools" element={<ProductsPage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/designs" element={<DesignsPage />} />
           <Route path="/advantage" element={<AdvantagePage />} />
