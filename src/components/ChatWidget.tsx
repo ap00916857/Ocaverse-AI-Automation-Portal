@@ -177,12 +177,45 @@ export const ChatWidget = () => {
       return;
     }
     setSubmitting(true);
-    const { error } = await (supabase as any).from("chat_leads").insert({ name, phone, message });
-    setSubmitting(false);
-    if (error) {
-      toast.error("Couldn't send. Please try again.");
+
+    let saved = false;
+    try {
+      // 1. Primary insert to chat_leads
+      const { error: chatLeadErr } = await (supabase as any)
+        .from("chat_leads")
+        .insert({ name, phone, message });
+
+      if (!chatLeadErr) {
+        saved = true;
+      } else {
+        console.warn("chat_leads insert RLS restriction, falling back to contacts:", chatLeadErr);
+        // 2. Resilient fallback: save to contacts table so lead is never lost
+        const { error: contactErr } = await (supabase as any)
+          .from("contacts")
+          .insert({
+            name,
+            phone,
+            message: `[Chat Lead] ${message}`,
+            status: "New",
+          });
+
+        if (!contactErr) {
+          saved = true;
+        } else {
+          console.error("Fallback contact save failed:", contactErr);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to submit lead", err);
+    } finally {
+      setSubmitting(false);
+    }
+
+    if (!saved) {
+      toast.error("Couldn't send. Please try again or message us on WhatsApp.");
       return;
     }
+
     setShowLead(false);
     setLead({ name: "", phone: "", message: "" });
     setMessages((m) => [

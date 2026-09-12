@@ -184,3 +184,23 @@ INSERT INTO public.tools_items (
   '/admin',
   'Included in Pro'
 );
+
+-- 9. Allow public chat leads submissions from Chat Widget
+ALTER TABLE public.chat_leads ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Anyone can submit a lead" ON public.chat_leads;
+DROP POLICY IF EXISTS "Allow public chat lead submissions" ON public.chat_leads;
+
+CREATE POLICY "Allow public chat lead submissions"
+ON public.chat_leads
+FOR INSERT
+TO anon, authenticated
+WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Allow authenticated read chat_leads" ON public.chat_leads;
+CREATE POLICY "Allow authenticated read chat_leads"
+ON public.chat_leads
+FOR SELECT
+TO authenticated
+USING (true);
+
