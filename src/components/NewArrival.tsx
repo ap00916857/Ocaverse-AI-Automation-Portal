@@ -7,7 +7,19 @@ export function NewArrival() {
   const [isPlaying, setIsPlaying] = useState(false);
   const videoContainerRef = useRef<HTMLDivElement>(null);
 
+  const warmUpPlayer = () => {
+    if (typeof document !== "undefined" && !document.getElementById("yt-preconnect-warm")) {
+      const link = document.createElement("link");
+      link.id = "yt-preconnect-warm";
+      link.rel = "preconnect";
+      link.href = "https://www.youtube-nocookie.com";
+      link.crossOrigin = "anonymous";
+      document.head.appendChild(link);
+    }
+  };
+
   const handleStartDemo = () => {
+    warmUpPlayer();
     setIsPlaying(true);
     // Smooth scroll down or up to the main video container
     videoContainerRef.current?.scrollIntoView({
@@ -48,7 +60,7 @@ export function NewArrival() {
         {/* Clear YouTube Video Container with High-Res Thumbnail Overlay */}
         <div ref={videoContainerRef} className="w-full mb-10 scroll-mt-24">
           <div
-            className={`relative w-full rounded-2xl overflow-hidden aspect-video transition-all duration-300 ${
+            className={`relative w-full rounded-2xl overflow-hidden aspect-video transition-all duration-300 isolate transform-gpu ${
               fullscreen ? "fixed inset-0 z-50 rounded-none h-screen w-screen" : ""
             }`}
             style={{
@@ -59,10 +71,13 @@ export function NewArrival() {
           >
             {isPlaying ? (
               <iframe
-                src="https://www.youtube.com/embed/m6f9HBKB2Ls?autoplay=1&enablejsapi=1&controls=1&rel=0&modestbranding=1"
+                src={`https://www.youtube-nocookie.com/embed/m6f9HBKB2Ls?autoplay=1&enablejsapi=1&controls=1&rel=0&modestbranding=1&playsinline=1&origin=${encodeURIComponent(typeof window !== "undefined" ? window.location.origin : "")}`}
+                width="100%"
+                height="100%"
                 className="w-full h-full"
                 style={{ border: "none" }}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
                 title="Lead Generator Pro Demo Video"
               />
@@ -70,6 +85,8 @@ export function NewArrival() {
               /* Thumbnail & Centered Play Icon Overlay */
               <div
                 onClick={handleStartDemo}
+                onMouseEnter={warmUpPlayer}
+                onFocus={warmUpPlayer}
                 className="relative w-full h-full cursor-pointer group overflow-hidden select-none bg-[#070b1a]"
                 role="button"
                 tabIndex={0}
@@ -80,6 +97,11 @@ export function NewArrival() {
                 <img
                   src="/lead-gen-preview.png"
                   alt="Lead Generator Pro Demo Preview"
+                  width={1280}
+                  height={720}
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority="high"
                   className="absolute inset-0 w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.02]"
                 />
 
@@ -131,6 +153,8 @@ export function NewArrival() {
           <button
             type="button"
             onClick={handleStartDemo}
+            onMouseEnter={warmUpPlayer}
+            onFocus={warmUpPlayer}
             className="px-8 py-3 rounded-full font-semibold text-base transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer inline-flex items-center gap-2"
             style={{
               background: "linear-gradient(90deg, #00C6A7, #0EA5E9)",
