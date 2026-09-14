@@ -29,7 +29,7 @@ export default function Admin() {
 
   // Auth Protection
   useEffect(() => {
-    document.title = "Admin Portal · OcaVerse";
+    document.title = "Admin Portal | OcaVerse";
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
       if (!isAdmin(session?.user.email)) navigate("/admin/login", { replace: true });
     });
@@ -86,16 +86,72 @@ export default function Admin() {
     }
   }, [ready]);
 
+  const convertFileToOptimizedDataUrl = (file: File): Promise<string> => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const MAX_DIM = 1280;
+          let { width, height } = img;
+          if (width > height && width > MAX_DIM) {
+            height = Math.round((height * MAX_DIM) / width);
+            width = MAX_DIM;
+          } else if (height > MAX_DIM) {
+            width = Math.round((width * MAX_DIM) / height);
+            height = MAX_DIM;
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          if (ctx) {
+            ctx.drawImage(img, 0, 0, width, height);
+            try {
+              const webp = canvas.toDataURL("image/webp", 0.85);
+              if (webp.startsWith("data:image/webp")) {
+                resolve(webp);
+                return;
+              }
+            } catch {
+              // fallback if webp is not supported
+            }
+            resolve(canvas.toDataURL("image/jpeg", 0.85));
+          } else {
+            resolve(e.target?.result as string);
+          }
+        };
+        img.onerror = () => resolve(e.target?.result as string);
+        img.src = e.target?.result as string;
+      };
+      reader.onerror = () => resolve("");
+      reader.readAsDataURL(file);
+    });
+  };
+
   const handleMediaUpload = async (file: File): Promise<string | null> => {
     try {
       const fileExt = file.name.split(".").pop();
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
       const filePath = `cms/${fileName}`;
-      const { error: uploadError } = await supabase.storage.from("media").upload(filePath, file);
+      const { error: uploadError } = await supabase.storage.from("media").upload(filePath, file, {
+        cacheControl: "3600",
+        upsert: true,
+      });
       if (uploadError) throw uploadError;
       const { data } = supabase.storage.from("media").getPublicUrl(filePath);
       return data.publicUrl;
     } catch (err: any) {
+      console.warn("Supabase storage upload failed, using optimized inline fallback:", err?.message || err);
+      try {
+        const fallbackUrl = await convertFileToOptimizedDataUrl(file);
+        if (fallbackUrl) {
+          toast.info("Thumbnail loaded! (Saved inline. Run storage_setup.sql in Supabase to enable cloud CDN)");
+          return fallbackUrl;
+        }
+      } catch (fallbackErr) {
+        console.error("Fallback conversion failed:", fallbackErr);
+      }
       toast.error(`Storage bucket error: ${err.message}. You can paste a direct URL.`);
       return null;
     }

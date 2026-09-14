@@ -204,3 +204,47 @@ FOR SELECT
 TO authenticated
 USING (true);
 
+
+-- 10. Configure Storage Bucket 'media' and Policies
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES (
+  'media',
+  'media',
+  true,
+  52428800, -- 50 MB
+  ARRAY['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml', 'video/mp4', 'video/webm']
+)
+ON CONFLICT (id) DO UPDATE SET 
+  public = true,
+  file_size_limit = 52428800,
+  allowed_mime_types = ARRAY['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml', 'video/mp4', 'video/webm'];
+
+DROP POLICY IF EXISTS "Allow Public Read Media" ON storage.objects;
+DROP POLICY IF EXISTS "Allow All Media Uploads" ON storage.objects;
+DROP POLICY IF EXISTS "Allow All Media Updates" ON storage.objects;
+DROP POLICY IF EXISTS "Allow All Media Deletes" ON storage.objects;
+
+CREATE POLICY "Allow Public Read Media"
+ON storage.objects
+FOR SELECT
+TO public
+USING (bucket_id = 'media');
+
+CREATE POLICY "Allow All Media Uploads"
+ON storage.objects
+FOR INSERT
+TO public
+WITH CHECK (bucket_id = 'media');
+
+CREATE POLICY "Allow All Media Updates"
+ON storage.objects
+FOR UPDATE
+TO public
+USING (bucket_id = 'media')
+WITH CHECK (bucket_id = 'media');
+
+CREATE POLICY "Allow All Media Deletes"
+ON storage.objects
+FOR DELETE
+TO public
+USING (bucket_id = 'media');
