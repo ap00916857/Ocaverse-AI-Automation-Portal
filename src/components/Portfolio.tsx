@@ -73,14 +73,14 @@ export const CASE_STUDIES: CaseStudy[] = [
     category: "Sales & CRM",
     badge: "PIPELINE ENGINE",
     metrics: [
-      { label: "Verified Pipeline", value: "₹4.2 Cr" },
+      { label: "Qualified Leads", value: "1,200+ Routed" },
       { label: "Lead Conversion", value: "4.8x Uplift" },
       { label: "Response Speed", value: "< 45s SLA" },
     ],
     problem: "Inbound property inquiries had a 4-hour delay, resulting in 60% of high-intent leads going cold or choosing competing brokerages.",
-    solution: "High-speed automated lead radar scraping, scoring, and WhatsApp engagement engine that instantly qualifies buyer budgets and schedules agent callbacks within 45 seconds.",
+    solution: "High-speed automated lead radar scraping, scoring, and WhatsApp engagement engine that instantly qualifies buyer intent and schedules agent callbacks within 45 seconds.",
     results: [
-      "₹4.2 Cr in attributable deal pipeline closed within 90 days",
+      "1,200+ high-intent inbound inquiries autonomously qualified and routed within 90 days",
       "4.8x conversion increase compared to traditional manual follow-ups",
       "100% round-robin agent distribution without lead leakage"
     ],
@@ -98,13 +98,13 @@ export const CASE_STUDIES: CaseStudy[] = [
     metrics: [
       { label: "Self-Service Bookings", value: "88% Ratio" },
       { label: "Weekend Appointments", value: "+160% Bump" },
-      { label: "First-Month Added ROI", value: "₹18.5 Lakh" },
+      { label: "After-Hours Bookings", value: "420+ Confirmed" },
     ],
     problem: "High abandonment rate for appointments after 7 PM and over weekends when reception staff was offline.",
     solution: "Context-aware conversational AI assistant that operates 24/7 on WhatsApp, handles FAQs, checks live therapist availability, and confirms bookings with automated reminders.",
     results: [
       "88% of standard bookings now handled completely without human intervention",
-      "Captured ₹18.5 Lakh in previously lost after-hours appointment revenue",
+      "Captured 420+ previously lost after-hours appointment bookings autonomously",
       "Customer satisfaction rating achieved 4.9/5 across 1,200+ chats"
     ],
     techStack: ["Meta Cloud API", "LangChain", "Stripe API", "Google Calendar Sync", "Edge CDN"],
@@ -174,7 +174,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     results: [
       "Table turnover speed increased by 22 minutes during peak hours",
       "Average check size grew by 24% due to automated upselling suggestions",
-      "Generated ₹6.5 Lakh in automated repeat visits via WhatsApp loyalty vouchers"
+      "Generated 1,400+ automated repeat diner visits via WhatsApp loyalty vouchers"
     ],
     techStack: ["React 18", "Supabase Realtime", "WhatsApp Business API", "Node.js", "PWA"],
     img: customerRestaurant,
@@ -199,11 +199,11 @@ export const TESTIMONIALS = [
     avatar: "AS",
   },
   {
-    quote: "The AI Lead Radar engine is pure magic. It connects with prospects within 45 seconds of their inquiry and qualifies their budget before handing off to our senior brokers. It has closed over ₹4.2 Cr in verified deals for us.",
+    quote: "The AI Lead Radar engine is pure magic. It connects with prospects within 45 seconds of their inquiry and qualifies their intent before handing off to our senior brokers. It has drastically accelerated our deal conversion rate.",
     author: "Vikramaditya Mehta",
     role: "Managing Partner",
     company: "Apex Prime Real Estate",
-    metric: "₹4.2 Cr Pipeline",
+    metric: "4.8x Conversion",
     avatar: "VM",
   },
   {
@@ -264,7 +264,7 @@ export const Portfolio = ({ showFullHeader = false }: { showFullHeader?: boolean
             High-Impact <span className="text-cyan-400">Ventures & Case Studies</span>
           </h2>
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            Real enterprise automation, proprietary AI agents, and bespoke digital platforms engineered to scale conversion, operations, and revenue.
+            Real enterprise automation, proprietary AI agents, and bespoke digital platforms engineered to scale conversion, operations, and workflow efficiency.
           </p>
         </motion.div>
 
