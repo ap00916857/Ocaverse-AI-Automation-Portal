@@ -152,9 +152,9 @@ export const Hero = () => {
             {/* Stats */}
             <div className="mt-8 grid grid-cols-3 gap-3 max-w-md mx-auto lg:mx-0">
               {[
-                { v: "120+", l: "Projects" },
-                { v: "98%", l: "Satisfaction" },
-                { v: "8 yrs", l: "Experience" },
+                { v: "Modern", l: "UI/UX" },
+                { v: "3+", l: "Core Tech" },
+                { v: "On Time", l: "Delivery" },
               ].map((s, i) => (
                 <motion.div
                   key={s.l}

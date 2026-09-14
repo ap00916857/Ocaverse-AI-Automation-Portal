@@ -15,6 +15,7 @@ import {
   Award,
   Zap,
   Star,
+  Headphones,
 } from "lucide-react";
 
 import customerDoctor from "@/assets/customer-doctor.jpg";
@@ -182,10 +183,10 @@ export const CASE_STUDIES: CaseStudy[] = [
 ];
 
 export const ACCELERATOR_STATS = [
-  { label: "Pipeline & Revenue Enabled", value: "₹25Cr+", icon: TrendingUp },
-  { label: "Enterprise Automations Deployed", value: "45+", icon: Zap },
-  { label: "Autonomous Workflow Uptime", value: "99.8%", icon: ShieldCheck },
-  { label: "Avg Time-to-Deployment", value: "< 3 Wks", icon: Clock },
+  { label: "Avg Launch", value: "< 3 Wks", icon: Clock },
+  { label: "Tech Support", value: "24/7", icon: Headphones },
+  { label: "Secure Code", value: "100%", icon: ShieldCheck },
+  { label: "Workflow", value: "Agile", icon: Zap },
 ];
 
 export const TESTIMONIALS = [
